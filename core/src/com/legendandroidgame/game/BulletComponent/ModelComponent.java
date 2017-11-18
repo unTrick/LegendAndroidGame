@@ -1,0 +1,21 @@
+package com.legendandroidgame.game.BulletComponent;
+
+import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.math.Matrix4;
+
+/**
+ * Created by Patrick on 9/4/2017.
+ */
+public class ModelComponent implements Component{
+
+    public Model model;
+    public ModelInstance instance;
+    public ModelComponent(Model model, float x, float y, float z) {
+        this.model = model;
+        this.instance = new ModelInstance(model, new
+                Matrix4().setToTranslation(x, y, z));
+    }
+
+}
