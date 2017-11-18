@@ -1,4 +1,4 @@
-# LegendAndroidGame
+# Legend Android Game
 An Isometric Game base on the Bible
 
 
