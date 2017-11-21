@@ -121,13 +121,13 @@ public class RenderSystem extends EntitySystem {
         for (int i = 0; i < entities.size(); i++) {
             mod = entities.get(i).getComponent(ModelComponent.class);
             if (isVisible(orthographicCamera, mod.instance)){
-//                batch.render(mod.instance, environment.environment);
+                batch.render(mod.instance, environment.environment);
             }
         }
 
 
         if (modelComponent.instance != null){
-//            batch.render(modelComponent.instance, environment.environment);
+            batch.render(modelComponent.instance, environment.environment);
         }
 //        System.out.println(modelComponent);
 //        actionPlayer.getComponent(AnimationComponent.class).update(delta);

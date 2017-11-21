@@ -192,8 +192,6 @@ public class Conversation {
             nextBtn.remove();
         }
 
-
-
         if (haranConvo){
             if(gameData.getInteger(current + " convoId") == 1){
                 stage.addActor(haran1);
@@ -212,8 +210,13 @@ public class Conversation {
                 stage.addActor(nextBtn);
             }
         }
+        else {
+            haran3.remove();
+        }
 
-        if(gameData.getInteger(current + " convoId") >= 4){
+        // TODO the list of codes below are full of sheete!
+
+        if(gameData.getInteger(current + " convoId") >= 6){
             if (exoOneConvo){
                 if(gameData.getInteger(current + " convoId") == 4){
                     stage.addActor(exoOne);

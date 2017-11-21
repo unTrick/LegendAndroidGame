@@ -310,8 +310,13 @@ public class Haran extends GameState {
 
                 if (conversation.haranConvo){
                     convoIdMission += 1;
-                    gameData.putInteger(current + " convoId", convoIdMission);
-                    gameData.flush();
+                    if (convoIdMission <= 3){
+                        gameData.putInteger(current + " convoId", convoIdMission);
+                        gameData.flush();
+                    }
+                    else {
+                        conversation.getNextBtn().remove();
+                    }
                 }
                 if (conversation.haranInsConvo1){
                     convoIdInstructor += 1;
@@ -349,6 +354,7 @@ public class Haran extends GameState {
                     gameData.putInteger(current + " missionId", 1);
                     gameData.putInteger(current + " questTime", 120);
                     gameData.putInteger(current + " convoId", 1);
+                    gameData.putString("isPaused", "false");
                     gameData.flush();
                 }
 
@@ -420,6 +426,7 @@ public class Haran extends GameState {
 
         if(gameData.getString(current + " isHaranConvoInsDone2").equals("done")){
             conversation.haranInsConvo2 = false;
+            conversation.haranConvo = true;
         }
 
     }
