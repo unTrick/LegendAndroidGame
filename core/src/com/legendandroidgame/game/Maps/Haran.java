@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
 import com.legendandroidgame.game.GameWorlds.HaranWorld;
@@ -37,6 +38,8 @@ public class Haran extends GameState {
     private int convoIdMission = gameData.getInteger(current + " convoId");
     private int convoIdInstructor = gameData.getInteger(current + " convoId");
     private int convoIdPeople = gameData.getInteger(current + " convoId");
+
+    private boolean haranTimer = false, haranT1mer = false;
 
 
     /*
@@ -71,15 +74,7 @@ public class Haran extends GameState {
         stage.addActor(actualGameButtons.getBtnMenu());
         buttonControls();
 
-        if(conversation.haranConvo){
-            gameData.putString("isPaused", "true");
-            gameData.flush();
-        }
         if (conversation.haranInsConvo1){
-            gameData.getString("isPaused", "true");
-            gameData.flush();
-        }
-        if (conversation.haranInsConvo2){
             gameData.getString("isPaused", "true");
             gameData.flush();
         }
@@ -199,12 +194,15 @@ public class Haran extends GameState {
 
         });
 
-        missionQuest.getMissionBoxImg().addListener(new ClickListener(){
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+                missionQuest.close();
                 missionQuest.mission();
                 return false;
             }
+
         });
 
         missionQuest.getCloseMisson().addListener(new ClickListener(){
@@ -303,19 +301,15 @@ public class Haran extends GameState {
             }
         });
 
-        conversation.getNextBtn().addListener(new ClickListener(){
+        conversation.nextBtn.addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
                 if (conversation.haranConvo){
                     convoIdMission += 1;
-                    if (convoIdMission <= 3){
+                    if (convoIdMission < 4){
                         gameData.putInteger(current + " convoId", convoIdMission);
                         gameData.flush();
-                    }
-                    else {
-                        conversation.getNextBtn().remove();
                     }
                 }
                 if (conversation.haranInsConvo1){
@@ -352,11 +346,14 @@ public class Haran extends GameState {
                 if(convoIdMission == 3){
                     gameData.putString(current + " isHaranConvoDone", "done");
                     gameData.putInteger(current + " missionId", 1);
-                    gameData.putInteger(current + " questTime", 120);
+                    gameData.putInteger(current + " questTime", 300);
+                    gameData.putInteger(current + " currentQuestTime", 600);
                     gameData.putInteger(current + " convoId", 1);
                     gameData.putString("isPaused", "false");
                     gameData.flush();
+
                 }
+
 
                 return false;
             }
@@ -410,8 +407,18 @@ public class Haran extends GameState {
         }
 
         if(gameData.getString(current + " isHaranConvoDone").equals("done")){
-            conversation.haranConvo = false;
+            if(!haranTimer){
+                haranTimer = true;
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        conversation.haranConvo = false;
+                    }
+                }, 1);
+            }
         }
+
 
         if(gameData.getString(current + " isHaranConvoInsDone").equals("done")){
             conversation.haranInsConvo1 = false;
@@ -426,7 +433,16 @@ public class Haran extends GameState {
 
         if(gameData.getString(current + " isHaranConvoInsDone2").equals("done")){
             conversation.haranInsConvo2 = false;
-            conversation.haranConvo = true;
+            if(!haranT1mer){
+                haranT1mer = true;
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        conversation.haranConvo = true;
+                    }
+                }, 1);
+            }
         }
 
     }
