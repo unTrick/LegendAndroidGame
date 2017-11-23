@@ -30,7 +30,13 @@ public class InstructorCharSystem extends EntitySystem implements EntityListener
 
     public InstructorCharSystem(BulletSystem bulletSystem) {
         this.bulletSystem = bulletSystem;
-        instructor = CharacterEntityFactory.createInstructor(bulletSystem,40, 10, -65);
+        if(gameData.getString(current + " isWellInstructDone").equals("done")){
+            instructor = CharacterEntityFactory.createInstructor(bulletSystem,-1,6,61);
+        }
+        else {
+            instructor = CharacterEntityFactory.createInstructor(bulletSystem,40, 10, -65);
+
+        }
         playerAnimation = new AnimationComponent(CharacterEntityFactory.instructorComponent.instance);
         modelComponent = CharacterEntityFactory.instructorComponent;
         characterComponent = instructor.getComponent(InstructorCharacterComponent.class);
@@ -64,14 +70,23 @@ public class InstructorCharSystem extends EntitySystem implements EntityListener
         if(!gameData.getString(current + " isWellInstructDone").equals("done")){
             if (!gameData.getString(current + " isHaranConvoInsDone").equals("done")){
                 instructor.add(new InstructorComponent(InstructorComponent.STATE.IDLE));
+                rotateX = 0;
+                rotateY = 45;
+                rotateZ = 0;
+                angle = 90;
             }
             else {
                 instructor.add(new InstructorComponent(InstructorComponent.STATE.INSTRUCTTHEWELL));
             }
         }
         else {
+            rotateX = 0;
+            rotateY = 90;
+            rotateZ = 0;
+            angle = 180;
             instructor.add(new InstructorComponent(InstructorComponent.STATE.IDLE));
         }
+
 
         if(instructor.getComponent(InstructorComponent.class).state.equals(InstructorComponent.STATE.INSTRUCTTHEWELL)){
             if(transZ < -48){

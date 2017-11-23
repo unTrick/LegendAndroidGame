@@ -258,7 +258,7 @@ public class Jordan extends GameState {
             }
         });
 
-        conversation.getNextBtn().addListener(new ClickListener(){
+        conversation.nextBtn.addListener(new ClickListener(){
 
         });
 

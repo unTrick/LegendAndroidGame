@@ -18,11 +18,11 @@ public class Conversation {
 
     private Stage stage;
     private Texture nextTex;
-    private ImageButton nextBtn;
+    public ImageButton nextBtn;
     private Texture haran1Tex, haran2Tex, haran3Tex, exoOneTex, exoTwoTex, exoMoses1Tex, exoMoses2Tex,  pharaoh1Tex, pharaoh2Tex,
             levMoses1Tex, numbersGuyTex, numbersOneTex,  joshuaLast1, joshuaLast2, diaBack, wellIns1Tex, wellIns2Tex, wellAbraham1Tex,
             wellAbraham2Tex;
-    private Image haran1, haran2, haran3, exoOne, exoTwo, exoMoses1, exoMoses2, pharaoh1, pharaoh2, levMoses1, numbersGuy,
+    public Image haran1, haran2, haran3, exoOne, exoTwo, exoMoses1, exoMoses2, pharaoh1, pharaoh2, levMoses1, numbersGuy,
     numbersOne, joshuaLast1Img, joshuaLast2Img, wellIns1Img, wellIns2Img, wellAbraham1Img, wellAbraham2Img;
     String current = gameData.getString("current");
     public boolean exoOneConvo = true;
@@ -204,14 +204,19 @@ public class Conversation {
                 stage.addActor(nextBtn);
             }
             else if(gameData.getInteger(current + " convoId") == 3){
+                haran1.remove();
                 haran2.remove();
                 nextBtn.remove();
                 stage.addActor(haran3);
                 stage.addActor(nextBtn);
             }
-        }
-        else {
-            haran3.remove();
+            // TODO
+            if (gameData.getString(current + " isHaranConvoDone").equals("done")){
+                haran1.remove();
+                haran2.remove();
+                haran3.remove();
+                nextBtn.remove();
+            }
         }
 
         // TODO the list of codes below are full of sheete!
@@ -343,9 +348,4 @@ public class Conversation {
         haran3Tex.dispose();
 
     }
-
-    public ImageButton getNextBtn() {
-        return nextBtn;
-    }
-
 }

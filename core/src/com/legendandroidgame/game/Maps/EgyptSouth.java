@@ -274,7 +274,7 @@ public class EgyptSouth extends GameState{
             }
         });
 
-        conversation.getNextBtn().addListener(new ClickListener(){
+        conversation.nextBtn.addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){

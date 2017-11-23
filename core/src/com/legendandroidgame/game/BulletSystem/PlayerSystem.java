@@ -4,8 +4,6 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
@@ -16,20 +14,20 @@ import com.legendandroidgame.game.Buttons.Controller;
 
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
-/**
- * Created by Patrick on 9/4/2017.
- */
-public class PlayerSystem extends EntitySystem implements EntityListener {
+    /**
+     * Created by Patrick on 9/4/2017.
+     */
+    public class PlayerSystem extends EntitySystem implements EntityListener {
 
-    private Entity player;
-    private CharacterComponent characterComponent;
-    public PlayerComponent playerComponent;
-    private ModelComponent modelComponent;
-    private final Vector3 tmp = new Vector3();
-    private final OrthographicCamera camera;
-    private float transX, transY, transZ, rotateX, rotateY, rotateZ, angle;
-    private Controller controller;
-    private ActualGameButtons actualGameButtons;
+        private Entity player;
+        private CharacterComponent characterComponent;
+        public PlayerComponent playerComponent;
+        private ModelComponent modelComponent;
+        private final Vector3 tmp = new Vector3();
+        private final OrthographicCamera camera;
+        private float transX, transY, transZ, rotateX, rotateY, rotateZ, angle;
+        private Controller controller;
+        private ActualGameButtons actualGameButtons;
     public AnimationComponent playerAnimation;
     private float cameraX, cameraZ;
     private float posX, posZ;
@@ -45,6 +43,10 @@ public class PlayerSystem extends EntitySystem implements EntityListener {
         this.posZ = posZ;
         cameraX = camera.position.x;
         cameraZ = camera.position.z;
+        rotateX = 0;
+        rotateY = -45;
+        rotateZ = 0;
+        angle = 90;
     }
     @Override
     public void addedToEngine(Engine engine) {

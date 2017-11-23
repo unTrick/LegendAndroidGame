@@ -22,17 +22,15 @@ import com.legendandroidgame.game.Mission.MissionContent;
 public class MissionQuest {
 
     private Stage stage;
-    private Texture missionBox, missionSet, missionFin, missionStart, closeTex, missionOpenTex, cancelTex, finishTex;
+    private Texture missionBox, missionSet, missionFin, missionStart, closeTex, missionOpenTex, cancelTex, finishTex, okayTxt;
+    private Texture missionOverViewTxt1, missionPanelTxt1, missionPrevTxt1  , missionFailedTxt;
     private Image missionSetImg, missionState, missionOpen;
-    private ImageButton closeBtn, closeMisson, finishMission, cancelMission, missionBoxImg;
+    private ImageButton closeBtn, closeMisson, finishMission, cancelMission, missionBoxImg, okayBtn;
     private Label missionLabel, missionPhrase, missionRequirements;
     private MissionContent missionContent;
     private BitmapFont font;
     private Boolean close;
-    private Texture jarTEx, largeStoneTex, medStoneTex, capTex, woodenTex, staffTex, redStoneTex, plasterTex, sashTex,
-            coatTex;
-    public Image jarImg, largeStoneImg, medStoneImg, capImg, woodenImg, staffImg, redStoneImg, plasterImg, sashImg,
-            coatImg;
+    public Image missionOverViewImg, missionPanelImg, missionPrevImg, missionFailedImg;
 
     public MissionQuest(Stage stage) {
 
@@ -67,29 +65,14 @@ public class MissionQuest {
             cancelTex = new Texture("720/button/cancelMission.png");
             finishTex = new Texture("720/button/FinishMission.png");
             missionOpenTex = new Texture("720/popup/missionInfo.png");
+
+            missionFailedTxt = new Texture("720/popup/Mission Failed Prompt.png");
+            missionOverViewTxt1 = new Texture("720/popup/Mission Overview 1.png");
+            missionPanelTxt1 = new Texture("720/popup/Mission Panel 1.png");
+            missionPrevTxt1 = new Texture("720/popup/Mission1 Preview.png");
+
+            okayTxt = new Texture("720/button/Ok Button.png");
         }
-
-        jarTEx = new Texture("720/popup/jar.JPG");
-        largeStoneTex = new Texture("720/popup/LargeStone.JPG");
-        medStoneTex = new Texture("720/popup/medStone.JPG");
-        capTex = new Texture("720/popup/Cap.jpg");
-        woodenTex = new Texture("720/popup/woodenpole.jpg");
-        staffTex = new Texture("720/popup/woodencane.jpg");
-        redStoneTex = new Texture("720/popup/rock1.jpg");
-        sashTex = new Texture("720/popup/sash.jpg");
-        coatTex = new Texture("720/popup/Coat.jpg");
-        plasterTex = new Texture("720/popup/plaster.JPG");
-
-        jarImg = new Image(jarTEx);
-        largeStoneImg = new Image(largeStoneTex);
-        medStoneImg = new Image(medStoneTex);
-        capImg = new Image(capTex);
-        woodenImg = new Image(woodenTex);
-        staffImg = new Image(staffTex);
-        redStoneImg = new Image(redStoneTex);
-        sashImg = new Image(sashTex);
-        coatImg = new Image(coatTex);
-        plasterImg = new Image(plasterTex);
 
         missionBoxImg = new ImageButton(new TextureRegionDrawable(new TextureRegion(missionBox)));
         missionSetImg = new Image(missionSet);
@@ -102,6 +85,12 @@ public class MissionQuest {
         missionRequirements = new Label(missionContent.missionRequirements, new Label.LabelStyle(font, Color.WHITE));
         missionState = new Image(missionStart);
 
+        missionFailedImg = new Image(missionFailedTxt);
+
+        missionPanelImg = new Image(missionPanelTxt1);
+        missionOverViewImg = new Image(missionOverViewTxt1);
+        missionPrevImg = new Image(missionPrevTxt1);
+
         missionBoxImg.setSize(missionBox.getWidth(), missionBox.getHeight());
 
         missionSetImg.setPosition(Gdx.graphics.getWidth() / 2 - missionSet.getWidth() / 2, Gdx.graphics.getHeight() / 2 - missionSet.getHeight() / 2);
@@ -113,10 +102,24 @@ public class MissionQuest {
         finishMission.setPosition(Gdx.graphics.getWidth() / 2 + finishTex.getWidth() * 1.3f, Gdx.graphics.getHeight() / 2 - missionOpenTex.getHeight() / 2 + finishTex.getHeight() / 2);
         closeMisson.setPosition(Gdx.graphics.getWidth() / 2 + missionOpenTex.getWidth() / 2 - closeTex.getWidth() / 2, Gdx.graphics.getHeight() / 2 + missionOpenTex.getHeight() / 2 - closeTex.getHeight() / 2);
 
+
+        missionFailedImg.setPosition(Gdx.graphics.getWidth() / 2 - missionFailedTxt.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - missionFailedTxt.getHeight() / 2);
+        missionPanelImg.setPosition(Gdx.graphics.getWidth() / 2 - missionPanelTxt1.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - missionPanelTxt1.getHeight() / 2);
+        missionOverViewImg.setPosition(Gdx.graphics.getWidth() / 2 - missionOverViewTxt1.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - missionOverViewTxt1.getHeight() / 2);
+        missionPrevImg.setPosition(Gdx.graphics.getWidth() / 2 - missionPrevTxt1.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - missionPrevTxt1.getHeight() / 2);
+
         Drawable closeDraw = new TextureRegionDrawable(new TextureRegion(closeTex));
         closeBtn = new ImageButton(closeDraw);
-
         closeBtn.setPosition((Gdx.graphics.getWidth() / 2 - closeTex.getWidth() / 2) + missionSet.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - closeTex.getHeight() / 2 )  + missionSet.getHeight() / 2);
+
+        Drawable okayDraw = new TextureRegionDrawable(new TextureRegion(okayTxt));
+        okayBtn = new ImageButton(okayDraw);
+        okayBtn.setPosition((Gdx.graphics.getWidth() / 2 + missionPanelTxt1.getWidth() / 2 ) - okayTxt.getWidth(),
+                (Gdx.graphics.getHeight() / 2 - missionPanelTxt1.getHeight() / 2) - okayTxt.getHeight());
 
     }
 
@@ -156,23 +159,22 @@ public class MissionQuest {
         missionPhrase.remove();
         missionRequirements.remove();
         missionState.remove();
+        okayBtn.remove();
+        missionPanelImg.remove();
         close = true;
     }
 
     public void quest(){
-        stage.addActor(missionSetImg);
-        stage.addActor(missionBoxImg);
+        stage.addActor(missionPanelImg);
+        stage.addActor(okayBtn);
         stage.addActor(closeBtn);
-        stage.addActor(missionLabel);
-        stage.addActor(missionState);
-        missionBoxImg.setPosition(Gdx.graphics.getWidth() / 2 - missionBox.getWidth() / 2, (Gdx.graphics.getHeight() / 2 - missionBox.getHeight() / 2) + missionSet.getHeight() / 6);
-        missionLabel.setPosition((Gdx.graphics.getWidth() / 2 - missionBox.getWidth() / 2 ) + 25, (Gdx.graphics.getHeight() / 2 - missionBox.getHeight() / 2) + missionSet.getHeight() / 5);
-        missionState.setPosition(Gdx.graphics.getWidth() / 2 + missionStart.getWidth(), (Gdx.graphics.getHeight() / 2 - missionBox.getHeight() / 2) + missionSet.getHeight() / 5);
         close = false;
     }
 
     public void close(){
         closeBtn.remove();
+        okayBtn.remove();
+        missionPanelImg.remove();
         missionBoxImg.remove();
         missionSetImg.remove();
         missionLabel.remove();
@@ -221,5 +223,9 @@ public class MissionQuest {
 
     public Label getMissionPhrase() {
         return missionPhrase;
+    }
+
+    public ImageButton getOkayBtn() {
+        return okayBtn;
     }
 }

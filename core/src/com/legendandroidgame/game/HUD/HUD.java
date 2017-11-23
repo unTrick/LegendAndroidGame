@@ -33,7 +33,8 @@ public class HUD {
     private String colon = " : ";
 
     private Texture green, orange, red, questTimer;
-    public Integer health, questTime; // 0 = dead, 100 = full
+    public Integer health, questTime ; // 0 = dead, 100 = full
+    public float currentQuestTime;
     private float bar = 3 / 2, timeLimitBar = 3 / 2;
     private String missionAquired;
 
@@ -78,6 +79,7 @@ public class HUD {
         minuteTimer = gameData.getInteger(current + " minuteTimer");
         hourTimer = gameData.getInteger(current + " hourTimer");
         questTime = gameData.getInteger(current + " questTime");
+        currentQuestTime = gameData.getInteger(current + " currentQuestTime");
         timeCountMinute = 0;
         health = gameData.getInteger(current + " health");
         missionAquired = "Item Acquired";
@@ -229,7 +231,7 @@ public class HUD {
         greenBarImg.setScale(health / 1920f, bar / 2);
         orangeBarImg.setScale(health / 1920f, bar / 2);
         redBarImg.setScale(health / 1920f, bar / 2);
-        questTimerImg.setScale(questTime / 120f, timeLimitBar / 2);
+        questTimerImg.setScale(questTime / currentQuestTime, timeLimitBar / 2);
 
         //
 //        healthColor();
@@ -266,7 +268,7 @@ public class HUD {
 
 
         // fps
-        System.out.println(Gdx.graphics.getFramesPerSecond());
+//        System.out.println(Gdx.graphics.getFramesPerSecond());
         // fps
 
     }
