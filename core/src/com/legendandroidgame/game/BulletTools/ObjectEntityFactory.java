@@ -28,6 +28,7 @@ public class ObjectEntityFactory {
     public static ModelComponent portalComponentTop;
     public static ModelComponent portalComponentBottom;
     public static ModelComponent fireComponent;
+    public static ModelComponent houseDoorComponent;
 
     public static ModelComponent tilesComponent;
     public static ModelComponent arrowPointerComponent;
@@ -180,13 +181,13 @@ public class ObjectEntityFactory {
         Model houseDoorModel = new Model(modelData, new TextureProvider.FileTextureProvider());
 
         houseDoorModel.calculateTransforms();
-        ModelComponent altarModelComponent = new ModelComponent(houseDoorModel, x,y,z);
+        houseDoorComponent = new ModelComponent(houseDoorModel, x,y,z);
 //        altarModelComponent.instance.transform.setToRotation(0,0,0,180);
-        entity.add(altarModelComponent);
+        entity.add(houseDoorComponent);
         houseDoorModel.calculateBoundingBox(doorBounds);
         DoorComponent doorComponent = new DoorComponent();
         doorComponent.doorObject = new btPairCachingGhostObject();
-        doorComponent.doorObject.setWorldTransform(altarModelComponent.instance.transform);
+        doorComponent.doorObject.setWorldTransform(houseDoorComponent.instance.transform);
         doorComponent.doorShape = new btBoxShape(new Vector3(doorBounds.getWidth() / 2, doorBounds.getHeight() / 2, doorBounds.getDepth()));
         doorComponent.doorObject.setCollisionShape(doorComponent.doorShape);
         doorComponent.doorObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);

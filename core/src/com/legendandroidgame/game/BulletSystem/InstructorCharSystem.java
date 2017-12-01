@@ -31,7 +31,7 @@ public class InstructorCharSystem extends EntitySystem implements EntityListener
     public InstructorCharSystem(BulletSystem bulletSystem) {
         this.bulletSystem = bulletSystem;
         if(gameData.getString(current + " isWellInstructDone").equals("done")){
-            instructor = CharacterEntityFactory.createInstructor(bulletSystem,-1,6,61);
+            instructor = CharacterEntityFactory.createInstructor(bulletSystem,0.5f,6,62);
         }
         else {
             instructor = CharacterEntityFactory.createInstructor(bulletSystem,40, 10, -65);

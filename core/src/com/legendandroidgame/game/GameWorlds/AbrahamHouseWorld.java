@@ -45,7 +45,7 @@ public class AbrahamHouseWorld {
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
 
-    public CameraInputController cameraInputController;
+//    public CameraInputController cameraInputController;
 
     private DebugDrawer debugDrawer;
     private static final boolean debug = false;
@@ -198,7 +198,7 @@ public class AbrahamHouseWorld {
 
         worldCam.update();
         characterAnimation.update(dt);
-        cameraInputController.update();
+//        cameraInputController.update();
         renderWorld(dt);
     }
 

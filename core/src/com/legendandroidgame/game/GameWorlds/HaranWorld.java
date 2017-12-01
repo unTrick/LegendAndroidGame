@@ -57,7 +57,7 @@ public class HaranWorld {
 
     private float posX , posZ ;
 
-    private Vector3 portal1Pos, portal2Pos, playerPos, wellPos, wellInstructorPos;
+    private Vector3 portal1Pos, portal2Pos, playerPos, wellPos, wellInstructorPos, houseDoorPos;
 
 
 
@@ -139,7 +139,7 @@ public class HaranWorld {
     private void addEntities() {
         loadHaran();
         createPlayer(posX,10,posZ);
-        loadHouseDoor(56,6,-63);
+        loadHouseDoor(53,6,-73);
         lotModel(-73,10,-26);
         saraiModel(30,10,-44);
         loadCampFire(30,4,-61);
@@ -198,12 +198,12 @@ public class HaranWorld {
     }
 
     private void loadPortal1(){
-        portalEntity1 = ObjectEntityFactory.loadPortalLeft(30.570805f,3.7098236f,-104);
+        portalEntity1 = ObjectEntityFactory.loadPortalLeft(28,3.7098236f,-116);
         engine.addEntity(portalEntity1);
     }
 
     private void loadPortal2(){
-        portalEntity2 = ObjectEntityFactory.loadPortalBottom(-88f,3.6057749f,66.86713f);
+        portalEntity2 = ObjectEntityFactory.loadPortalBottom(-84f,3.6057749f,66.86713f);
         engine.addEntity(portalEntity2);
     }
 
@@ -251,7 +251,7 @@ public class HaranWorld {
         wellInstructorPos = CharacterEntityFactory.instructorComponent.instance.transform.getTranslation(new Vector3());
         portal1Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
-
+        houseDoorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
         wellPos = well.getComponent(WellComponent.class).wellObject.getWorldTransform().getTranslation(new Vector3());
 
 
@@ -280,22 +280,35 @@ public class HaranWorld {
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
 //            System.out.println("do you wat to go inside?");
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
                 gotoBethel = true;
-            }
+        }
+        else {
+            gotoBethel = false;
         }
 
         if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
                 && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10){
 //            System.out.println("do you wat to go inside?");
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
                 goToJordan = true;
-            }
+        }
+        else {
+            goToJordan = false;
         }
 
         if((playerPos.x - wellPos.x) <= 10 && (playerPos.x - wellPos.x) >= -10
                 && (playerPos.z - wellPos.z) <= 10 && (playerPos.z - wellPos.z) >= -10){
             isWellTouch = true;
+        }
+        else {
+            isWellTouch = false;
+        }
+
+        if((playerPos.x - houseDoorPos.x) <= 10 && (playerPos.x - houseDoorPos.x) >= -10
+                && (playerPos.z - houseDoorPos.z) <= 10 && (playerPos.z - houseDoorPos.z) >= -10){
+            gotoAbrahamsHouse = true;
+        }
+        else {
+            gotoAbrahamsHouse = false;
         }
 
 //        if(!((playerPos.x - wellInstructorPos.x) <= 10) && !((playerPos.x - wellInstructorPos.x) >= -10)

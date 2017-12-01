@@ -24,7 +24,7 @@ public class WorldCamera {
         worldCam.near = 1f;
         worldCam.far = 2850f;
 
-        worldCam.zoom = 0.05f;
+        worldCam.zoom = 0.03f;
 
         worldCam.update();
 
