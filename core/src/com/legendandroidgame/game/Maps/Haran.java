@@ -2,6 +2,7 @@ package com.legendandroidgame.game.Maps;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -34,6 +35,7 @@ public class Haran extends GameState {
     private Maps maps;
     private MissionQuest missionQuest;
     private Conversation conversation;
+    private Warning warning;
     String current = gameData.getString("current");
     private int convoIdMission = gameData.getInteger(current + " convoId");
     private int convoIdInstructor = gameData.getInteger(current + " convoId");
@@ -65,6 +67,7 @@ public class Haran extends GameState {
         maps = new Maps(stage);
         missionQuest = new MissionQuest(stage);
         conversation = new Conversation(stage);
+        warning = new Warning(stage);
 
 //        Gdx.input.setInputProcessor(new InputMultiplexer(stage, haranWorld.cameraInputController));
 
@@ -172,14 +175,19 @@ public class Haran extends GameState {
 
         });
 
-        actualGameButtons.getBtnGrab().addListener(new ClickListener(){
+        actualGameButtons.getBtnDrink().addListener(new ClickListener(){
+
 
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                return true;
+                return false;
             }
 
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
+            }
         });
 
         missionQuest.getCloseBtn().addListener(new ClickListener(){
@@ -365,36 +373,48 @@ public class Haran extends GameState {
 
     @Override
     protected void handleInput() {
+
         if(haranWorld.gotoBethel){
-            if(gameData.getInteger(current + " missionId") == 7 ||
-                    gameData.getInteger(current + " missionId") == 0){
-                gameData.putInteger(current + " from", 2);
-                gameData.flush();
-                gsm.set(new LoadScreen(gsm, 11));
-                dispose();
+            warning.isBethel = true;
+            if(warning.yesBtn.isPressed()){
+                if(gameData.getInteger(current + " missionId") == 7 ||
+                        gameData.getInteger(current + " missionId") == 0){
+                    gameData.putInteger(current + " from", 2);
+                    gameData.flush();
+                    gsm.set(new LoadScreen(gsm, 11));
+                    dispose();
+                }
+                else {
+                    gameData.putInteger(current + " from", 2);
+                    gameData.flush();
+                    gsm.set(new LoadScreen(gsm, 3));
+                    dispose();
+                }
             }
-            else {
-                gameData.putInteger(current + " from", 2);
-                gameData.flush();
-                gsm.set(new LoadScreen(gsm, 3));
-                dispose();
-            }
-
         }
 
-
-        if(haranWorld.gotoAbrahamsHouse){
-            gameData.putInteger(current + " from", 2);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 1));
-            dispose();
+        else if(haranWorld.gotoAbrahamsHouse){
+            warning.isHouse = true;
+            if(warning.yesBtn.isPressed()){
+                gameData.putInteger(current + " from", 2);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 1));
+                dispose();
+            }
         }
 
-        if(haranWorld.goToJordan){
-            gameData.putInteger(current + " from", 2);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 9));
-            dispose();
+        else if(haranWorld.goToJordan){
+            if(warning.yesBtn.isPressed()){
+                gameData.putInteger(current + " from", 2);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 9));
+                dispose();
+            }
+        }
+
+        else {
+            warning.isBethel = false;
+            warning.isHouse = false;
         }
 
         if(hud.health == 0){
@@ -458,6 +478,7 @@ public class Haran extends GameState {
         conversation.update();
         missionQuest.update();
         maps.update();
+        warning.update();
 
         /*
         pos = "Camera Position: \t " + haranWorld.worldCamera.worldCam.position.toString();

@@ -19,11 +19,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class ActualGameButtons {
 
-    private Texture menu, talk, run, grab, inventory, mission, map;
-    public ImageButton btnMenu, btnTalk, btnRun, btnGrab, btnInventory, btnMission, btnMap;
+    private Texture menu, talk, run, drink, inventory, mission, map;
+    public ImageButton btnMenu, btnTalk, btnRun, btnDrink, btnInventory, btnMission, btnMap;
     private Stage stage;
-    private Drawable drawMenu, drawTalk, drawRun, drawGrab, drawInventory, drawMission, drawMap;
-    private boolean runPressed, grabPressed;
+    public Drawable drawMenu, drawTalk, drawRun, drawDrink, drawInventory, drawMission, drawMap;
+    private boolean runPressed;
 
     public ActualGameButtons(Stage stage){
 
@@ -33,7 +33,7 @@ public class ActualGameButtons {
             menu = new Texture("1080/button/close.png");
             talk = new Texture("1080/button/talkbtn.png");
             run = new Texture("1080/button/runbtn.png");
-            grab = new Texture("1080/button/grabbtn.png");
+            drink = new Texture("1080/button/drinkbtn.png");
             inventory = new Texture("1080/button/inventorybtn.png");
             mission = new Texture("1080/button/questbtn.png");
             map = new Texture("1080/button/mapbtn.png");
@@ -42,7 +42,7 @@ public class ActualGameButtons {
             menu = new Texture("720/button/close.png");
             talk = new Texture("720/button/talkbtn.png");
             run = new Texture("720/button/runbtn.png");
-            grab = new Texture("720/button/grabbtn.png");
+            drink = new Texture("720/button/drinkbtn.png");
             inventory = new Texture("720/button/inventorybtn.png");
             mission = new Texture("720/button/questbtn.png");
             map = new Texture("720/button/mapbtn.png");
@@ -59,8 +59,8 @@ public class ActualGameButtons {
         drawRun = new TextureRegionDrawable(new TextureRegion(run));
         btnRun = new ImageButton(drawRun);
 
-        drawGrab = new TextureRegionDrawable(new TextureRegion(grab));
-        btnGrab = new ImageButton(drawGrab);
+        drawDrink = new TextureRegionDrawable(new TextureRegion(drink));
+        btnDrink = new ImageButton(drawDrink);
 
         drawInventory = new TextureRegionDrawable(new TextureRegion(inventory));
         btnInventory = new ImageButton(drawInventory);
@@ -87,7 +87,7 @@ public class ActualGameButtons {
         table.add(btnTalk).width(talk.getWidth()).height(talk.getHeight()).pad(20,0,0,20);
         table.row();
         table.add(btnRun).width(run.getWidth()).height(run.getHeight()).pad(20,0,0,20);
-        table.add(btnGrab).width(grab.getWidth()).height(grab.getHeight()).pad(20,0,0,20);
+        table.add(btnDrink).width(drink.getWidth()).height(drink.getHeight()).pad(20,0,0,20);
 
         stage.addActor(table);
 
@@ -135,7 +135,7 @@ public class ActualGameButtons {
         menu.dispose();
         talk.dispose();
         run.dispose();
-        grab.dispose();
+        drink.dispose();
         inventory.dispose();
         mission.dispose();
         map.dispose();
@@ -153,16 +153,8 @@ public class ActualGameButtons {
         return btnRun;
     }
 
-    public ImageButton getBtnGrab() {
-        return btnGrab;
-    }
-
     public boolean isRunPressed() {
         return runPressed;
-    }
-
-    public boolean isGrabPressed(){
-        return grabPressed;
     }
 
     public ImageButton getBtnInventory() {
@@ -175,5 +167,9 @@ public class ActualGameButtons {
 
     public ImageButton getBtnMission() {
         return btnMission;
+    }
+
+    public ImageButton getBtnDrink() {
+        return btnDrink;
     }
 }
