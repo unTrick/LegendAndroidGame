@@ -175,21 +175,6 @@ public class Haran extends GameState {
 
         });
 
-        actualGameButtons.getBtnDrink().addListener(new ClickListener(){
-
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                return false;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
-            }
-        });
-
         missionQuest.getCloseBtn().addListener(new ClickListener(){
 
             @Override
@@ -439,6 +424,16 @@ public class Haran extends GameState {
             }
         }
 
+        if(actualGameButtons.getBtnDrink().isPressed()){
+            if(Gdx.input.justTouched()){
+                if(haranWorld.isWellTouch){
+                    hud.health += 100;
+                    if (hud.health > 960){
+                        hud.health = 960;
+                    }
+                }
+            }
+        }
 
         if(gameData.getString(current + " isHaranConvoInsDone").equals("done")){
             conversation.haranInsConvo1 = false;

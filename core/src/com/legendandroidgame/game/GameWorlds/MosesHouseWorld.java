@@ -323,23 +323,19 @@ public class MosesHouseWorld {
         if(gameData.getInteger(current + " missionId") == 5){
             if(staffCollide){
                 if(Gdx.input.justTouched()){
-                    if(actualGameButtons.btnGrab.isPressed()){
                         engine.removeEntity(staff);
                         bulletSystem.collisionWorld.removeCollisionObject(staff.getComponent(StaffComponent.class).staffObject);
                         gameData.putString(current + " findStaff", "Done");
                         gameData.flush();
-                    }
                 }
             }
 
             if(woodenPoleCollide){
                 if(Gdx.input.justTouched()){
-                    if(actualGameButtons.btnGrab.isPressed()){
                         engine.removeEntity(woodenpole);
                         bulletSystem.collisionWorld.removeCollisionObject(woodenpole.getComponent(WoodenPoleComponent.class).woodenPoleObject);
                         gameData.putString(current + " findWoodenPole", "Done");
                         gameData.flush();
-                    }
                 }
             }
         }
@@ -348,42 +344,38 @@ public class MosesHouseWorld {
         if(gameData.getInteger(current + " missionId") == 3){
             if(jarOfWaterB){
                 if(Gdx.input.justTouched()){
-                    if(actualGameButtons.btnGrab.isPressed()){
                         engine.removeEntity(jarOfWater);
                         bulletSystem.collisionWorld.removeCollisionObject(jarOfWater.getComponent(JarOfWaterComponent.class).jarOfWaterObject);
                         gameData.putString(current + " findJarOfWater", "Done");
                         gameData.flush();
-                    }
+
                 }
             }
             if(capB){
                 if(Gdx.input.justTouched()){
-                    if(actualGameButtons.btnGrab.isPressed()){
                         engine.removeEntity(cap);
                         bulletSystem.collisionWorld.removeCollisionObject(cap.getComponent(CapComponent.class).capObject);
                         gameData.putString(current + " findCap", "Done");
                         gameData.flush();
-                    }
+
                 }
             }
             if(sashB){
                 if(Gdx.input.justTouched()){
-                    if(actualGameButtons.btnGrab.isPressed()){
                         engine.removeEntity(sash);
                         bulletSystem.collisionWorld.removeCollisionObject(sash.getComponent(SashComponent.class).sashObject);
                         gameData.putString(current + " findSash", "Done");
                         gameData.flush();
-                    }
+
                 }
             }
             if(coatB){
                 if(Gdx.input.justTouched()){
-                    if(actualGameButtons.btnGrab.isPressed()){
                         engine.removeEntity(coat);
                         bulletSystem.collisionWorld.removeCollisionObject(coat.getComponent(CoatComponent.class).coatObject);
                         gameData.putString(current + " findCoat", "Done");
                         gameData.flush();
-                    }
+
                 }
             }
 

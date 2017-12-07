@@ -242,14 +242,12 @@ public class ShechemWorld {
 
         if(stoneCollide){
             if(Gdx.input.justTouched()){
-                if(actualGameButtons.btnGrab.isPressed()){
                     characterAnimation.animate("Armature|Bow",1,1);
                     engine.removeEntity(stone);
                     bulletSystem.collisionWorld.removeCollisionObject(stone.getComponent(LargeStoneComponent.class).stoneObject);
 
                         gameData.putString(current + " findLargeStone", "Done");
                         gameData.flush();
-                }
             }
         }
 

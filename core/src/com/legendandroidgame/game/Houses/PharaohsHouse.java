@@ -111,16 +111,6 @@ public class PharaohsHouse extends GameState{
 
         });
 
-        actualGameButtons.getBtnGrab().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-
-                return true;
-            }
-
-        });
-
         actualGameButtons.getBtnTalk().addListener(new ClickListener(){
 
             @Override

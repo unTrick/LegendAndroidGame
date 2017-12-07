@@ -142,7 +142,7 @@ public class HaranWorld {
         loadHouseDoor(53,6,-73);
         lotModel(-73,10,-26);
         saraiModel(30,10,-44);
-        loadCampFire(30,4,-61);
+//        loadCampFire(30,4,-61);
         loadWell();
         loadPortal1();
         loadPortal2();
@@ -295,6 +295,7 @@ public class HaranWorld {
             goToJordan = false;
         }
 
+
         if((playerPos.x - wellPos.x) <= 10 && (playerPos.x - wellPos.x) >= -10
                 && (playerPos.z - wellPos.z) <= 10 && (playerPos.z - wellPos.z) >= -10){
             isWellTouch = true;
@@ -303,8 +304,8 @@ public class HaranWorld {
             isWellTouch = false;
         }
 
-        if((playerPos.x - houseDoorPos.x) <= 10 && (playerPos.x - houseDoorPos.x) >= -10
-                && (playerPos.z - houseDoorPos.z) <= 10 && (playerPos.z - houseDoorPos.z) >= -10){
+        if((playerPos.x - houseDoorPos.x) <= 5 && (playerPos.x - houseDoorPos.x) >= -5
+                && (playerPos.z - houseDoorPos.z) <= 5 && (playerPos.z - houseDoorPos.z) >= -5){
             gotoAbrahamsHouse = true;
         }
         else {

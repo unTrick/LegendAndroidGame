@@ -195,7 +195,6 @@ public class JordanWorld {
 
         if(stone1Collide){
             if(Gdx.input.justTouched()){
-                if(actualGameButtons.btnGrab.isPressed()){
                     engine.removeEntity(stoneOne);
                     bulletSystem.collisionWorld.removeCollisionObject(stoneOne.getComponent(LargeStonesOneComponent.class).stoneObject);
 
@@ -206,14 +205,13 @@ public class JordanWorld {
                         case 1: gameData.putInteger(current + " missionCount", 2);
                             gameData.flush();
                             break;
-                    }
+
                 }
             }
         }
 
         if(stone2Collide){
             if(Gdx.input.justTouched()){
-                if(actualGameButtons.btnGrab.isPressed()){
                     engine.removeEntity(stoneTwo);
                     bulletSystem.collisionWorld.removeCollisionObject(stoneTwo.getComponent(LargeStonesTwoComponent.class).stoneObject);
 
@@ -224,20 +222,19 @@ public class JordanWorld {
                         case 1: gameData.putInteger(current + " missionCount", 2);
                             gameData.flush();
                             break;
-                    }
+
                 }
             }
         }
 
         if(plasterCollide){
             if(Gdx.input.justTouched()){
-                if(actualGameButtons.btnGrab.isPressed()){
                     engine.removeEntity(plaster);
                     bulletSystem.collisionWorld.removeCollisionObject(plaster.getComponent(PlasterComponent.class).plasterObject);
 
                     gameData.putString(current + " findPlaster", "Done");
                     gameData.flush();
-                }
+
             }
         }
 

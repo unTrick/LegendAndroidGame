@@ -59,9 +59,9 @@ public class HUD {
 
 
 
-    //fps
-//    private Label fps;
-    //fps
+//    fps
+    private Label fps;
+//    fps
 
 
     public HUD(Stage stage){
@@ -129,17 +129,16 @@ public class HUD {
         lblCurTime = new Label(String.format("%02d", hourTimer) + colon + String.format("%02d", minuteTimer), new Label.LabelStyle(font, Color.WHITE));
 
 
-        //fps
-//        fps = new Label("" + Gdx.graphics.getFramesPerSecond(), new Label.LabelStyle(font, Color.WHITE));
-        //fps
+//        fps
+        fps = new Label("" + Gdx.graphics.getFramesPerSecond(), new Label.LabelStyle(font, Color.WHITE));
+        fps.setPosition(0, Gdx.graphics.getHeight() / 2);
+//        fps
 
 //        lblName.setFontScale(2);
 //        lblTimer.setFontScale(2);
 //        lblCurTime.setFontScale(2);
 
-        // fps
-//        table.add(fps).expandX().padTop(10).width(150);
-        // fps
+
 
         table.add(lblName).expandX().pad(10, -400, 0, 0);
         table.add(mapLocate).expandX().padTop(10).padLeft(-200);
@@ -185,6 +184,10 @@ public class HUD {
 //        stage.addActor(questTable);
         stage.addActor(missionAccomplished);
         missionAccomplished.setVisible(false);
+
+        // fps
+        stage.addActor(fps);
+        // fps
 
     }
 
@@ -232,6 +235,10 @@ public class HUD {
         orangeBarImg.setScale(health / 1920f, bar / 2);
         redBarImg.setScale(health / 1920f, bar / 2);
         questTimerImg.setScale(questTime / currentQuestTime, timeLimitBar / 2);
+
+        //fps
+        fps.setText("" + Gdx.graphics.getFramesPerSecond());
+        //fps
 
         //
 //        healthColor();
