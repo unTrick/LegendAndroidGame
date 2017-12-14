@@ -180,8 +180,6 @@ public class Haran extends GameState {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
                 missionQuest.close();
-                missionQuest.getMissionLabel().remove();
-                missionQuest.getMissionPhrase().remove();
                 return false;
             }
 
@@ -216,20 +214,12 @@ public class Haran extends GameState {
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
 
                 missionQuest.closeMission();
-                missionQuest.getMissionLabel().remove();
-                missionQuest.getMissionPhrase().remove();
 
                 return false;
             }
         });
 
-        missionQuest.getMissionLabel().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                missionQuest.mission();
-                return false;
-            }
-        });
+
 
         insideGameMenu.getResume().addListener(new ClickListener(){
             @Override

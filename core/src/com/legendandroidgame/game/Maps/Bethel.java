@@ -131,13 +131,6 @@ public class Bethel extends GameState {
 
         });
 
-        missionQuest.getMissionBoxImg().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                missionQuest.mission();
-                return false;
-            }
-        });
 
         missionQuest.getCloseMisson().addListener(new ClickListener(){
 
@@ -179,13 +172,7 @@ public class Bethel extends GameState {
             }
         });
 
-        missionQuest.getMissionLabel().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                missionQuest.mission();
-                return false;
-            }
-        });
+
 
 
         insideGameMenu.getResume().addListener(new ClickListener(){

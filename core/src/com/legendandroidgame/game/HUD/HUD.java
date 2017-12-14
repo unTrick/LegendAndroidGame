@@ -13,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
-import com.legendandroidgame.game.AddonTools.WorldCamera;
 import com.legendandroidgame.game.Mission.MissionContent;
-import javafx.util.converter.FloatStringConverter;
 
 
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
@@ -60,7 +58,7 @@ public class HUD {
 
 
 //    fps
-    private Label fps;
+//    private Label fps;
 //    fps
 
 
@@ -130,8 +128,8 @@ public class HUD {
 
 
 //        fps
-        fps = new Label("" + Gdx.graphics.getFramesPerSecond(), new Label.LabelStyle(font, Color.WHITE));
-        fps.setPosition(0, Gdx.graphics.getHeight() / 2);
+//        fps = new Label("" + Gdx.graphics.getFramesPerSecond(), new Label.LabelStyle(font, Color.WHITE));
+//        fps.setPosition(0, Gdx.graphics.getHeight() / 2);
 //        fps
 
 //        lblName.setFontScale(2);
@@ -186,7 +184,7 @@ public class HUD {
         missionAccomplished.setVisible(false);
 
         // fps
-        stage.addActor(fps);
+//        stage.addActor(fps);
         // fps
 
     }
@@ -237,7 +235,7 @@ public class HUD {
         questTimerImg.setScale(questTime / currentQuestTime, timeLimitBar / 2);
 
         //fps
-        fps.setText("" + Gdx.graphics.getFramesPerSecond());
+//        fps.setText("" + Gdx.graphics.getFramesPerSecond());
         //fps
 
         //
