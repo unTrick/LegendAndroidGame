@@ -4,15 +4,13 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
+import com.legendandroidgame.game.AddonTools.Environment;
+import com.legendandroidgame.game.AddonTools.WorldCamera;
 import com.legendandroidgame.game.BulletComponent.AnimationComponent;
 import com.legendandroidgame.game.BulletComponent.CharacterComponent;
 import com.legendandroidgame.game.BulletComponent.ModelComponent;
@@ -22,9 +20,9 @@ import com.legendandroidgame.game.BulletSystem.RenderSystem;
 import com.legendandroidgame.game.BulletSystem.StatusSystem;
 import com.legendandroidgame.game.BulletTools.CharacterEntityFactory;
 import com.legendandroidgame.game.BulletTools.MapEntityFactory;
+import com.legendandroidgame.game.BulletTools.ObjectEntityFactory;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
-import com.legendandroidgame.game.DirectionalShadowLight;
 
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
@@ -33,16 +31,18 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
  */
 public class EgyptEastWorld {
     private ModelBatch batch;
-    private Environment environment;
-    private OrthographicCamera worldCam;
     private Engine engine;
     private BulletSystem bulletSystem;
-    private Entity character;
+    private Entity character, portalEntity1, portalEntity2, portalEntity3, portalEntity4;
     private PlayerSystem playerSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
+    public WorldCamera worldCamera;
+    //    public CameraInputController cameraInputController;
+    public Environment environment;
 
     public Boolean goToNorth = false, goToSouth = false, goToWest = false, goToEdom = false;
+    private Vector3 portal1Pos, portal2Pos, portal3Pos, portal4Pos, playerPos;
 
     private Entity map;
 
@@ -63,26 +63,26 @@ public class EgyptEastWorld {
         map = MapEntityFactory.loadEgyptEast();
         modelComponent = map.getComponent(ModelComponent.class);
         if(gameData.getInteger(current + " from") == 5){
-            posX = 275;
-            posZ = 201;
+            posX = 263;
+            posZ = 296;
 //            (275.20697,6.101687,201.14828)
 //            this is z(-1419.0806,1500.0,-1397.7231)
         }
         if(gameData.getInteger(current + " from") == 6){
-            posX = -31;
-            posZ = -306;
+            posX = -662;
+            posZ = 305;
 //            (-693.1684,7.3171496,295.76648)
 //            this is z(-2387.456,1500.0,-1303.105)
         }
         if(gameData.getInteger(current + " from") == 7){
-            posX = 62;
-            posZ = -306;
+            posX = -207;
+            posZ = -281;
 //            (62.54196,6.64147,-306.0129)
 //            this is z(-1631.7456,1500.0,-1904.8844)
         }
         if(gameData.getInteger(current + " from") == 8){
-            posX = 155;
-            posZ = 754;
+            posX = 112;
+            posZ = 749;
 //            (62.54196,6.64147,-306.0129)
 //            this is z(-1631.7456,1500.0,-1904.8844)
         }
@@ -92,60 +92,39 @@ public class EgyptEastWorld {
 
 
     private void initEnvironment() {
-//        shadowLight = new DirectionalShadowLight(1024 * 5, 1024 * 5,200f, 200f, 1f, 300f);
         environment = new Environment();
-//        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1f));
-////        environment.add(new SpotLight().setColor(Color.WHITE));
-////        environment.add(new SpotLight().setDirection(new Vector3(-1f, -0.8f, -0.2f)));
-//        shadowLight.set(0.8f,0.8f,0.8f, 0.1f, -0.3f, -0.1f);
-//        environment.add(shadowLight);
-//        environment.shadowMap = shadowLight;
-//        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.1f, -0.2f));
-
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1.f));
-//        environment.set(new ColorAttribute(ColorAttribute.Fog, .3f, .55f, 1, 1));
-        environment.add(new DirectionalLight().set(.3f, .3f, .3f, -2f, 0.6f, .8f));
-        environment.add(new DirectionalLight().set(1f, 1f, 1f, .2f, -0.6f, -.8f));
-//        environment.add(new PointLight().set(0.5f,0.5f,0.5f,0,5,0,3));
     }
+
 
     private void initCamera() {
 
-        worldCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        worldCam.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        worldCam.position.set(0f,1500,0f);
-        worldCam.lookAt(956,657,899);
-//        worldCam.lookAt(0,0,0);
-        worldCam.near = 1f;
-        worldCam.far = 2850f;
+        worldCamera = new WorldCamera();
+
         if(gameData.getInteger(current + " from") == 5){
-            worldCam.position.x = -1419f;
-            worldCam.position.z = -1397f;
+            worldCamera.worldCam.position.x = -1431f;
+            worldCamera.worldCam.position.z = -1302f;
 //            (275.20697,6.101687,201.14828)
 //            this is z(-1419.0806,1500.0,-1397.7231)
         }
         if(gameData.getInteger(current + " from") == 6){
-            worldCam.position.x = -1725f;
-            worldCam.position.z = -1904f;
+            worldCamera.worldCam.position.x = -2356f;
+            worldCamera.worldCam.position.z = -1293f;
 //            (-693.1684,7.3171496,295.76648)
 //            this is z(-2387.456,1500.0,-1303.105)
         }
         if(gameData.getInteger(current + " from") == 7){
-            worldCam.position.x = -1631f;
-            worldCam.position.z = -1904f;
+            worldCamera.worldCam.position.x = -1901f;
+            worldCamera.worldCam.position.z = -1879f;
 //            (62.54196,6.64147,-306.0129)
 //            this is z(-1631.7456,1500.0,-1904.8844)
         }
 
         if(gameData.getInteger(current + " from") == 8){
-            worldCam.position.x = -1538f;
-            worldCam.position.z = -844f;
+            worldCamera.worldCam.position.x = -1582f;
+            worldCamera.worldCam.position.z = -849f;
 //            (62.54196,6.64147,-306.0129)
 //            this is z(-1631.7456,1500.0,-1904.8844)
         }
-
-        worldCam.zoom = 0.08f;
-//        worldCam.zoom = 1;
     }
 
     private void initModelBatch() {
@@ -155,6 +134,10 @@ public class EgyptEastWorld {
     private void addEntities() {
         loadEgypt();
         createPlayer(posX,10,posZ);
+        loadPortal1();
+        loadPortal2();
+        loadPortal3();
+        loadPortal4();
     }
 
     private void setDebug(){
@@ -175,11 +158,33 @@ public class EgyptEastWorld {
         engine.addEntity(map);
     }
 
+    private void loadPortal1(){
+        portalEntity1 = ObjectEntityFactory.loadPortalTop(277,7,295);
+        engine.addEntity(portalEntity1);
+    }
+
+    private void loadPortal2(){
+        portalEntity2 = ObjectEntityFactory.loadPortalBottom(-690,7,299);
+        engine.addEntity(portalEntity2);
+    }
+
+    private void loadPortal3(){
+        portalEntity3 = ObjectEntityFactory.loadPortalLeft(-208,7,-303);
+        engine.addEntity(portalEntity3);
+    }
+
+    private void loadPortal4(){
+        portalEntity4 = ObjectEntityFactory.loadPortalRight(115,6,760);
+        engine.addEntity(portalEntity4);
+    }
+
+
+
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
-//        engine.addSystem(new RenderSystem(batch, environment, worldCam, modelComponent));
+        engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-//        engine.addSystem(playerSystem = new PlayerSystem(worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -188,44 +193,59 @@ public class EgyptEastWorld {
     public void render(float dt) {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            worldCam.position.x += 1;
+            worldCamera.worldCam.position.x += 1;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            worldCam.position.z += 1;
+            worldCamera.worldCam.position.z += 1;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            worldCam.position.x -= 1;
+            worldCamera.worldCam.position.x -= 1;
 
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            worldCam.position.z -= 1;
+            worldCamera.worldCam.position.z -= 1;
 
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.N)){
-            System.out.println("this is z" + worldCam.position);
+            System.out.println("this is z" + worldCamera.worldCam.position);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z < -308) {
-            goToWest = true;
-        }
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x > 280) {
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+        portal1Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
+        portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
+        portal3Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
+        portal4Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
+
+        if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
+                && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
             goToNorth = true;
         }
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x < -697) {
+        else if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
+                && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10){
             goToSouth = true;
         }
-
-        if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z > 758) {
+        else if((playerPos.x - portal3Pos.x) <= 10 && (playerPos.x - portal3Pos.x) >= -10
+                && (playerPos.z - portal3Pos.z) <= 10 && (playerPos.z - portal3Pos.z) >= -10){
+            goToWest = true;
+        }
+        else if((playerPos.x - portal4Pos.x) <= 10 && (playerPos.x - portal4Pos.x) >= -10
+                && (playerPos.z - portal4Pos.z) <= 10 && (playerPos.z - portal4Pos.z) >= -10){
             goToEdom = true;
         }
+        else {
+            goToNorth = false;
+            goToSouth = false;
+            goToWest = false;
+            goToEdom = false;
+        }
 
-        worldCam.update();
+        worldCamera.worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);
     }
@@ -233,15 +253,15 @@ public class EgyptEastWorld {
     private void renderWorld(float delta) {
         engine.update(delta);
         if(debug){
-            debugDrawer.begin(worldCam);
+            debugDrawer.begin(worldCamera.worldCam);
             bulletSystem.collisionWorld.debugDrawWorld();
             debugDrawer.end();
         }
     }
 
     public void resize(int width, int height) {
-        worldCam.viewportHeight = height;
-        worldCam.viewportWidth = width;
+        worldCamera.worldCam.viewportHeight = height;
+        worldCamera.worldCam.viewportWidth = width;
     }
 
     public void dispose() {

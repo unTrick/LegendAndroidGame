@@ -11,10 +11,7 @@ import com.legendandroidgame.game.Buttons.Controller;
 import com.legendandroidgame.game.GameWorlds.EgyptEastWorld;
 import com.legendandroidgame.game.HUD.HUD;
 import com.legendandroidgame.game.LegendAndroidGame;
-import com.legendandroidgame.game.PopupBox.InsideGameMenu;
-import com.legendandroidgame.game.PopupBox.Inventory;
-import com.legendandroidgame.game.PopupBox.Maps;
-import com.legendandroidgame.game.PopupBox.MissionQuest;
+import com.legendandroidgame.game.PopupBox.*;
 import com.legendandroidgame.game.States.GameState;
 import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
@@ -36,6 +33,7 @@ public class EgyptEast extends GameState {
     private InsideGameMenu insideGameMenu;
     private Maps maps;
     private MissionQuest missionQuest;
+    private Warning warning;
     String current = gameData.getString("current");
 
     public EgyptEast(GameStateManager gsm) {
@@ -53,6 +51,7 @@ public class EgyptEast extends GameState {
         insideGameMenu = new InsideGameMenu(stage);
         maps = new Maps(stage);
         missionQuest = new MissionQuest(stage);
+        warning = new Warning(stage);
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setCursorCatched(true);
@@ -99,54 +98,63 @@ public class EgyptEast extends GameState {
         });
 
 
+
+// TODO Mission Buttons
+
         actualGameButtons.getBtnMission().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
+                missionQuest.closeMission();
                 missionQuest.quest();
                 maps.close();
                 insideGameMenu.close();
+                missionQuest.quest();
                 return false;
             }
 
         });
-
 
         missionQuest.getCloseBtn().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
+                missionQuest.clickCount = 0;
+
                 return false;
             }
 
         });
 
-
-
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
 
             @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                missionQuest.closeMission();
-
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
                 return false;
             }
 
         });
 
-
-        missionQuest.getCancelMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
+        // Mission Buttons End...
 
 
         insideGameMenu.getResume().addListener(new ClickListener(){
@@ -220,28 +228,46 @@ public class EgyptEast extends GameState {
     protected void handleInput() {
 
         if(egyptEastWorld.goToNorth){
-            gameData.putInteger(current + " from", 4);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 5));
-            dispose();
+            warning.isNorthEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 4);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 5));
+                dispose();
+            }
         }
-        if(egyptEastWorld.goToSouth){
-            gameData.putInteger(current + " from", 4);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 6));
-            dispose();
+        else if(egyptEastWorld.goToSouth){
+            warning.isSouthEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 4);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 6));
+                dispose();
+            }
         }
-        if(egyptEastWorld.goToWest){
-            gameData.putInteger(current + " from", 4);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 7));
-            dispose();
+        else if(egyptEastWorld.goToWest){
+            warning.isWestEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 4);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 7));
+                dispose();
+            }
         }
-        if(egyptEastWorld.goToEdom){
-            gameData.putInteger(current + " from", 4);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 8));
-            dispose();
+        else if(egyptEastWorld.goToEdom){
+            warning.isEdom = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 4);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 8));
+                dispose();
+            }
+        }
+        else {
+            warning.isEdom = false;
+            warning.isWestEgypt = false;
+            warning.isSouthEgypt = false;
+            warning.isNorthEgypt = false;
         }
 
         if(hud.health == 0){
@@ -260,6 +286,7 @@ public class EgyptEast extends GameState {
         hud.getMapName().setText("Eastern Egypt");
         hud.updated(dt);
         missionQuest.update();
+        warning.update();
     }
 
     @Override
@@ -281,6 +308,7 @@ public class EgyptEast extends GameState {
         insideGameMenu.dispose();
         maps.dispose();
         stage.dispose();
+        warning.dispose();
     }
 
     @Override

@@ -1,0 +1,89 @@
+
+Portal_Prompts.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Bethel_Prompt
+  rotate: false
+  xy: 1, 797
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+EastEgypt_Prompt
+  rotate: false
+  xy: 1, 598
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+Edom_Prompt
+  rotate: false
+  xy: 667, 797
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+Haran_Prompt
+  rotate: false
+  xy: 1, 399
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+InsideHouse_Prompt
+  rotate: false
+  xy: 667, 598
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+Jordan_Prompt
+  rotate: false
+  xy: 1333, 797
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+Moriah_Prompt
+  rotate: false
+  xy: 1, 200
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+NorthEgypt_Prompt
+  rotate: false
+  xy: 667, 399
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+Shechem_Prompt
+  rotate: false
+  xy: 1333, 598
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+Sinai_Prompt
+  rotate: false
+  xy: 1, 1
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+SouthEgypt_Prompt
+  rotate: false
+  xy: 667, 200
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1
+WestEgypt_Prompt
+  rotate: false
+  xy: 1333, 399
+  size: 664, 197
+  orig: 664, 197
+  offset: 0, 0
+  index: -1

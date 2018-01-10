@@ -2,7 +2,6 @@ package com.legendandroidgame.game.Maps;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,6 +24,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
  * Created by Patrick on 5/2/2017.
  */
 public class Haran extends GameState {
+
     private Stage stage;
     private HaranWorld haranWorld;
     private float delta;
@@ -42,8 +42,6 @@ public class Haran extends GameState {
     private int convoIdPeople = gameData.getInteger(current + " convoId");
 
     private boolean haranTimer = false, haranT1mer = false;
-
-
     /*
     public String pos, direction, fieldOfView, frustum, invProkectionView, view;
     private Label posLbl, directionLbl, frustumLbl, invProkectionViewLbl, viewLbl;
@@ -161,6 +159,8 @@ public class Haran extends GameState {
 
         });
 
+        // TODO Mission Buttons
+
         actualGameButtons.getBtnMission().addListener(new ClickListener(){
 
             @Override
@@ -170,6 +170,7 @@ public class Haran extends GameState {
                 missionQuest.quest();
                 maps.close();
                 insideGameMenu.close();
+                missionQuest.quest();
                 return false;
             }
 
@@ -179,7 +180,11 @@ public class Haran extends GameState {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
+                missionQuest.clickCount = 0;
+
                 return false;
             }
 
@@ -189,37 +194,27 @@ public class Haran extends GameState {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                missionQuest.close();
-                missionQuest.mission();
+
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
                 return false;
             }
 
         });
 
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
-
-                return false;
-            }
-
-        });
-
-
-        missionQuest.getCancelMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
-
-
+        // Mission Buttons End...
 
         insideGameMenu.getResume().addListener(new ClickListener(){
             @Override
@@ -379,6 +374,7 @@ public class Haran extends GameState {
         }
 
         else if(haranWorld.goToJordan){
+            warning.isJordan = true;
             if(warning.yesBtn.isPressed()){
                 gameData.putInteger(current + " from", 2);
                 gameData.flush();
@@ -390,6 +386,7 @@ public class Haran extends GameState {
         else {
             warning.isBethel = false;
             warning.isHouse = false;
+            warning.isJordan = false;
         }
 
         if(hud.health == 0){
@@ -500,6 +497,7 @@ public class Haran extends GameState {
         insideGameMenu.dispose();
         maps.dispose();
         stage.dispose();
+        warning.dispose();
     }
 
     @Override

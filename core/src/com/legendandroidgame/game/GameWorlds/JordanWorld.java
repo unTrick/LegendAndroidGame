@@ -187,10 +187,10 @@ public class JordanWorld {
         }
 
         if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x > 392) {
-            goToHaran = true;
+//            goToHaran = true;
         }
         if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z < -346f) {
-            goToEdom = true;
+//            goToEdom = true;
         }
 
         if(stone1Collide){

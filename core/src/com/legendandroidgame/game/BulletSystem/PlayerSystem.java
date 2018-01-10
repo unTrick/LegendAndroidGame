@@ -28,11 +28,11 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
         private float transX, transY, transZ, rotateX, rotateY, rotateZ, angle;
         private Controller controller;
         private ActualGameButtons actualGameButtons;
-    public AnimationComponent playerAnimation;
-    private float cameraX, cameraZ;
-    private float posX, posZ;
-    private String current = gameData.getString("current");
-    private boolean paused;
+        public AnimationComponent playerAnimation;
+        private float cameraX, cameraZ;
+        private float posX, posZ;
+        private String current = gameData.getString("current");
+        private boolean paused;
 
 
     public PlayerSystem(OrthographicCamera camera, Controller controller, ActualGameButtons actualGameButtons, float posX, float posZ) {
@@ -82,7 +82,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
                 rotateZ = 0;
                 angle = 90;
                 if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || actualGameButtons.isRunPressed()){
-                    characterComponent.walkDirection.x = 5;
+                    characterComponent.walkDirection.x = 10;
                 }
                 else {
                     characterComponent.walkDirection.x = 0.5f;
@@ -96,7 +96,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
                 rotateZ = 0;
                 angle = 90;
                 if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || actualGameButtons.isRunPressed()){
-                    characterComponent.walkDirection.x = -5;
+                    characterComponent.walkDirection.x = -10;
                 }
                 else {
                     characterComponent.walkDirection.x = -0.5f;
@@ -111,7 +111,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
                 rotateZ = 0;
                 angle = 180;
                 if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || actualGameButtons.isRunPressed()){
-                    characterComponent.walkDirection.z = -5;
+                    characterComponent.walkDirection.z = -10;
 
                 }
                 else {
@@ -127,7 +127,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
                 rotateZ = 0;
                 angle = 0;
                 if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || actualGameButtons.isRunPressed()){
-                    characterComponent.walkDirection.z = 5;
+                    characterComponent.walkDirection.z = 10;
 
                 }
                 else {

@@ -2,9 +2,11 @@ package com.legendandroidgame.game.Maps;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
@@ -40,8 +42,16 @@ public class EgyptSouth extends GameState{
     private MissionContent missionContent;
     String current = gameData.getString("current");
     private Trivia trivia;
+    private Warning warning;
 
     private int convoId = gameData.getInteger(current + " convoId");
+
+    // for center
+
+    Texture centerTex;
+
+    // for center
+
 
     public EgyptSouth(GameStateManager gsm) {
         super(gsm);
@@ -61,7 +71,16 @@ public class EgyptSouth extends GameState{
         missionContent = new MissionContent();
         conversation = new Conversation(stage);
         trivia = new Trivia(stage);
+        warning = new Warning(stage);
 
+        // for center
+
+        centerTex = new Texture("720/map/abrahamIndicator.png");
+        Image center = new Image(centerTex);
+        center.setPosition(stage.getWidth() / 2 - centerTex.getWidth() / 2, stage.getHeight() / 2 - centerTex.getHeight() / 2);
+//        stage.addActor(center);
+
+        // for center
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setCursorCatched(true);
@@ -108,20 +127,6 @@ public class EgyptSouth extends GameState{
         });
 
 
-        actualGameButtons.getBtnMission().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-
-                missionQuest.quest();
-                maps.close();
-                insideGameMenu.close();
-                return false;
-            }
-
-        });
-
-
         actualGameButtons.getBtnTalk().addListener(new ClickListener(){
 
             @Override
@@ -137,62 +142,63 @@ public class EgyptSouth extends GameState{
 
         });
 
+
+// TODO Mission Buttons
+
+        actualGameButtons.getBtnMission().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
+                missionQuest.quest();
+                maps.close();
+                insideGameMenu.close();
+                missionQuest.quest();
+                return false;
+            }
+
+        });
+
         missionQuest.getCloseBtn().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
-                return false;
-            }
-
-        });
-
-
-
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
+                missionQuest.clickCount = 0;
 
                 return false;
             }
 
         });
 
-
-        missionQuest.getCancelMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
-
-        missionQuest.getFinishMission().addListener(new ClickListener(){
-
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
 
             @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                if(gameData.getString(current + " talkToAaronLev").equals("Done") &&
-                        gameData.getString(current + " findJarOfWater").equals("Done") &&
-                        gameData.getString(current + " findSash").equals("Done") &&
-                        gameData.getString(current + " findCoat").equals("Done")){
-
-                    missionQuest.closeMission();
-                    trivia.trivNumber = 2;
-                    trivia.openTriv();
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
                 }
-
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
                 return false;
             }
 
         });
 
+        // Mission Buttons End...
 
         insideGameMenu.getResume().addListener(new ClickListener(){
             @Override
@@ -297,28 +303,46 @@ public class EgyptSouth extends GameState{
     protected void handleInput() {
 
         if(egyptSouthWorld.goToNorth){
-            gameData.putInteger(current + " from", 6);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 5));
-            dispose();
+            warning.isNorthEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 6);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 5));
+                dispose();
+            }
         }
-        if(egyptSouthWorld.goToEast){
-            gameData.putInteger(current + " from", 6);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 4));
-            dispose();
+        else if(egyptSouthWorld.goToEast){
+            warning.isEastEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 6);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 4));
+                dispose();
+            }
         }
-        if(egyptSouthWorld.goToWest){
-            gameData.putInteger(current + " from", 6);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 7));
-            dispose();
+        else if(egyptSouthWorld.goToWest){
+            warning.isWestEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 6);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 7));
+                dispose();
+            }
         }
-        if(egyptSouthWorld.goInside){
-            gameData.putInteger(current + " from", 6);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 12));
-            dispose();
+        else if(egyptSouthWorld.goInside){
+            warning.isHouse = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 6);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 12));
+                dispose();
+            }
+        }
+        else {
+            warning.isHouse = false;
+            warning.isWestEgypt = false;
+            warning.isEastEgypt = false;
+            warning.isNorthEgypt = false;
         }
 
         if (gameData.getInteger(current + " convoId") > 5) {
@@ -349,6 +373,7 @@ public class EgyptSouth extends GameState{
         handleInput();
         missionContent.update();
         missionQuest.update();
+        warning.update();
     }
 
     @Override
@@ -371,6 +396,7 @@ public class EgyptSouth extends GameState{
         conversation.dispose();
         maps.dispose();
         stage.dispose();
+        warning.dispose();
     }
 
     @Override

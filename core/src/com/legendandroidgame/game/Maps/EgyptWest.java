@@ -2,20 +2,21 @@ package com.legendandroidgame.game.Maps;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
-import com.legendandroidgame.game.GameWorlds.EgyptEastWorld;
 import com.legendandroidgame.game.GameWorlds.EgyptWestWorld;
 import com.legendandroidgame.game.HUD.HUD;
 import com.legendandroidgame.game.LegendAndroidGame;
 import com.legendandroidgame.game.PopupBox.InsideGameMenu;
-import com.legendandroidgame.game.PopupBox.Inventory;
 import com.legendandroidgame.game.PopupBox.Maps;
 import com.legendandroidgame.game.PopupBox.MissionQuest;
+import com.legendandroidgame.game.PopupBox.Warning;
 import com.legendandroidgame.game.States.GameState;
 import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
@@ -38,7 +39,15 @@ public class EgyptWest extends GameState{
     private InsideGameMenu insideGameMenu;
     private Maps maps;
     private MissionQuest missionQuest;
+    private Warning warning;
     String current = gameData.getString("current");
+
+    // for center
+
+    Texture centerTex;
+
+    // for center
+
 
     public EgyptWest(GameStateManager gsm) {
         super(gsm);
@@ -55,12 +64,23 @@ public class EgyptWest extends GameState{
         insideGameMenu = new InsideGameMenu(stage);
         maps = new Maps(stage);
         missionQuest = new MissionQuest(stage);
+        warning = new Warning(stage);
+
+        // for center
+
+        centerTex = new Texture("720/map/abrahamIndicator.png");
+        Image center = new Image(centerTex);
+        center.setPosition(stage.getWidth() / 2 - centerTex.getWidth() / 2, stage.getHeight() / 2 - centerTex.getHeight() / 2);
+//        stage.addActor(center);
+
+        // for center
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setCursorCatched(true);
 
         stage.addActor(actualGameButtons.getBtnMenu());
         buttonControls();
+
     }
 
 
@@ -100,55 +120,63 @@ public class EgyptWest extends GameState{
 
         });
 
+
+// TODO Mission Buttons
+
         actualGameButtons.getBtnMission().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
+                missionQuest.closeMission();
                 missionQuest.quest();
                 maps.close();
                 insideGameMenu.close();
+                missionQuest.quest();
                 return false;
             }
 
         });
-
 
         missionQuest.getCloseBtn().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
+                missionQuest.clickCount = 0;
+
                 return false;
             }
 
         });
 
-
-
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
 
             @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                missionQuest.closeMission();
-
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
                 return false;
             }
 
         });
 
-
-        missionQuest.getCancelMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
-
+        // Mission Buttons End...
 
         insideGameMenu.getResume().addListener(new ClickListener(){
             @Override
@@ -220,23 +248,38 @@ public class EgyptWest extends GameState{
     @Override
     protected void handleInput() {
 
+
         if(egyptWestWorld.goToNorth){
-            gameData.putInteger(current + " from", 7);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 5));
-            dispose();
+            warning.isNorthEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 7);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 5));
+                dispose();
+            }
         }
-        if(egyptWestWorld.goToEast){
-            gameData.putInteger(current + " from", 7);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 4));
-            dispose();
+        else if(egyptWestWorld.goToEast){
+            warning.isEastEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 7);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 4));
+                dispose();
+            }
         }
-        if(egyptWestWorld.goToSouth){
-            gameData.putInteger(current + " from", 7);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 6));
-            dispose();
+        else if(egyptWestWorld.goToSouth){
+            warning.isSouthEgypt = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 7);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 6));
+                dispose();
+            }
+        }
+        else {
+            warning.isEastEgypt = false;
+            warning.isSouthEgypt = false;
+            warning.isNorthEgypt = false;
         }
 
         if(hud.health == 0){
@@ -254,6 +297,7 @@ public class EgyptWest extends GameState{
         hud.getMapName().setText("Western Egypt");
         hud.updated(dt);
         missionQuest.update();
+        warning.update();
     }
 
     @Override
@@ -275,6 +319,7 @@ public class EgyptWest extends GameState{
         insideGameMenu.dispose();
         maps.dispose();
         stage.dispose();
+        warning.dispose();
     }
 
     @Override

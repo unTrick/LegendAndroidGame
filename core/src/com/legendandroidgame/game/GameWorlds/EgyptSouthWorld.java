@@ -35,7 +35,7 @@ public class EgyptSouthWorld {
     private WorldCamera worldCam;
     private Engine engine;
     private BulletSystem bulletSystem;
-    private Entity character;
+    private Entity character, entityPortal1, entityPortal2, entityPortal3;
     private Entity map;
     private Entity aaron;
     private Entity  houseDoor;
@@ -58,27 +58,7 @@ public class EgyptSouthWorld {
     private float posX, posZ;
     public boolean goInside = false;
 
-
-    public class MyContactListener extends ContactListener {
-        @Override
-        public void onContactStarted(btCollisionObject colObj0, btCollisionObject colObj1){
-            if (colObj0.userData instanceof Entity && colObj1.userData instanceof Entity) {
-                Entity entity0 = (Entity) colObj0.userData;
-                Entity entity1 = (Entity) colObj1.userData;
-
-                if(entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(DoorComponent.class) != null){
-                    if(entity1.getComponent(DoorComponent.class) != null){
-                        goInside = true;
-                    }
-                    goInside = true;
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(DoorComponent.class) == null){
-                    goInside = false;
-                }
-
-            }
-        }
-    }
+    private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos;
 
     public EgyptSouthWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -92,39 +72,37 @@ public class EgyptSouthWorld {
         map = MapEntityFactory.loadEgyptSouth();
         modelComponent = map.getComponent(ModelComponent.class);
         if(gameData.getInteger(current + " from") == 4){
-            posX = 40;
-            posZ = 149;
+            posX = 14;
+            posZ = 140;
 //            (40.335564,4.156165,149.30467)
 //            this is z(-1650.1644,1500.0,-1439.8953)
         }
         if(gameData.getInteger(current + " from") == 5){
-            posX = 148;
-            posZ = 4;
+            posX = 138;
+            posZ = 25;
 //            this is z(-1541.6311,1500.0,-1589.2)
 //            (148.86893,4.115683,0.0)
         }
         if(gameData.getInteger(current + " from") == 7){
-            posX = 7;
-            posZ = -150;
+            posX = -103;
+            posZ = -134;
 //            (6.962594,4.1296353,-150.007)
 //            this is z(-1683.5374,1500.0,-1739.2069)
         }
         if(gameData.getInteger(current + " from") == 21){
-            posX = 21;
-            posZ = -81;
+            posX = 138;
+            posZ = 25;
         }
         if(gameData.getInteger(current + " from") == 22){
-            posX = 21;
-            posZ = -81;
+            posX = 138;
+            posZ = 25;
         }
 
         if(gameData.getInteger(current + " from") == 12){
-            posX = 21;
-            posZ = -81;
+            posX = 15;
+            posZ = -76;
         }
         addSystems(controller, actualGameButtons, modelComponent);
-        MyContactListener myContactListener = new MyContactListener();
-        myContactListener.enable();
         addEntities();
     }
 
@@ -138,35 +116,35 @@ public class EgyptSouthWorld {
         worldCam = new WorldCamera();
 
         if(gameData.getInteger(current + " from") == 4){
-            worldCam.worldCam.position.x = -1650f;
-            worldCam.worldCam.position.z = -1439f;
+            worldCam.worldCam.position.x = -1682f;
+            worldCam.worldCam.position.z = -1454f;
 //            (40.335564,4.156165,149.30467)
 //            this is z(-1650.1644,1500.0,-1439.8953)
         }
         if(gameData.getInteger(current + " from") == 5){
-            worldCam.worldCam.position.x = -1541f;
-            worldCam.worldCam.position.z = -1589f;
+            worldCam.worldCam.position.x = -1558f;
+            worldCam.worldCam.position.z = -1569f;
 //            this is z(-1541.6311,1500.0,-1589.2)
 //            (148.86893,4.115683,0.0)
         }
         if(gameData.getInteger(current + " from") == 7){
-            worldCam.worldCam.position.x = -1683f;
-            worldCam.worldCam.position.z = -1739f;
+            worldCam.worldCam.position.x = -1799f;
+            worldCam.worldCam.position.z = -1728f;
 //            (6.962594,4.1296353,-150.007)
 //            this is z(-1683.5374,1500.0,-1739.2069)
         }
         if(gameData.getInteger(current + " from") == 21){
-            worldCam.worldCam.position.x = -1668f;
-            worldCam.worldCam.position.z = -1674f;
+            worldCam.worldCam.position.x = -1558f;
+            worldCam.worldCam.position.z = -1569f;
         }
         if(gameData.getInteger(current + " from") == 22){
-            worldCam.worldCam.position.x = -1668f;
-            worldCam.worldCam.position.z = -1674f;
+            worldCam.worldCam.position.x = -1558f;
+            worldCam.worldCam.position.z = -1569f;
         }
 
         if(gameData.getInteger(current + " from") == 12){
-            worldCam.worldCam.position.x = -1668f;
-            worldCam.worldCam.position.z = -1674f;
+            worldCam.worldCam.position.x = -1681f;
+            worldCam.worldCam.position.z = -1670f;
         }
 
     }
@@ -187,6 +165,9 @@ public class EgyptSouthWorld {
 //        loadCap();
 //        loadCoat();
 //        loadSash();
+        loadPortal1();
+        loadPortal2();
+        loadPortal3();
     }
 
     private void setDebug(){
@@ -216,6 +197,19 @@ public class EgyptSouthWorld {
 
         houseDoor = ObjectEntityFactory.loadHouseDoor(bulletSystem, x, y, z);
         engine.addEntity(houseDoor);
+    }
+
+    private void loadPortal1(){
+        entityPortal1 = ObjectEntityFactory.loadPortalTop(150,4.0549912f,26);
+        engine.addEntity(entityPortal1);
+    }
+    private void loadPortal2(){
+        entityPortal2 = ObjectEntityFactory.loadPortalRight(-101,4.272112f,-151);
+        engine.addEntity(entityPortal2);
+    }
+    private void loadPortal3(){
+        entityPortal3 = ObjectEntityFactory.loadPortalLeft(15,4.4908504f,150);
+        engine.addEntity(entityPortal3);
     }
 
 
@@ -260,14 +254,30 @@ public class EgyptSouthWorld {
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z < -156) {
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+        portal1Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
+        portal2Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
+        portal3Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
+
+        if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
+                && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
+//            System.out.println("do you wat to go inside?");
+            goToNorth = true;
+        }
+        else if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
+                && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10){
+//            System.out.println("do you wat to go inside?");
             goToWest = true;
         }
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z > 153) {
+        else if((playerPos.x - portal3Pos.x) <= 10 && (playerPos.x - portal3Pos.x) >= -10
+                && (playerPos.z - portal3Pos.z) <= 10 && (playerPos.z - portal3Pos.z) >= -10){
+//            System.out.println("do you wat to go inside?");
             goToEast = true;
         }
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x > 154) {
-            goToNorth = true;
+        else {
+            goToNorth = false;
+            goToWest = false;
+            goToEast = false;
         }
 
         if(gameData.getInteger(current + " missionId") == 3){

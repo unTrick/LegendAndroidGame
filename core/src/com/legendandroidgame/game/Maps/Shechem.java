@@ -103,20 +103,6 @@ public class Shechem extends GameState{
 
         });
 
-
-        actualGameButtons.getBtnMission().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-
-                missionQuest.quest();
-                maps.close();
-                insideGameMenu.close();
-                return false;
-            }
-
-        });
-
         actualGameButtons.getBtnTalk().addListener(new ClickListener(){
 
             @Override
@@ -129,52 +115,63 @@ public class Shechem extends GameState{
 
         });
 
+
+// TODO Mission Buttons
+
+        actualGameButtons.getBtnMission().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
+                missionQuest.quest();
+                maps.close();
+                insideGameMenu.close();
+                missionQuest.quest();
+                return false;
+            }
+
+        });
+
         missionQuest.getCloseBtn().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
-                return false;
-            }
-
-        });
-
-
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
+                missionQuest.clickCount = 0;
 
                 return false;
             }
 
         });
 
-        missionQuest.getCancelMission().addListener(new ClickListener(){
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
+
             @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
-
-        missionQuest.getFinishMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                if(shechemWorld.nearTree){
-                    missionQuest.closeMission();
-                    conversation.joshuaLastMsg1 = true;
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
                 }
-                System.out.println(conversation.joshuaLastMsg1);
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
                 return false;
             }
+
         });
 
+        // Mission Buttons End...
 
         insideGameMenu.getResume().addListener(new ClickListener(){
             @Override

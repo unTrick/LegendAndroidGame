@@ -32,7 +32,7 @@ public class HouseOfAbraham extends GameState {
     private ActualGameButtons actualGameButtons;
     private Controller controller;
     private InsideGameMenu insideGameMenu;
-    private Inventory inventory;
+//    private Inventory inventory;
     private MissionQuest missionQuest;
     public String current = gameData.getString("current");
 
@@ -47,7 +47,7 @@ public class HouseOfAbraham extends GameState {
         actualGameButtons = new ActualGameButtons(stage);
         controller = new Controller(stage);
         insideGameMenu = new InsideGameMenu(stage);
-        inventory = new Inventory(stage);
+//        inventory = new Inventory(stage);
         missionQuest = new MissionQuest(stage);
         abrahamHouseWorld = new AbrahamHouseWorld(controller, actualGameButtons);
 
@@ -65,7 +65,7 @@ public class HouseOfAbraham extends GameState {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 insideGameMenu.open();
-                inventory.close();
+//                inventory.close();
                 missionQuest.close();
                 return false;
             }
@@ -75,32 +75,35 @@ public class HouseOfAbraham extends GameState {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                inventory.inventory();
+//                inventory.inventory();
                 missionQuest.close();
                 insideGameMenu.close();
                 return false;
             }
         });
+//
+//        inventory.getBtnclose().addListener(new ClickListener(){
+//
+//            @Override
+//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+//                inventory.close();
+//                return false;
+//            }
+//        });
 
-        inventory.getBtnclose().addListener(new ClickListener(){
 
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-                inventory.close();
-                return false;
-            }
-        });
 
+        // TODO Mission Buttons
 
         actualGameButtons.getBtnMission().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                missionQuest.closeMission(); // addition TODO
+                missionQuest.closeMission();
                 missionQuest.quest();
-                inventory.close();
                 insideGameMenu.close();
+                missionQuest.quest();
                 return false;
             }
 
@@ -110,44 +113,41 @@ public class HouseOfAbraham extends GameState {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
+                missionQuest.clickCount = 0;
+
                 return false;
             }
 
         });
 
-
-
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
 
             @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                missionQuest.closeMission();
-
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
                 return false;
             }
 
         });
 
-
-        missionQuest.getCancelMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
-
-        missionQuest.getFinishMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                return false;
-            }
-        });
+        // Mission Buttons End...
 
         // addition TODO
 
@@ -240,7 +240,7 @@ public class HouseOfAbraham extends GameState {
         stage.act(dt);
         hud.getMapName().setText("Abraham's House");
         hud.updated(dt);
-        inventory.update();
+//        inventory.update();
         missionQuest.update();
 
 //        System.out.println(Gdx.graphics.getFramesPerSecond());

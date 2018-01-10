@@ -100,6 +100,9 @@ public class Jordan extends GameState {
         });
 
 
+
+// TODO Mission Buttons
+
         actualGameButtons.getBtnMission().addListener(new ClickListener(){
 
             @Override
@@ -109,6 +112,7 @@ public class Jordan extends GameState {
                 missionQuest.quest();
                 maps.close();
                 insideGameMenu.close();
+                missionQuest.quest();
                 return false;
             }
 
@@ -118,53 +122,42 @@ public class Jordan extends GameState {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
-                return false;
-            }
-
-        });
-
-
-
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
+                missionQuest.clickCount = 0;
 
                 return false;
             }
 
         });
 
-
-        missionQuest.getCancelMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
-
-
-        missionQuest.getFinishMission().addListener(new ClickListener(){
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                if(gameData.getInteger(current + " missionCount") == 2 &&
-                        gameData.getString(current + " findPlaster").equals("Done")){
-                    gsm.set(new LoadScreen(gsm, 25));
-                    dispose();
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
                 }
-
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
+                }
                 return false;
             }
 
         });
+
+        // Mission Buttons End...
+
 
         insideGameMenu.getResume().addListener(new ClickListener(){
             @Override

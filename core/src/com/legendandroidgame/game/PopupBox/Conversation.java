@@ -73,7 +73,6 @@ public class Conversation {
             numbersOneTex = new Texture("720/convo/GodNumbers.png");
             joshuaLast1 = new Texture("720/convo/JoshuaLast1.png");
             joshuaLast2 = new Texture("720/convo/JoshuaLast2.png");
-
             wellIns1Tex = new Texture("720/convo/Man_Convo1.png");
             wellIns2Tex = new Texture("720/convo/Man_Convo2.png");
             wellAbraham1Tex = new Texture("720/convo/Abraham_Convo1.png");
@@ -162,6 +161,7 @@ public class Conversation {
 
     public void update(){
 
+        /*
         if(haranInsConvo1){
             if (gameData.getInteger(current + " convoId") == 1){
                 stage.addActor(wellIns1Img);
@@ -337,6 +337,7 @@ public class Conversation {
             }
         }
 
+*/
 
     }
 

@@ -31,5 +31,6 @@ public class WorldCamera {
     }
 
     public void update(){
+//        worldCam.update();
     }
 }

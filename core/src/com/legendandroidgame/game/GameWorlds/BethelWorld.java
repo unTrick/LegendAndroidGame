@@ -281,32 +281,28 @@ public class BethelWorld {
 
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
-//            System.out.println("do you wat to go inside?");
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
                 gotoHaran = true;
-            }
         }
 
-        if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
+        else if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
                 && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10){
-//            System.out.println("do you wat to go inside?");
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
                 gotoEgypt = true;
-            }
         }
 
-        if((playerPos.x - portal3Pos.x) <= 10 && (playerPos.x - portal3Pos.x) >= -10
+        else if((playerPos.x - portal3Pos.x) <= 10 && (playerPos.x - portal3Pos.x) >= -10
                 && (playerPos.z - portal3Pos.z) <= 10 && (playerPos.z - portal3Pos.z) >= -10){
-//            System.out.println("do you wat to go inside?");
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
                 goToJordan = true;
-            }
+        }
+
+        else {
+            gotoEgypt = false;
+            gotoHaran = false;
+            goToJordan = false;
         }
 
         if((playerPos.x - arrowPos.x) <= 10 && (playerPos.x - arrowPos.x) >= -10
                 && (playerPos.z - arrowPos.z) <= 10 && (playerPos.z - arrowPos.z) >= -10){
-//            System.out.println("do you wat to go inside?");
-                isMissionFinish = true;
+//                isMissionFinish = true;
         }
 
         if((playerPos.x - stone1Pos.x) <= 5 && (playerPos.x - stone1Pos.x) >= -5
@@ -420,9 +416,9 @@ public class BethelWorld {
 
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.G)){
-            goLight = true;
-        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.G)){
+//            goLight = true;
+//        }
 
 
         if(!goLight){

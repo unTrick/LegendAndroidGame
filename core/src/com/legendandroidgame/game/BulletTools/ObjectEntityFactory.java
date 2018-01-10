@@ -633,7 +633,7 @@ public class ObjectEntityFactory {
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
         ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/cave_entrance.g3dj"));
         Model model = new Model(modelData, new TextureProvider.FileTextureProvider());
-        for (Node node : model.nodes) node.rotation.set(new Vector3(0,180,0), 90);
+        for (Node node : model.nodes) node.rotation.set(new Vector3(0,90,0), -90);
 
         model.calculateTransforms();
 
@@ -659,7 +659,7 @@ public class ObjectEntityFactory {
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
         ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/cave_entrance.g3dj"));
         Model model = new Model(modelData, new TextureProvider.FileTextureProvider());
-        for (Node node : model.nodes) node.rotation.set(new Vector3(0,45,0), 90);
+        for (Node node : model.nodes) node.rotation.set(new Vector3(0,90,0), -90);
 
         model.calculateTransforms();
 

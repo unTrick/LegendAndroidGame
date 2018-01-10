@@ -2,21 +2,16 @@ package com.legendandroidgame.game.PopupBox;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.legendandroidgame.game.Mission.MissionContent;
+
+import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
 /**
  * Created by Patrick on 5/2/2017.
@@ -24,110 +19,157 @@ import com.legendandroidgame.game.Mission.MissionContent;
 public class MissionQuest {
 
     private Stage stage;
-    private Texture missionFin, missionStart, closeTex, cancelTex, finishTex, okayTxt;
-    private Texture missionOverViewTxt1, missionPanelTxt1, missionPrevTxt1  , missionFailedTxt;
-    private Image  missionState ;
-    private ImageButton closeBtn, closeMisson, finishMission, cancelMission, okayBtn;
-    private BitmapFont font;
-    private Boolean close;
-    public Image missionOverViewImg, missionPanelImg, missionPrevImg, missionFailedImg;
+    private Texture closeTex, okayTxt;
+    private Texture missionFailedTxt;
+    private ImageButton closeBtn, okayBtn;
     private TextureAtlas missionAtlas;
-    private TextureRegion missionRegion;
-    private Image missionImage;
+    private TextureRegion panelRegion, overviewRegion, previewRegion;
+    private Image missionPanelImg, missionOverviewImg, missionPreviewImg, missionFailedImg;
+    String current = gameData.getString("current");
+    public int clickCount = 0;
 
     public MissionQuest(Stage stage) {
 
         this.stage = stage;
 
-        close = true;
-
-
-        FileHandle fontFile = Gdx.files.internal("font/Candarab.ttf");
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 20;
-        font = generator.generateFont(parameter);
-
         if(Gdx.graphics.getWidth() > 1800){
-            missionFin = new Texture("1080/popup/missionCheck.png");
-            missionStart = new Texture("1080/popup/missionWarning.png");
             closeTex = new Texture("1080/button/closeBtn.png");
-            cancelTex = new Texture("1080/button/cancelMission.png");
-            finishTex = new Texture("1080/button/FinishMission.png");
         }
         else {
-            missionFin = new Texture("720/popup/missionCheck.png");
-            missionStart = new Texture("720/popup/missionWarning.png");
             closeTex = new Texture("720/button/closeBtn.png");
-            cancelTex = new Texture("720/button/cancelMission.png");
-            finishTex = new Texture("720/button/FinishMission.png");
-
             okayTxt = new Texture("720/button/Ok Button.png");
-
             missionAtlas = new TextureAtlas("720/Texturepack/Mission_tools.pack");
-
         }
 
-        missionRegion = missionAtlas.findRegion("Mission Panel 1");
-        missionImage = new Image(missionRegion);
-        missionImage.setPosition(Gdx.graphics.getWidth() / 2 - missionRegion.getRegionWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - missionRegion.getRegionHeight() / 2);
+
+        // Mission Panel
+        panelRegion = missionAtlas.findRegion("Mission Panel 1");
+        missionPanelImg = new Image(panelRegion);
+        missionPanelImg.setPosition(Gdx.graphics.getWidth() / 2 - panelRegion.getRegionWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - panelRegion.getRegionHeight() / 2);
+        // Mission Preview
+        previewRegion = missionAtlas.findRegion("Mission1 Preview");
+        missionPreviewImg = new Image(previewRegion);
+        missionPreviewImg.setPosition(Gdx.graphics.getWidth() / 2 - previewRegion.getRegionWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - previewRegion.getRegionHeight() / 2);
 
 
 
-        cancelMission = new ImageButton(new TextureRegionDrawable(new TextureRegion(cancelTex)));
-        finishMission = new ImageButton(new TextureRegionDrawable(new TextureRegion(finishTex)));
-        closeMisson = new ImageButton(new TextureRegionDrawable(new TextureRegion(closeTex)));
-        missionState = new Image(missionStart);
+        // Mission Overview
+        overviewRegion = missionAtlas.findRegion("Mission Overview 1");
+        missionOverviewImg = new Image(overviewRegion);
+        missionOverviewImg.setPosition(Gdx.graphics.getWidth() / 2 - overviewRegion.getRegionWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - overviewRegion.getRegionHeight() / 2);
 
 
-
-
-
+        // Buttons
         Drawable closeDraw = new TextureRegionDrawable(new TextureRegion(closeTex));
-        closeBtn = new ImageButton(closeDraw);
-
         Drawable okayDraw = new TextureRegionDrawable(new TextureRegion(okayTxt));
+
+        closeBtn = new ImageButton(closeDraw);
         okayBtn = new ImageButton(okayDraw);
 
-    }
+        closeBtn.setPosition(Gdx.graphics.getWidth() / 2 + panelRegion.getRegionWidth() / 2,
+                Gdx.graphics.getHeight() / 2 + panelRegion.getRegionHeight() / 2);
+        okayBtn.setPosition(Gdx.graphics.getWidth() / 2 - okayTxt.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 -( panelRegion.getRegionHeight() / 2 + okayTxt.getHeight()));
 
-    public void mission(){
-
-        stage.addActor(cancelMission);
-        stage.addActor(finishMission);
-        stage.addActor(closeMisson);
-
-        stage.addActor(closeBtn);
-
-        closeBtn.remove();
-        close = false;
-    }
-
-    public void closeMission(){
-        okayBtn.remove();
-        close = true;
     }
 
     public void quest(){
-        stage.addActor(okayBtn);
+        stage.addActor(missionPanelImg);
         stage.addActor(closeBtn);
-        stage.addActor(missionImage);
-        close = false;
+        stage.addActor(okayBtn);
+    }
+
+    public void closeMission(){
+        missionPreviewImg.remove();
+        missionOverviewImg.remove();
+        okayBtn.remove();
+        closeBtn.remove();
     }
 
     public void close(){
-        closeBtn.remove();
+        missionPanelImg.remove();
+        missionPreviewImg.remove();
+        missionOverviewImg.remove();
         okayBtn.remove();
-        close = true;
+        closeBtn.remove();
     }
+
+    public void missionPreview(){
+        okayBtn.remove();
+        closeBtn.remove();
+        missionPanelImg.remove();
+        stage.addActor(missionPreviewImg);
+        stage.addActor(closeBtn);
+        stage.addActor(okayBtn);
+    }
+
+    public void missionOverview(){
+        missionPanelImg.remove();
+        missionPreviewImg.remove();
+        okayBtn.remove();
+        closeBtn.remove();
+        stage.addActor(missionOverviewImg);
+        stage.addActor(closeBtn);
+    }
+
     public void update(){
 
-//        if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
-//            missionRegion.setRegion(missionAtlas.findRegion("Mission Panel 2"));
-//        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            close();
+            clickCount = 0;
+        }
 
 
+        if(gameData.getInteger(current + " missionId") == 1){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 1"));
+            previewRegion.setRegion(missionAtlas.findRegion("Mission1 Preview"));
+            overviewRegion.setRegion(missionAtlas.findRegion("Mission Overview 1"));
+        }
+        else if(gameData.getInteger(current + " missionId") == 2){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 2"));
+            previewRegion.setRegion(missionAtlas.findRegion("Mission2 Preview"));
+            overviewRegion.setRegion(missionAtlas.findRegion("Mission Overview 2"));
+        }
+        else if(gameData.getInteger(current + " missionId") == 3){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 3"));
+            previewRegion.setRegion(missionAtlas.findRegion("Mission3 Preview"));
+            overviewRegion.setRegion(missionAtlas.findRegion("Mission Overview 3"));
+        }
+        else if(gameData.getInteger(current + " missionId") == 4){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 4"));
+            previewRegion.setRegion(missionAtlas.findRegion("Mission4 Preview"));
+            overviewRegion.setRegion(missionAtlas.findRegion("Mission Overview 4"));
+        }
+        else if(gameData.getInteger(current + " missionId") == 5){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 5"));
+            previewRegion.setRegion(missionAtlas.findRegion("Mission5 Preview"));
+            overviewRegion.setRegion(missionAtlas.findRegion("Mission Overview 5"));
+        }
+        else if(gameData.getInteger(current + " missionId") == 6){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 6"));
+            if(clickCount == 1){
+                previewRegion.setRegion(missionAtlas.findRegion("Mission6_Part1 Preview"));
+            }
+            else if (clickCount == 2){
+                previewRegion.setRegion(missionAtlas.findRegion("Mission6_Part2 Preview"));
+            }
+            else if (clickCount == 3){
+                previewRegion.setRegion(missionAtlas.findRegion("Mission6_Part3 Preview"));
+            }
+            overviewRegion.setRegion(missionAtlas.findRegion("Mission Overview 6"));
+        }
+        else if(gameData.getInteger(current + " missionId") == 7){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 7"));
+            previewRegion.setRegion(missionAtlas.findRegion("Mission7 Preview"));
+            overviewRegion.setRegion(missionAtlas.findRegion("Mission Overview 7"));
+        }
+        else if(gameData.getInteger(current + " missionId") == 8){
+            panelRegion.setRegion(missionAtlas.findRegion("Mission Panel 8"));
+            previewRegion.setRegion(missionAtlas.findRegion("Mission8 Preview"));
+        }
 
     }
 
@@ -137,18 +179,6 @@ public class MissionQuest {
 
     public ImageButton getCloseBtn() {
         return closeBtn;
-    }
-
-    public ImageButton getCloseMisson() {
-        return closeMisson;
-    }
-
-    public ImageButton getFinishMission() {
-        return finishMission;
-    }
-
-    public ImageButton getCancelMission() {
-        return cancelMission;
     }
 
 

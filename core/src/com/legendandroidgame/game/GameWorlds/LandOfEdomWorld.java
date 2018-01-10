@@ -220,15 +220,15 @@ public class LandOfEdomWorld {
         }
 
         if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z < -201){
-            goToEast = true;
+//            goToEast = true;
         }
 
         if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z > 200){
-            goToJordan = true;
+//            goToJordan = true;
         }
 
         if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x > 213){
-            goToCave = true;
+//            goToCave = true;
         }
 
         if(numbersGuySystem.canTalk){

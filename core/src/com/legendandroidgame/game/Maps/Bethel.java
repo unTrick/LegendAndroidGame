@@ -39,6 +39,7 @@ public class Bethel extends GameState {
     private Maps maps;
     private MissionQuest missionQuest;
     private Trivia trivia;
+    private Warning warning;
     String current = gameData.getString("current");
 
     public Boolean startTrivia = false;
@@ -60,6 +61,7 @@ public class Bethel extends GameState {
         maps = new Maps(stage);
         missionQuest = new MissionQuest(stage);
         trivia = new Trivia(stage);
+        warning = new Warning(stage);
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setInputProcessor(new InputMultiplexer(stage, bethelWorld.cameraInputController));
@@ -107,6 +109,9 @@ public class Bethel extends GameState {
         });
 
 
+
+// TODO Mission Buttons
+
         actualGameButtons.getBtnMission().addListener(new ClickListener(){
 
             @Override
@@ -116,6 +121,7 @@ public class Bethel extends GameState {
                 missionQuest.quest();
                 maps.close();
                 insideGameMenu.close();
+                missionQuest.quest();
                 return false;
             }
 
@@ -125,54 +131,41 @@ public class Bethel extends GameState {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+
+                missionQuest.closeMission();
                 missionQuest.close();
-                return false;
-            }
-
-        });
-
-
-        missionQuest.getCloseMisson().addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                missionQuest.closeMission();
+                missionQuest.clickCount = 0;
 
                 return false;
             }
 
         });
 
-        missionQuest.getCancelMission().addListener(new ClickListener(){
+        missionQuest.getOkayBtn().addListener( new ClickListener(){
+
             @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-                missionQuest.closeMission();
-
-                return false;
-            }
-        });
-
-        missionQuest.getFinishMission().addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                if(gameData.getInteger(current + " missionCount") == 4){
-                    missionQuest.closeMission();
-                    bethelWorld.goLight = true;
-                    trivia.trivNumber = 1;
-                    trivia.openTriv();
+                missionQuest.missionPreview();
+                missionQuest.clickCount += 1;
+                if(gameData.getInteger(current + " missionId") == 6){
+                    if(missionQuest.clickCount > 3){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
                 }
-                else {
-                    System.out.println("not finish");
+                else{
+                    if(missionQuest.clickCount > 1){
+                        missionQuest.close();
+                        missionQuest.clickCount = 0;
+                    }
                 }
-
                 return false;
             }
+
         });
 
-
+        // Mission Buttons End...
 
 
         insideGameMenu.getResume().addListener(new ClickListener(){
@@ -256,33 +249,57 @@ public class Bethel extends GameState {
     @Override
     protected void handleInput() {
         if(bethelWorld.gotoEgypt){
-            if(gameData.getInteger(current + " missionId") == 7 ||
-                    gameData.getInteger(current + "missionId") == 0){
-                gameData.putInteger(current + " from", 3);
-                gameData.flush();
-                gsm.set(new LoadScreen(gsm, 11));
-                dispose();
+            if (gameData.getInteger(current + " missionId") == 7 ||
+                    gameData.getInteger(current + " missionId") == 0){
+                warning.isShechem = true;
             }
             else {
-                gameData.putInteger(current + " from", 3);
-                gameData.flush();
-                gsm.set(new LoadScreen(gsm, 5));
-                dispose();
+                warning.isNorthEgypt = true;
+            }
+            if(warning.yesBtn.isPressed()) {
+                // goto Shechem if on Last Mission
+                if (gameData.getInteger(current + " missionId") == 7 ||
+                        gameData.getInteger(current + " missionId") == 0) {
+                    gameData.putInteger(current + " from", 3);
+                    gameData.flush();
+                    gsm.set(new LoadScreen(gsm, 11));
+                    dispose();
+                }
+
+                // goto North Egypt if not
+                else {
+                    gameData.putInteger(current + " from", 3);
+                    gameData.flush();
+                    gsm.set(new LoadScreen(gsm, 5));
+                    dispose();
+                }
             }
 
         }
-        if(bethelWorld.gotoHaran){
-            gameData.putInteger(current + " from", 3);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 2));
-            dispose();
+        else if(bethelWorld.gotoHaran){
+            warning.isHaran = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 3);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 2));
+                dispose();
+            }
         }
 
-        if(bethelWorld.goToJordan){
-            gameData.putInteger(current + " from", 3);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 9));
-            dispose();
+        else if(bethelWorld.goToJordan){
+            warning.isJordan = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 3);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 9));
+                dispose();
+            }
+        }
+        else {
+            warning.isNorthEgypt = false;
+            warning.isShechem = false;
+            warning.isHaran = false;
+            warning.isJordan = false;
         }
 
 //
@@ -323,6 +340,7 @@ public class Bethel extends GameState {
         actualGameButtons.update();
         missionQuest.update();
         maps.update();
+        warning.update();
 //        System.out.println(Gdx.graphics.getFramesPerSecond());
 //        System.out.println(Gdx);
     }

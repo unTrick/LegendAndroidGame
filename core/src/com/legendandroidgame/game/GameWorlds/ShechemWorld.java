@@ -229,15 +229,15 @@ public class ShechemWorld {
         }
 
         if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x > 260){
-            goToHaran = true;
+//            goToHaran = true;
         }
 
         if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x < -270){
-            goToBethel = true;
+//            goToBethel = true;
         }
 
         if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z > 265){
-            goJordan = true;
+//            goJordan = true;
         }
 
         if(stoneCollide){
