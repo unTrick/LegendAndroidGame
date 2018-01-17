@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -15,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
 import com.legendandroidgame.game.Mission.MissionContent;
 
+
+import java.util.Arrays;
 
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
@@ -30,7 +35,6 @@ public class HUD {
 
     private String colon = " : ";
 
-    private Texture green, orange, red, questTimer;
     public Integer health, questTime ; // 0 = dead, 100 = full
     public float currentQuestTime;
     private float bar = 3 / 2, timeLimitBar = 3 / 2;
@@ -43,12 +47,14 @@ public class HUD {
     private Label lblCurTime;
     private Label questOnScreenReq, questOnScreenName;
     private Label mapName;
-    private Image greenBarImg, orangeBarImg, redBarImg, questTimerImg;
+    private Image healthBarImg, questTimerImg;
     private BitmapFont font, missionFont, missionAccomplishedFont;
     private FileHandle fontFile;
     private MissionContent missionContent;
     private Label missionAccomplished;
     private Table table;
+    private TextureAtlas colorBars;
+    private TextureRegion healthBar, timeBar;
 
     String current = gameData.getString("current");
     private boolean timerIsOn = false;
@@ -58,7 +64,10 @@ public class HUD {
 
 
 //    fps
-//    private Label fps;
+    private Label fps;
+    Integer FPS = Gdx.graphics.getFramesPerSecond();
+    Integer MIN = Gdx.graphics.getFramesPerSecond();
+    Integer MAX = Gdx.graphics.getFramesPerSecond();
 //    fps
 
 
@@ -67,10 +76,19 @@ public class HUD {
 
         this.stage = stage;
 
-        red = new Texture("1080/skin/red.png");
-        orange = new Texture("1080/skin/orange.png");
-        green =  new Texture("1080/skin/green.png");
-        questTimer = new Texture("1080/skin/orange.png");
+        colorBars = new TextureAtlas("720/Texturepack/ColorBar.pack");
+        health = gameData.getInteger(current + " health");
+        if(health > 560){
+            healthBar = colorBars.findRegion("green");
+        }
+        else if(health > 300){
+            healthBar = colorBars.findRegion("orange");
+        }
+        else {
+            healthBar = colorBars.findRegion("red");
+        }
+        timeBar = colorBars.findRegion("blue");
+
 
         missionContent = new MissionContent();
 
@@ -79,7 +97,6 @@ public class HUD {
         questTime = gameData.getInteger(current + " questTime");
         currentQuestTime = gameData.getInteger(current + " currentQuestTime");
         timeCountMinute = 0;
-        health = gameData.getInteger(current + " health");
         missionAquired = "Item Acquired";
 
         fontFile = Gdx.files.internal("font/Candarab.ttf");
@@ -110,14 +127,10 @@ public class HUD {
 //        }
 
 
-        greenBarImg = new Image(green);
-        greenBarImg.setScale(0.5f, bar / 2);
-        orangeBarImg = new Image(orange);
-        orangeBarImg.setScale(0.5f, bar / 2);
-        redBarImg = new Image(red);
-        redBarImg.setScale(0.5f, bar / 2);
+        healthBarImg = new Image(healthBar);
+        healthBarImg.setScale(0.5f, bar / 2);
 
-        questTimerImg = new Image(questTimer);
+        questTimerImg = new Image(timeBar);
         questTimerImg.setScale(0.5f, timeLimitBar / 2);
 
         lblTimer = new Label("TIME", new Label.LabelStyle(font, Color.WHITE ));
@@ -128,8 +141,9 @@ public class HUD {
 
 
 //        fps
-//        fps = new Label("" + Gdx.graphics.getFramesPerSecond(), new Label.LabelStyle(font, Color.WHITE));
-//        fps.setPosition(0, Gdx.graphics.getHeight() / 2);
+        fps = new Label("FPS: " + FPS + "\n" + "MIN FPS: " + MIN + "\n" + "MAX FPS: " + MAX
+                , new Label.LabelStyle(font, Color.WHITE));
+        fps.setPosition(0, Gdx.graphics.getHeight() / 2);
 //        fps
 
 //        lblName.setFontScale(2);
@@ -142,17 +156,7 @@ public class HUD {
         table.add(mapLocate).expandX().padTop(10).padLeft(-200);
         table.add(lblTimer).expandX().padTop(10).width(150);
         table.row();
-        if(health > 560){
-            table.add(greenBarImg).expandX().pad(-30, -80, 0, 0);
-        }
-        else if(health > 300){
-            table.add(orangeBarImg).expandX().pad(-30, -80, 0, 0);
-
-        }
-        else {
-            table.add(redBarImg).expandX().pad(-30, -80, 0, 0);
-
-        }
+        table.add(healthBarImg).expandX().pad(-30, -80, 0, 0);
         table.add(mapName).expandX().padTop(10).padLeft(-200);
         table.add(lblCurTime).expandX().padTop(10).width(150);
         table.row();
@@ -173,7 +177,7 @@ public class HUD {
         questTable.row();
         questTable.add(questOnScreenReq).left();
 
-        missionAccomplished = new Label(missionAquired, new Label.LabelStyle(missionAccomplishedFont, Color.GREEN));
+        missionAccomplished = new Label(missionAquired, new Label.LabelStyle(missionAccomplishedFont, Color.RED));
         missionAccomplished.setPosition(Gdx.graphics.getWidth() / 2 - missionAccomplished.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - missionAccomplished.getHeight() / 2);
 
@@ -184,7 +188,7 @@ public class HUD {
         missionAccomplished.setVisible(false);
 
         // fps
-//        stage.addActor(fps);
+        stage.addActor(fps);
         // fps
 
     }
@@ -226,16 +230,39 @@ public class HUD {
 
         }
 
+        if(health > 560){
+            healthBar.setRegion(colorBars.findRegion("green"));
+        }
+        else if(health > 300){
+            healthBar.setRegion(colorBars.findRegion("orange"));
+        }
+        else {
+            healthBar.setRegion(colorBars.findRegion("red"));
+        }
+
         lblCurTime.setText(String.format("%02d", hourTimer) + colon + String.format("%02d", minuteTimer));
         questOnScreenName.setText(missionContent.missionName);
         questOnScreenReq.setText(missionContent.missionRequirements);
-        greenBarImg.setScale(health / 1920f, bar / 2);
-        orangeBarImg.setScale(health / 1920f, bar / 2);
-        redBarImg.setScale(health / 1920f, bar / 2);
+        healthBarImg.setScale(health / 1920f, bar / 2);
         questTimerImg.setScale(questTime / currentQuestTime, timeLimitBar / 2);
 
         //fps
-//        fps.setText("" + Gdx.graphics.getFramesPerSecond());
+
+        FPS = Gdx.graphics.getFramesPerSecond();
+//        int minFPS[];
+//        minFPS = new int[100];
+//
+//        for (int x = 0; x < minFPS.length; x++){
+//            int miniFPS[] = FPS[x];
+//            if(miniFPS[x] < miniFPS[x]){
+//                MIN = miniFPS[x];
+//            }
+//            if(miniFPS[x] > miniFPS[x]){
+//                MAX = miniFPS[x];
+//            }
+//        }
+
+        fps.setText("FPS: " + FPS + "\n" + "MIN FPS: " + MIN + "\n" + "MAX FPS: " + MAX);
         //fps
 
         //
@@ -274,14 +301,13 @@ public class HUD {
 
         // fps
 //        System.out.println(Gdx.graphics.getFramesPerSecond());
+//        System.out.println(fpsLogger);
         // fps
 
     }
 
     public void dispose(){
-        green.dispose();
-        red.dispose();
-        orange.dispose();
+        colorBars.dispose();
         lblCurTime.remove();
         lblTimer.remove();
         mapLocate.remove();

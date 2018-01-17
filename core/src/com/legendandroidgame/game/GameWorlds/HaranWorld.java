@@ -247,15 +247,8 @@ public class HaranWorld {
             worldCamera.worldCam.position.z -= 1;
 //            System.out.println("this is z" +  worldCamera.worldCam.position.z);
         }
-        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
-        wellInstructorPos = CharacterEntityFactory.instructorComponent.instance.transform.getTranslation(new Vector3());
-        portal1Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
-        portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
-        houseDoorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
-        wellPos = well.getComponent(WellComponent.class).wellObject.getWorldTransform().getTranslation(new Vector3());
 
-
-//        System.out.println(Gdx.graphics.getFramesPerSecond());
+        //        System.out.println(Gdx.graphics.getFramesPerSecond());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.N)){
             System.out.println("\n");
@@ -275,6 +268,15 @@ public class HaranWorld {
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
+
+
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+        wellInstructorPos = CharacterEntityFactory.instructorComponent.instance.transform.getTranslation(new Vector3());
+        portal1Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
+        portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
+        houseDoorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
+        wellPos = well.getComponent(WellComponent.class).wellObject.getWorldTransform().getTranslation(new Vector3());
+
 
 
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10

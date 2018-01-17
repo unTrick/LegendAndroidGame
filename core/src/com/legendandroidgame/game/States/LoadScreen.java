@@ -78,7 +78,7 @@ public class LoadScreen extends GameState {
                         case 7: gsm.set(new EgyptWest(gsm));
                             dispose();
                             break;
-                        case 8: gsm.set(new LandOfEdom(gsm));
+                        case 8: gsm.set(new LandOfMoriah(gsm));
                             dispose();
                             break;
                         case 9: gsm.set(new Jordan(gsm));
@@ -96,6 +96,9 @@ public class LoadScreen extends GameState {
                         case 13: gsm.set(new PharaohsHouse(gsm));
                             dispose();
                             break;
+                        case 14: gsm.set(new Sinai(gsm));
+                            dispose();
+                            break; // emergency add
 
                         case 20: gsm.set(new GenesisIntroCS(gsm));
                             dispose();

@@ -2,10 +2,12 @@ package com.legendandroidgame.game.Maps;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
@@ -40,7 +42,12 @@ public class EgyptNorth extends GameState{
     private Warning warning;
     String current = gameData.getString("current");
 
-    private Vector3 portal1Pos, portal2Pos, portal3Pos, portal4Pos,  playerPos;
+
+    // for center
+
+    Texture centerTex;
+
+    // for center
 
 
     public EgyptNorth(GameStateManager gsm) {
@@ -60,6 +67,15 @@ public class EgyptNorth extends GameState{
         missionQuest = new MissionQuest(stage);
         conversation = new Conversation(stage);
         warning = new Warning(stage);
+
+        // for center
+
+        centerTex = new Texture("720/map/abrahamIndicator.png");
+        Image center = new Image(centerTex);
+        center.setPosition(stage.getWidth() / 2 - centerTex.getWidth() / 2, stage.getHeight() / 2 - centerTex.getHeight() / 2);
+//        stage.addActor(center);
+
+        // for center
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setCursorCatched(true);

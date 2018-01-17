@@ -211,10 +211,10 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
         float cameraZRes = camera.position.z - cameraPick.origin.z;
 
         if(Gdx.input.justTouched()){
-            System.out.println("this is the pick position X: " + cameraXRes);
-            System.out.println("this is the pick position Z: " + cameraZRes);
-            System.out.println("this is the Translation X : " + (transX - cameraXRes));
-            System.out.println("this is the Translation Z : " + (transZ - cameraZRes));
+//            System.out.println("this is the pick position X: " + cameraXRes);
+//            System.out.println("this is the pick position Z: " + cameraZRes);
+//            System.out.println("this is the Translation X : " + (transX - cameraXRes));
+//            System.out.println("this is the Translation Z : " + (transZ - cameraZRes));
 
         }
     }

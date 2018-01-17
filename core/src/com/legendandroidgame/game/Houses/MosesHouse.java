@@ -14,6 +14,7 @@ import com.legendandroidgame.game.LegendAndroidGame;
 import com.legendandroidgame.game.PopupBox.InsideGameMenu;
 import com.legendandroidgame.game.PopupBox.Inventory;
 import com.legendandroidgame.game.PopupBox.MissionQuest;
+import com.legendandroidgame.game.PopupBox.Warning;
 import com.legendandroidgame.game.States.GameState;
 import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
@@ -36,6 +37,10 @@ public class MosesHouse extends GameState {
     private MissionQuest missionQuest;
     public String current = gameData.getString("current");
 
+    private Warning warning;
+
+
+
     public MosesHouse(GameStateManager gsm) {
         super(gsm);
 
@@ -50,6 +55,7 @@ public class MosesHouse extends GameState {
 //        inventory = new Inventory(stage);
         missionQuest = new MissionQuest(stage);
         mosesHouseWorld = new MosesHouseWorld(controller, actualGameButtons);
+        warning = new Warning(stage);
 
 
 //        Gdx.input.setInputProcessor(new InputMultiplexer(stage, abrahamHouseWorld.cameraInputController));
@@ -222,10 +228,16 @@ public class MosesHouse extends GameState {
     protected void handleInput() {
 
         if(mosesHouseWorld.goOutside){
-            gameData.putInteger(current + " from", 12);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 6));
-            dispose();
+            warning.isHouse = true;
+            if (warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 12);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 6));
+                dispose();
+            }
+        }
+        else {
+            warning.isHouse = false;
         }
 
         if(hud.health == 0){
@@ -243,6 +255,7 @@ public class MosesHouse extends GameState {
         hud.updated(dt);
 //        inventory.update();
         missionQuest.update();
+        warning.update();
 
 //        System.out.println(Gdx.graphics.getFramesPerSecond());
     }
@@ -263,6 +276,7 @@ public class MosesHouse extends GameState {
         actualGameButtons.dispose();
         controller.dispose();
         insideGameMenu.dispose();
+        warning.dispose();
     }
 
     @Override

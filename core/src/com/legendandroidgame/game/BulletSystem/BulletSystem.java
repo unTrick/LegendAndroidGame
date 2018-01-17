@@ -80,7 +80,8 @@ public class BulletSystem extends EntitySystem implements EntityListener {
         PeopleOfEdomChararacterComponent peopleOfEdomChararacterComponent = entity.getComponent(PeopleOfEdomChararacterComponent.class);
         CampFireComponent campFireComponent = entity.getComponent(CampFireComponent.class);
         InstructorCharacterComponent instructorCharacterComponent = entity.getComponent(InstructorCharacterComponent.class);
-
+        WoodenPoleComponent woodenPoleComponent = entity.getComponent(WoodenPoleComponent.class);
+        ObjectComponents objectComponents = entity.getComponent(ObjectComponents.class);
 
         if (character != null) {
             collisionWorld.removeAction(character.characterController);
@@ -161,7 +162,13 @@ public class BulletSystem extends EntitySystem implements EntityListener {
             collisionWorld.removeCollisionObject(instructorCharacterComponent.ghostObject);
         }
 
+        if(woodenPoleComponent != null){
+            collisionWorld.removeCollisionObject(woodenPoleComponent.woodenPoleObject);
+        }
 
+        if(objectComponents != null){
+            collisionWorld.removeCollisionObject(objectComponents.flintKnifeObject);
+        }
 
     }
 

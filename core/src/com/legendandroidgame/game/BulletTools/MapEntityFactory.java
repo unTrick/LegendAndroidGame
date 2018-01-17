@@ -282,7 +282,7 @@ public class MapEntityFactory {
 
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/landofmoriah.g3dj"));
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Land_of_Moriah.g3dj"));
         Model model = new Model(modelData, new TextureProvider.FileTextureProvider());
         model.calculateTransforms();
 

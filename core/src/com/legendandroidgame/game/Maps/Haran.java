@@ -17,6 +17,7 @@ import com.legendandroidgame.game.PopupBox.*;
 import com.legendandroidgame.game.States.GameState;
 import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
+import com.legendandroidgame.game.States.Sleep;
 
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
@@ -390,8 +391,8 @@ public class Haran extends GameState {
         }
 
         if(hud.health == 0){
-//            gsm.set(new Sleep(gsm));
-//            dispose();
+            gsm.set(new Sleep(gsm));
+            dispose();
         }
 
         if(!gameData.getString(current + " isWellInstructDone").equals("done")){

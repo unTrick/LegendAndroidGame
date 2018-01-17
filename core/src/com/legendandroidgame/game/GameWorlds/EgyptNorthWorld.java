@@ -61,26 +61,26 @@ public class EgyptNorthWorld {
         map = MapEntityFactory.loadEgyptNorth();
         modelComponent = map.getComponent(ModelComponent.class);
         if(gameData.getInteger(current + " from") == 3){
-            posX = 209;
-            posZ = 31;
+            posX = 200;
+            posZ = 26;
 //            (209.36617,4.3777514,31.917057)
 //            this is z(-1481.1338,1500.0,-1557.2828)
         }
         if(gameData.getInteger(current + " from") == 4){
-            posX = 19;
-            posZ = 218;
+            posX = 20;
+            posZ = 200;
 //            (-23.940914,4.3310714,212.46745)
 //            this is z(-1714.4409,1500.0,-1376.7325)
         }
         if(gameData.getInteger(current + " from") == 6){
-            posX = -217;
-            posZ = -12;
+            posX = -191;
+            posZ = 15;
 //            (-216.05339,5.360526,-28.476048)
 //            this is z(-1906.5533,1500.0,-1617.676)
         }
         if(gameData.getInteger(current + " from") == 7){
-            posX = -29;
-            posZ = -218;
+            posX = -18;
+            posZ = -193;
 //            (-23.002138,4.1868215,-215.44429)
 //            this is z(-1713.5022,1500.0,-1804.6443)
         }
@@ -104,26 +104,26 @@ public class EgyptNorthWorld {
 
         worldCam = new WorldCamera();
         if(gameData.getInteger(current + " from") == 3){
-            worldCam.worldCam.position.x = -1481f;
-            worldCam.worldCam.position.z = -1557f;
+            worldCam.worldCam.position.x = -1496f;
+            worldCam.worldCam.position.z = -1567f;
 //            (209.36617,4.3777514,31.917057)
 //            this is z(-1481.1338,1500.0,-1557.2828)
         }
         if(gameData.getInteger(current + " from") == 4){
-            worldCam.worldCam.position.x = -1671f;
-            worldCam.worldCam.position.z = -1370f;
+            worldCam.worldCam.position.x = -1676f;
+            worldCam.worldCam.position.z = -1393f;
 //            (-23.940914,4.3310714,212.46745)
 //            this is z(-1714.4409,1500.0,-1376.7325)
         }
         if(gameData.getInteger(current + " from") == 6){
-            worldCam.worldCam.position.x = -1907f;
-            worldCam.worldCam.position.z = -1576f;
+            worldCam.worldCam.position.x = -1887f;
+            worldCam.worldCam.position.z = -1578f;
 //            (-216.05339,5.360526,-28.476048)
 //            this is z(-1906.5533,1500.0,-1617.676)
         }
         if(gameData.getInteger(current + " from") == 7){
-            worldCam.worldCam.position.x = -1719f;
-            worldCam.worldCam.position.z = -1806f;
+            worldCam.worldCam.position.x = -1714f;
+            worldCam.worldCam.position.z = -1786f;
 //            (-23.002138,4.1868215,-215.44429)
 //            this is z(-1713.5022,1500.0,-1804.6443)
         }
@@ -249,10 +249,10 @@ public class EgyptNorthWorld {
         }
         else if ((playerPos.x - portal4Pos.x) <= 10 && (playerPos.x - portal4Pos.x) >= -10
                 && (playerPos.z - portal4Pos.z) <= 10 && (playerPos.z - portal4Pos.z) >= -10) {
-            goToEast = true;
+            goToBethel = true;
         }
         else {
-            goToEast = false;
+            goToBethel = false;
             goToEast = false;
             goToSouth = false;
             goToWest = false;

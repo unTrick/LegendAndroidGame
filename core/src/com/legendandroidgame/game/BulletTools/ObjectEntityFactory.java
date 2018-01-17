@@ -29,6 +29,9 @@ public class ObjectEntityFactory {
     public static ModelComponent portalComponentBottom;
     public static ModelComponent fireComponent;
     public static ModelComponent houseDoorComponent;
+    public static ModelComponent woodenPoleComponent;
+    public static ModelComponent flintKnifeComponent;
+//    public static ModelComponent ramComponent;
 
     public static ModelComponent tilesComponent;
     public static ModelComponent arrowPointerComponent;
@@ -38,7 +41,7 @@ public class ObjectEntityFactory {
         BoundingBox stoneBounds = new BoundingBox();
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/red_stone.g3dj"));
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_stone.g3dj"));
         Model stoneModel = new Model(modelData, new TextureProvider.FileTextureProvider());
         stoneModel.calculateTransforms();
         ModelComponent modelComponent = new ModelComponent(stoneModel, x, y, z);
@@ -66,7 +69,7 @@ public class ObjectEntityFactory {
         BoundingBox stoneBounds = new BoundingBox();
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/red_stone.g3dj"));
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_stone.g3dj"));
         Model stoneModel = new Model(modelData, new TextureProvider.FileTextureProvider());
         stoneModel.calculateTransforms();
         ModelComponent modelComponent = new ModelComponent(stoneModel, x, y, z);
@@ -94,7 +97,7 @@ public class ObjectEntityFactory {
         BoundingBox stoneBounds = new BoundingBox();
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/red_stone.g3dj"));
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_stone.g3dj"));
         Model stoneModel = new Model(modelData, new TextureProvider.FileTextureProvider());
         stoneModel.calculateTransforms();
         ModelComponent modelComponent = new ModelComponent(stoneModel, x, y, z);
@@ -365,32 +368,6 @@ public class ObjectEntityFactory {
         return entity;
     }
 
-    public static Entity loadWoodenPole(BulletSystem bulletSystem, float x, float y, float z){
-
-        BoundingBox itemBounds = new BoundingBox();
-        Entity entity = new Entity();
-        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/wooden_pole.g3dj"));
-        Model itemModel = new Model(modelData, new TextureProvider.FileTextureProvider());
-        itemModel.calculateTransforms();
-        ModelComponent modelComponent = new ModelComponent(itemModel, x, y, z);
-        entity.add(modelComponent);
-        itemModel.calculateBoundingBox(itemBounds);
-        WoodenPoleComponent woodenPoleComponent = new WoodenPoleComponent();
-        woodenPoleComponent.woodenPoleObject = new btPairCachingGhostObject();
-        woodenPoleComponent.woodenPoleObject.setWorldTransform(modelComponent.instance.transform);
-        woodenPoleComponent.woodenPoleShape = new btCapsuleShape(itemBounds.getWidth() / 2, itemBounds.getHeight() / 2);
-        woodenPoleComponent.woodenPoleObject.setCollisionShape(woodenPoleComponent.woodenPoleShape);
-        woodenPoleComponent.woodenPoleObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
-        woodenPoleComponent.woodenPoleObject.userData = entity;
-        entity.add(woodenPoleComponent);
-        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(WoodenPoleComponent.class).woodenPoleObject,
-                (short)
-                        btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
-                (short)
-                        (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
-        return entity;
-    }
 
     public static Entity loadLargeStonesOne(BulletSystem bulletSystem, float x, float y, float z){
 
@@ -679,5 +656,61 @@ public class ObjectEntityFactory {
         return entity;
     }
 
+
+    public static Entity loadWoodenPole(BulletSystem bulletSystem, float x, float y, float z){
+
+        BoundingBox woodBounds = new BoundingBox();
+        Entity entity = new Entity();
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/woodenpole.g3dj"));
+        Model woodModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+        woodModel.calculateTransforms();
+        woodenPoleComponent = new ModelComponent(woodModel, x, y, z);
+        entity.add(woodenPoleComponent);
+        woodModel.calculateBoundingBox(woodBounds);
+
+        WoodenPoleComponent woodComponent = new WoodenPoleComponent();
+        woodComponent.woodenPoleObject = new btPairCachingGhostObject();
+        woodComponent.woodenPoleObject.setWorldTransform(woodenPoleComponent.instance.transform);
+        woodComponent.woodenPoleShape = new btCapsuleShape(woodBounds.getWidth() / 2, woodBounds.getHeight() / 2);
+        woodComponent.woodenPoleObject.setCollisionShape(woodComponent.woodenPoleShape);
+        woodComponent.woodenPoleObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        woodComponent.woodenPoleObject.userData = entity;
+        entity.add(woodComponent);
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(WoodenPoleComponent.class).woodenPoleObject,
+                (short)
+                        btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short)
+                        (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        return entity;
+    }
+
+    public static Entity loadFlintKnife(BulletSystem bulletSystem, float x, float y, float z){
+
+        BoundingBox knifeBounds = new BoundingBox();
+        Entity entity = new Entity();
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/flint_knives.g3dj"));
+        Model knifeModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+        knifeModel.calculateTransforms();
+        flintKnifeComponent = new ModelComponent(knifeModel, x, y, z);
+        entity.add(flintKnifeComponent);
+        knifeModel.calculateBoundingBox(knifeBounds);
+
+        ObjectComponents knifeComponent = new ObjectComponents();
+        knifeComponent.flintKnifeObject = new btPairCachingGhostObject();
+        knifeComponent.flintKnifeObject.setWorldTransform(flintKnifeComponent.instance.transform);
+        knifeComponent.flintKnifeShape = new btCapsuleShape(knifeBounds.getWidth() / 2, knifeBounds.getHeight() / 2);
+        knifeComponent.flintKnifeObject.setCollisionShape(knifeComponent.flintKnifeShape);
+        knifeComponent.flintKnifeObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        knifeComponent.flintKnifeObject.userData = entity;
+        entity.add(knifeComponent);
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(ObjectComponents.class).flintKnifeObject,
+                (short)
+                        btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short)
+                        (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        return entity;
+    }
 
 }

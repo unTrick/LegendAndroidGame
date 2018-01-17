@@ -4,17 +4,13 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
-import com.badlogic.gdx.physics.bullet.collision.ContactListener;
-import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
+import com.legendandroidgame.game.AddonTools.Environment;
+import com.legendandroidgame.game.AddonTools.WorldCamera;
 import com.legendandroidgame.game.BulletComponent.*;
 import com.legendandroidgame.game.BulletSystem.BulletSystem;
 import com.legendandroidgame.game.BulletSystem.PlayerSystem;
@@ -34,8 +30,6 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
  */
 public class MosesHouseWorld {
     private ModelBatch batch;
-    private Environment environment;
-    private OrthographicCamera worldCam;
     private Engine engine;
     private BulletSystem bulletSystem;
     private Entity character;
@@ -46,7 +40,8 @@ public class MosesHouseWorld {
     private PlayerSystem playerSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
-    private ActualGameButtons actualGameButtons;
+    private Environment environment;
+    private WorldCamera worldCamera;
 
     private DebugDrawer debugDrawer;
     private static final boolean debug = false;
@@ -55,99 +50,15 @@ public class MosesHouseWorld {
 
     public boolean goOutside = false;
     public boolean woodenPoleCollide = false, staffCollide = false;
-    private Boolean jarOfWaterB = false, capB = false, coatB = false, sashB = false;
+    private boolean jarOfWaterB = false, capB = false, coatB = false, sashB = false;
 
     private float posX = -14, posZ = -1;
 
-    public class MyContactListener extends ContactListener {
-        @Override
-        public void onContactStarted(btCollisionObject colObj0, btCollisionObject colObj1){
-            if (colObj0.userData instanceof Entity && colObj1.userData instanceof Entity) {
-                Entity entity0 = (Entity) colObj0.userData;
-                Entity entity1 = (Entity) colObj1.userData;
-
-                if (entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(StaffComponent.class) != null) {
-                    if(entity1.getComponent(StaffComponent.class) != null){
-                        staffCollide = true;
-                    }
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(StaffComponent.class) == null){
-                    staffCollide = false;
-//                    System.out.println("no co");
-                }
-
-                if(entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(WoodenPoleComponent.class) != null){
-
-                    if(entity1.getComponent(WoodenPoleComponent.class) != null){
-                        woodenPoleCollide = true;
-                    }
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(WoodenPoleComponent.class) == null){
-                    woodenPoleCollide = false;
-//                    System.out.println("no co");
-                }
-
-                if(entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(DoorComponent.class) != null){
-                    if(entity1.getComponent(DoorComponent.class) != null){
-                        goOutside = true;
-                    }
-                    goOutside = true;
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(DoorComponent.class) == null){
-                    goOutside = false;
-                }
-                if (entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(JarOfWaterComponent.class) != null) {
-                    if(entity1.getComponent(JarOfWaterComponent.class) != null){
-                        jarOfWaterB = true;
-                    }
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(JarOfWaterComponent.class) == null){
-                    jarOfWaterB = false;
-//                    System.out.println("no co");
-                }
-
-                if(entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(CapComponent.class) != null){
-
-                    if(entity1.getComponent(CapComponent.class) != null){
-                        capB = true;
-                    }
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(CapComponent.class) == null){
-                    capB = false;
-//                    System.out.println("no co");
-                }
-
-
-                if(entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(SashComponent.class) != null){
-                    if(entity1.getComponent(SashComponent.class) != null){
-                        sashB = true;
-                    }
-
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(SashComponent.class) == null){
-                    sashB = false;
-//                    System.out.println("no co");
-                }
-
-                if (entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(CoatComponent.class) != null){
-
-                    if(entity1.getComponent(CoatComponent.class) != null){
-                        coatB = true;
-                    }
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(CoatComponent.class) == null){
-                    coatB = false;
-//                    System.out.println("no co");
-                }
-
-            }
-        }
-    }
+    private Vector3 doorPos, playerPos;
 
 
     public MosesHouseWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
-        this.actualGameButtons = actualGameButtons;
         initCamera();
         initModelBatch();
         initEnvironment();
@@ -155,42 +66,20 @@ public class MosesHouseWorld {
         map = MapEntityFactory.loadMosesHouse();
         modelComponent = map.getComponent(ModelComponent.class);
         addSystems(controller, actualGameButtons, modelComponent);
-        MyContactListener myContactListener = new MyContactListener();
-        myContactListener.enable();
         addEntities();
     }
 
 
     private void initEnvironment() {
-        //        shadowLight = new DirectionalShadowLight(1024 * 5, 1024 * 5,200f, 200f, 1f, 300f);
         environment = new Environment();
-//        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1f));
-////        environment.add(new SpotLight().setColor(Color.WHITE));
-////        environment.add(new SpotLight().setDirection(new Vector3(-1f, -0.8f, -0.2f)));
-//        shadowLight.set(0.8f,0.8f,0.8f, 0.1f, -0.3f, -0.1f);
-//        environment.add(shadowLight);
-//        environment.shadowMap = shadowLight;
-//        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.1f, -0.2f));
-
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1.f));
-//        environment.set(new ColorAttribute(ColorAttribute.Fog, .3f, .55f, 1, 1));
-        environment.add(new DirectionalLight().set(.3f, .3f, .3f, -2f, 0.6f, .8f));
-        environment.add(new DirectionalLight().set(1f, 1f, 1f, .2f, -0.6f, -.8f));
-//        environment.add(new PointLight().set(0.5f,0.5f,0.5f,0,5,0,3));
     }
 
     private void initCamera() {
 
-        worldCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        worldCam.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        worldCam.position.set(0f,1500f,0f);
-        worldCam.lookAt(956,657,899);
-//        worldCam.lookAt(0,0,0);
-        worldCam.near = 1f;
-        worldCam.far = 5000f;
-        worldCam.position.x = -1704f;
-        worldCam.position.z = -1590f;
-        worldCam.zoom = 0.08f;
+        worldCamera = new WorldCamera();
+
+        worldCamera.worldCam.position.x = -1704f;
+        worldCamera.worldCam.position.z = -1590f;
     }
 
     private void initModelBatch() {
@@ -283,9 +172,9 @@ public class MosesHouseWorld {
 
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
-//        engine.addSystem(new RenderSystem(batch, environment, worldCam, modelComponent));
+        engine.addSystem(new RenderSystem(batch, environment, worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-//        engine.addSystem(playerSystem = new PlayerSystem(worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCamera.worldCam, controller, actualGameButtons, posX, posZ));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -294,31 +183,44 @@ public class MosesHouseWorld {
     public void render(float dt) {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            worldCam.position.x += 1;
+            worldCamera.worldCam.position.x += 1;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            worldCam.position.z += 1;
+            worldCamera.worldCam.position.z += 1;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
 
-            worldCam.position.x -= 1;
+            worldCamera.worldCam.position.x -= 1;
 
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 
-            worldCam.position.z -= 1;
+            worldCamera.worldCam.position.z -= 1;
 
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.N)){
-            System.out.println("this is z" + worldCam.position);
+            System.out.println("this is z" + worldCamera.worldCam.position);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
+
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+        doorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
+
+
+        if((playerPos.x - doorPos.x) <= 10 && (playerPos.x - doorPos.x) >= -10
+                && (playerPos.z - doorPos.z) <= 10 && (playerPos.z - doorPos.z) >= -10){
+//            System.out.println("do you wat to go inside?");
+            goOutside = true;
+        }
+        else {
+            goOutside = false;
+        }
 
         if(gameData.getInteger(current + " missionId") == 5){
             if(staffCollide){
@@ -382,7 +284,7 @@ public class MosesHouseWorld {
         }
 
 
-        worldCam.update();
+        worldCamera.worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);
     }
@@ -391,7 +293,7 @@ public class MosesHouseWorld {
 
         engine.update(delta);
         if(debug){
-            debugDrawer.begin(worldCam);
+            debugDrawer.begin(worldCamera.worldCam);
             bulletSystem.collisionWorld.debugDrawWorld();
             debugDrawer.end();
         }
@@ -399,8 +301,8 @@ public class MosesHouseWorld {
     }
 
     public void resize(int width, int height) {
-        worldCam.viewportHeight = height;
-        worldCam.viewportWidth = width;
+        worldCamera.worldCam.viewportHeight = height;
+        worldCamera.worldCam.viewportWidth = width;
     }
 
     public void dispose() {
