@@ -132,9 +132,6 @@ public class EgyptSouth extends GameState{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                if(egyptSouthWorld.canTalkToAaron){
-                    conversation.aaronConvoLev = true;
-                }
 
                 return false;
             }
@@ -270,13 +267,6 @@ public class EgyptSouth extends GameState{
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
 
-                convoId += 1;
-                gameData.putInteger(current + " convoId", convoId);
-                gameData.flush();
-
-                if(gameData.getInteger(current + " convoId") > 5){
-                    conversation.exoOneConvo = false;
-                }
 
                 return false;
             }
@@ -345,20 +335,12 @@ public class EgyptSouth extends GameState{
             warning.isNorthEgypt = false;
         }
 
-        if (gameData.getInteger(current + " convoId") > 5) {
-            conversation.exoOneConvo = false;
-        }
-
-        if(gameData.getInteger(current + " convoId") > 10){
-            conversation.aaronConvoLev = false;
-        }
 
         if(hud.health == 0){
             gsm.set(new Sleep(gsm));
             dispose();
         }
 
-        conversation.exoOneConvo = true;
     }
 
     @Override

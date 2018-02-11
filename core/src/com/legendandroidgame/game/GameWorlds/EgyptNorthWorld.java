@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -35,6 +36,7 @@ public class EgyptNorthWorld {
     private Entity portalEntity1, portalEntity2, portalEntity3, portalEntity4;
     private Entity houseDoor;
     private PlayerSystem playerSystem;
+    private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
 
@@ -49,6 +51,7 @@ public class EgyptNorthWorld {
 
 
     private float posX, posZ;
+    public float moverX, moverY;
     private Vector3 portal1Pos, portal2Pos, playerPos, portal3Pos, portal4Pos;
 
 
@@ -146,6 +149,7 @@ public class EgyptNorthWorld {
         loadPortal2();
         loadPortal3();
         loadPortal4();
+//        createIsraelites();
     }
 
     private void setDebug(){
@@ -195,7 +199,8 @@ public class EgyptNorthWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -258,7 +263,6 @@ public class EgyptNorthWorld {
             goToWest = false;
         }
 
-
         worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);
@@ -281,6 +285,8 @@ public class EgyptNorthWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
 

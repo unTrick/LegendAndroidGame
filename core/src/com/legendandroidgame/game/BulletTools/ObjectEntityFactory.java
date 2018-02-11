@@ -38,113 +38,109 @@ public class ObjectEntityFactory {
 
     public static Entity loadFirstRedStone(BulletSystem bulletSystem, float x, float y, float z){
 
-        BoundingBox stoneBounds = new BoundingBox();
+        BoundingBox itemBounds = new BoundingBox();
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_stone.g3dj"));
-        Model stoneModel = new Model(modelData, new TextureProvider.FileTextureProvider());
-        stoneModel.calculateTransforms();
-        ModelComponent modelComponent = new ModelComponent(stoneModel, x, y, z);
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_Stone.g3dj"));
+        Model itemModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+        itemModel.calculateTransforms();
+        ModelComponent modelComponent = new ModelComponent(itemModel, x, y, z);
         entity.add(modelComponent);
-        stoneModel.calculateBoundingBox(stoneBounds);
-        FirstRedStone firstRedStone = new FirstRedStone();
-        firstRedStone.stoneObject = new btPairCachingGhostObject();
-        firstRedStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
-        firstRedStone.stoneShape = new btCapsuleShape(stoneBounds.getWidth(), stoneBounds.getHeight());
-        firstRedStone.stoneObject.setCollisionShape(firstRedStone.stoneShape);
-        firstRedStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
-        firstRedStone.stoneObject.userData = entity;
-        entity.add(firstRedStone);
+        itemModel.calculateBoundingBox(itemBounds);
+        FirstRedStone redStone = new FirstRedStone();
+        redStone.stoneObject = new btPairCachingGhostObject();
+        redStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
+        redStone.stoneShape = new btCapsuleShape(itemBounds.getWidth() / 2, itemBounds.getHeight() / 2);
+        redStone.stoneObject.setCollisionShape(redStone.stoneShape);
+        redStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        redStone.stoneObject.userData = entity;
+        entity.add(redStone);
         bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(FirstRedStone.class).stoneObject,
-                        (short)
-                                btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
-                        (short)
-                                (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
-        entity.add(new StatusComponent());
+                (short)
+                        btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short)
+                        (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
         return entity;
     }
 
     public static Entity loadSecondRedStone(BulletSystem bulletSystem, float x, float y, float z){
 
-        BoundingBox stoneBounds = new BoundingBox();
+        BoundingBox itemBounds = new BoundingBox();
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_stone.g3dj"));
-        Model stoneModel = new Model(modelData, new TextureProvider.FileTextureProvider());
-        stoneModel.calculateTransforms();
-        ModelComponent modelComponent = new ModelComponent(stoneModel, x, y, z);
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_Stone.g3dj"));
+        Model itemModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+        itemModel.calculateTransforms();
+        ModelComponent modelComponent = new ModelComponent(itemModel, x, y, z);
         entity.add(modelComponent);
-        stoneModel.calculateBoundingBox(stoneBounds);
-        SecondRedStone secondRedStone = new SecondRedStone();
-        secondRedStone.stoneObject = new btPairCachingGhostObject();
-        secondRedStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
-        secondRedStone.stoneShape = new btCapsuleShape(stoneBounds.getWidth(), stoneBounds.getHeight());
-        secondRedStone.stoneObject.setCollisionShape(secondRedStone.stoneShape);
-        secondRedStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
-        secondRedStone.stoneObject.userData = entity;
-        entity.add(secondRedStone);
+        itemModel.calculateBoundingBox(itemBounds);
+        SecondRedStone redStone = new SecondRedStone();
+        redStone.stoneObject = new btPairCachingGhostObject();
+        redStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
+        redStone.stoneShape = new btCapsuleShape(itemBounds.getWidth() / 2, itemBounds.getHeight() / 2);
+        redStone.stoneObject.setCollisionShape(redStone.stoneShape);
+        redStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        redStone.stoneObject.userData = entity;
+        entity.add(redStone);
         bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(SecondRedStone.class).stoneObject,
                 (short)
                         btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
                 (short)
                         (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
-        entity.add(new StatusComponent());
         return entity;
     }
 
     public static Entity loadThirdRedStone(BulletSystem bulletSystem, float x, float y, float z){
 
-        BoundingBox stoneBounds = new BoundingBox();
+        BoundingBox itemBounds = new BoundingBox();
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_stone.g3dj"));
-        Model stoneModel = new Model(modelData, new TextureProvider.FileTextureProvider());
-        stoneModel.calculateTransforms();
-        ModelComponent modelComponent = new ModelComponent(stoneModel, x, y, z);
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_Stone.g3dj"));
+        Model itemModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+        itemModel.calculateTransforms();
+        ModelComponent modelComponent = new ModelComponent(itemModel, x, y, z);
         entity.add(modelComponent);
-        stoneModel.calculateBoundingBox(stoneBounds);
-        ThirdRedStone thirdRedStone = new ThirdRedStone();
-        thirdRedStone.stoneObject = new btPairCachingGhostObject();
-        thirdRedStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
-        thirdRedStone.stoneShape = new btCapsuleShape(stoneBounds.getWidth(), stoneBounds.getHeight());
-        thirdRedStone.stoneObject.setCollisionShape(thirdRedStone.stoneShape);
-        thirdRedStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
-        thirdRedStone.stoneObject.userData = entity;
-        entity.add(thirdRedStone);
+        itemModel.calculateBoundingBox(itemBounds);
+        ThirdRedStone redStone = new ThirdRedStone();
+        redStone.stoneObject = new btPairCachingGhostObject();
+        redStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
+        redStone.stoneShape = new btCapsuleShape(itemBounds.getWidth() / 2, itemBounds.getHeight() / 2);
+        redStone.stoneObject.setCollisionShape(redStone.stoneShape);
+        redStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        redStone.stoneObject.userData = entity;
+        entity.add(redStone);
         bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(ThirdRedStone.class).stoneObject,
                 (short)
                         btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
                 (short)
                         (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
-        entity.add(new StatusComponent());
         return entity;
     }
 
     public static Entity loadFourthRedStone(BulletSystem bulletSystem, float x, float y, float z){
 
-        BoundingBox stoneBounds = new BoundingBox();
+        BoundingBox itemBounds = new BoundingBox();
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
         ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Red_Stone.g3dj"));
-        Model stoneModel = new Model(modelData, new TextureProvider.FileTextureProvider());
-        stoneModel.calculateTransforms();
-        ModelComponent modelComponent = new ModelComponent(stoneModel, x, y, z);
+        Model itemModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+        itemModel.calculateTransforms();
+        ModelComponent modelComponent = new ModelComponent(itemModel, x, y, z);
         entity.add(modelComponent);
-        stoneModel.calculateBoundingBox(stoneBounds);
-        FourthRedStone fourthRedStone = new FourthRedStone();
-        fourthRedStone.stoneObject = new btPairCachingGhostObject();
-        fourthRedStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
-        fourthRedStone.stoneShape = new btCapsuleShape(stoneBounds.getWidth(), stoneBounds.getHeight());
-        fourthRedStone.stoneObject.setCollisionShape(fourthRedStone.stoneShape);
-        fourthRedStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
-        fourthRedStone.stoneObject.userData = entity;
-        entity.add(fourthRedStone);
+        itemModel.calculateBoundingBox(itemBounds);
+        FourthRedStone redStone = new FourthRedStone();
+        redStone.stoneObject = new btPairCachingGhostObject();
+        redStone.stoneObject.setWorldTransform(modelComponent.instance.transform);
+        redStone.stoneShape = new btCapsuleShape(itemBounds.getWidth() / 2, itemBounds.getHeight() / 2);
+        redStone.stoneObject.setCollisionShape(redStone.stoneShape);
+        redStone.stoneObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        redStone.stoneObject.userData = entity;
+        entity.add(redStone);
         bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(FourthRedStone.class).stoneObject,
                 (short)
                         btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
                 (short)
                         (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
-        entity.add(new StatusComponent());
         return entity;
     }
 
@@ -172,7 +168,6 @@ public class ObjectEntityFactory {
                                 btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
                         (short)
                                 (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
-        entity.add(new StatusComponent());
         return entity;
     }
 
@@ -201,7 +196,6 @@ public class ObjectEntityFactory {
                         btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
                 (short)
                         (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
-        entity.add(new StatusComponent());
         return entity;
     }
 

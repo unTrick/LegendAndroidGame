@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -174,7 +175,7 @@ public class MosesHouseWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCamera.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCamera.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -213,8 +214,8 @@ public class MosesHouseWorld {
         doorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
 
 
-        if((playerPos.x - doorPos.x) <= 10 && (playerPos.x - doorPos.x) >= -10
-                && (playerPos.z - doorPos.z) <= 10 && (playerPos.z - doorPos.z) >= -10){
+        if((playerPos.x - doorPos.x) <= 5 && (playerPos.x - doorPos.x) >= -5
+                && (playerPos.z - doorPos.z) <= 5 && (playerPos.z - doorPos.z) >= -5){
 //            System.out.println("do you wat to go inside?");
             goOutside = true;
         }
@@ -306,6 +307,8 @@ public class MosesHouseWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
         bulletSystem.dispose();

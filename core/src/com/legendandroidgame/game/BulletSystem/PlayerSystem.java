@@ -6,8 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.Ray;
 import com.legendandroidgame.game.BulletComponent.*;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
@@ -25,28 +25,37 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
         private ModelComponent modelComponent;
         private final Vector3 tmp = new Vector3();
         private final OrthographicCamera camera;
+        private final Vector2 mover;
         private float transX, transY, transZ, rotateX, rotateY, rotateZ, angle;
         private Controller controller;
         private ActualGameButtons actualGameButtons;
         public AnimationComponent playerAnimation;
-        private float cameraX, cameraZ;
-        private float posX, posZ;
+        private float cameraX, cameraY, cameraZ;
+        private float posX, posY, posZ, moverX, moverY;
         private String current = gameData.getString("current");
         private boolean paused;
+        private Vector3 expected;
 
 
-    public PlayerSystem(OrthographicCamera camera, Controller controller, ActualGameButtons actualGameButtons, float posX, float posZ) {
+    public PlayerSystem(OrthographicCamera camera, Controller controller,
+                        ActualGameButtons actualGameButtons, float posX, float posZ, Vector2 mover) {
         this.camera = camera;
         this.controller = controller;
         this.actualGameButtons = actualGameButtons;
         this.posX = posX;
+        posY = 10;
         this.posZ = posZ;
+        this.mover = mover;
+        this.moverX = mover.x;
+        this.moverY = mover.y;
         cameraX = camera.position.x;
+        cameraY = camera.position.y;
         cameraZ = camera.position.z;
         rotateX = 0;
         rotateY = -45;
         rotateZ = 0;
         angle = 90;
+        expected = new Vector3();
     }
     @Override
     public void addedToEngine(Engine engine) {
@@ -139,7 +148,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
             else {
                 if(!Gdx.input.isTouched()){
-                    playerAnimation.animate("Armature|Stand",1,1);
+                    playerAnimation.animate("Armature|ArmatureAction",-1,1);
                 }
             }
         }
@@ -170,7 +179,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
                     playerAnimation.animate("Armature|Walk",-1,1);
                 }
                 else {
-                    playerAnimation.animate("Armature|Stand",-1,1);
+                    playerAnimation.animate("Armature|ArmatureAction",-1,1);
                 }
             }
         }
@@ -187,28 +196,44 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
         transY = translation.y;
         transZ = translation.z;
 
-
         modelComponent.instance.transform.set(new Vector3(transX,transY,transZ), new Quaternion( new Vector3(rotateX, rotateY, rotateZ), angle));
-
         modelComponent.instance.calculateTransforms();
 //        if(paused){
 //
 //        }
-
         camera.position.x = cameraX - (posX - transX);
-//        camera.position.y = transY ;
+        camera.position.y = cameraY - (posY - transY) ;
         camera.position.z =  cameraZ - (posZ - transZ) ;
+
+        mover.x = moverX - ( (posZ - transZ));
+        mover.y = moverY - ( (posX - transX));
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+            System.out.println("this is from playerSystem" + mover);
+        }
+
         if(Gdx.input.justTouched()){
 //            System.out.println(cameraX + " " + cameraZ);
 //            System.out.println(transX + " " + transZ);
 //            System.out.println(posX + " " + posZ);
         }
+
+//        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+//            expected.x += characterComponent.walkDirection.x;
+//        }
+//        else {
+//            expected.x = transX;
+//        }
+//
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.K)){
+//            System.out.println(expected.x + " | " + transX);
+//        }
         camera.update();
 //        gameCam.update();/
 
-        Ray cameraPick = camera.getPickRay(Gdx.input.getX(),Gdx.input.getY());
-        float cameraXRes = camera.position.x - cameraPick.origin.x;
-        float cameraZRes = camera.position.z - cameraPick.origin.z;
+//        Ray cameraPick = camera.getPickRay(Gdx.input.getX(),Gdx.input.getY());
+//        float cameraXRes = camera.position.x - cameraPick.origin.x;
+//        float cameraZRes = camera.position.z - cameraPick.origin.z;
 
         if(Gdx.input.justTouched()){
 //            System.out.println("this is the pick position X: " + cameraXRes);

@@ -14,6 +14,7 @@ import com.legendandroidgame.game.LegendAndroidGame;
 import com.legendandroidgame.game.PopupBox.Conversation;
 import com.legendandroidgame.game.PopupBox.InsideGameMenu;
 import com.legendandroidgame.game.PopupBox.MissionQuest;
+import com.legendandroidgame.game.PopupBox.Warning;
 import com.legendandroidgame.game.States.GameState;
 import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
@@ -35,6 +36,7 @@ public class PharaohsHouse extends GameState{
 //    private Inventory inventory;
     private MissionQuest missionQuest;
     private Conversation conversation;
+    private Warning warning;
     public String current = gameData.getString("current");
     private int convoId = gameData.getInteger(current + " convoId");
 
@@ -51,6 +53,7 @@ public class PharaohsHouse extends GameState{
         insideGameMenu = new InsideGameMenu(stage);
 //        inventory = new Inventory(stage);
         missionQuest = new MissionQuest(stage);
+        warning = new Warning(stage);
         pharaohsHouseWorld = new PharaohsHouseWorld(controller, actualGameButtons);
         conversation = new Conversation(stage);
 
@@ -99,9 +102,6 @@ public class PharaohsHouse extends GameState{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                if(pharaohsHouseWorld.canTalkToPharaoh){
-                    conversation.pharaohConvo = true;
-                }
 
                 return false;
             }
@@ -253,10 +253,16 @@ public class PharaohsHouse extends GameState{
     protected void handleInput() {
 
         if(pharaohsHouseWorld.goOutside){
-            gameData.putInteger(current + " from", 13);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 5));
-            dispose();
+            warning.isHouse = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 13);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 5));
+                dispose();
+            }
+        }
+        else {
+            warning.isHouse = false;
         }
 
         if(hud.health == 0){
@@ -268,15 +274,6 @@ public class PharaohsHouse extends GameState{
             System.out.println("can talk");
         }
 
-        if (gameData.getInteger(current + " convoId") > 9) {
-            conversation.pharaohConvo = false;
-        }
-
-        if(gameData.getInteger(current + " convoId") >9 && gameData.getInteger(current + " missionId") == 2){
-            if(!conversation.pharaohConvo){
-                gsm.set(new LoadScreen(gsm, 22));
-            }
-        }
 
     }
 
@@ -290,7 +287,7 @@ public class PharaohsHouse extends GameState{
 //        inventory.update();
         missionQuest.update();
         conversation.update();
-
+        warning.update();
 //        System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
@@ -311,6 +308,7 @@ public class PharaohsHouse extends GameState{
         controller.dispose();
         insideGameMenu.dispose();
         conversation.dispose();
+        warning.dispose();
     }
 
     @Override

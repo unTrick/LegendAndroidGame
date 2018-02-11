@@ -29,7 +29,9 @@ public class Warning {
         this.stage = stage;
 
         if(Gdx.graphics.getWidth() > 1800){
-
+            noTxr = new Texture("720/button/No Button.png");
+            yesTxr = new Texture("720/button/Yes Button.png");
+            promptAtlas = new TextureAtlas("720/Texturepack/Portal_Prompts.pack");
         }
         else {
 

@@ -20,7 +20,7 @@ public class PlayerComponent implements Component {
     public PlayerComponent() {
         energy = 1000;
 //        oxygen = 100;
-        health = gameData.getInteger(current + " health");
+        health = gameData.getFloat(current + " health");
         score = 0;
 
 

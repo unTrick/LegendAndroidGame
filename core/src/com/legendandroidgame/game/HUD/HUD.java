@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -35,7 +36,8 @@ public class HUD {
 
     private String colon = " : ";
 
-    public Integer health, questTime ; // 0 = dead, 100 = full
+    public float health; // 0 = dead, 100 = full
+    public int questTime;
     public float currentQuestTime;
     private float bar = 3 / 2, timeLimitBar = 3 / 2;
     private String missionAquired;
@@ -53,22 +55,29 @@ public class HUD {
     private MissionContent missionContent;
     private Label missionAccomplished;
     private Table table;
+    Table questTable;
     private TextureAtlas colorBars;
     private TextureRegion healthBar, timeBar;
 
     String current = gameData.getString("current");
-    private boolean timerIsOn = false;
+    private boolean timerIsOn = true;
 
-    public boolean grab = false;
+    public boolean grab = false, fpsOn = false;
 
 
 
 //    fps
     private Label fps;
     Integer FPS = Gdx.graphics.getFramesPerSecond();
-    Integer MIN = Gdx.graphics.getFramesPerSecond();
-    Integer MAX = Gdx.graphics.getFramesPerSecond();
+//    Integer MIN = Gdx.graphics.getFramesPerSecond();
+//    Integer MAX = Gdx.graphics.getFramesPerSecond();
 //    fps
+
+    // dev tools
+
+    public Label locationOfSampleCharacter;
+    public Vector3 curLocation, expectedLocation;
+    // dev tools
 
 
     public HUD(Stage stage){
@@ -77,11 +86,12 @@ public class HUD {
         this.stage = stage;
 
         colorBars = new TextureAtlas("720/Texturepack/ColorBar.pack");
-        health = gameData.getInteger(current + " health");
+        health = gameData.getFloat(current + " health");
+
         if(health > 560){
-            healthBar = colorBars.findRegion("green");
+            healthBar = colorBars.findRegion("full");
         }
-        else if(health > 300){
+        else if(health > 300 && health <= 560){
             healthBar = colorBars.findRegion("orange");
         }
         else {
@@ -106,7 +116,7 @@ public class HUD {
         font = generator.generateFont(parameter);
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameterMission = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameterMission.size = 15;
+        parameterMission.size = 20;
         missionFont = generator.generateFont(parameterMission);
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameterAccomplished = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -141,15 +151,25 @@ public class HUD {
 
 
 //        fps
-        fps = new Label("FPS: " + FPS + "\n" + "MIN FPS: " + MIN + "\n" + "MAX FPS: " + MAX
-                , new Label.LabelStyle(font, Color.WHITE));
+//        fps = new Label("FPS: " + FPS + "\n" + "MIN FPS: " + MIN + "\n" + "MAX FPS: " + MAX
+//                , new Label.LabelStyle(font, Color.WHITE));
+        fps = new Label("FPS: " + FPS , new Label.LabelStyle(font, Color.WHITE));
         fps.setPosition(0, Gdx.graphics.getHeight() / 2);
 //        fps
+
+//        dev tools
+
+        curLocation = new Vector3();
+        expectedLocation = new Vector3();
+
+        locationOfSampleCharacter = new Label("", new Label.LabelStyle(font, Color.WHITE));
+        locationOfSampleCharacter.setPosition(0, Gdx.graphics.getHeight() / 4);
+
+//        dev tools
 
 //        lblName.setFontScale(2);
 //        lblTimer.setFontScale(2);
 //        lblCurTime.setFontScale(2);
-
 
 
         table.add(lblName).expandX().pad(10, -400, 0, 0);
@@ -163,32 +183,31 @@ public class HUD {
         table.add(questTimerImg).expandX().pad(-30, -80, 0, 0);
 
 
-        Table questTable = new Table();
+        questTable = new Table();
         questTable.left();
         questTable.setFillParent(true);
-        questTable.setY(Gdx.graphics.getHeight() / 4);
-        questTable.setX(Gdx.graphics.getWidth() / 16);
 //        questTable.setPosition(20, 500);
 
-        questOnScreenName = new Label(missionContent.missionName, new Label.LabelStyle(missionFont, Color.RED));
+        questOnScreenName = new Label(missionContent.missionName, new Label.LabelStyle(missionFont, Color.WHITE));
         questOnScreenReq = new Label(missionContent.missionRequirements, new Label.LabelStyle(missionFont, Color.RED));
 
         questTable.add(questOnScreenName).left();
         questTable.row();
         questTable.add(questOnScreenReq).left();
 
-        missionAccomplished = new Label(missionAquired, new Label.LabelStyle(missionAccomplishedFont, Color.RED));
+        missionAccomplished = new Label(missionAquired, new Label.LabelStyle(missionAccomplishedFont, Color.GREEN));
         missionAccomplished.setPosition(Gdx.graphics.getWidth() / 2 - missionAccomplished.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - missionAccomplished.getHeight() / 2);
+                Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4 - missionAccomplished.getHeight() / 2);
 
 
         stage.addActor(table);
-//        stage.addActor(questTable);
+        stage.addActor(questTable);
         stage.addActor(missionAccomplished);
         missionAccomplished.setVisible(false);
 
         // fps
         stage.addActor(fps);
+        stage.addActor(locationOfSampleCharacter);
         // fps
 
     }
@@ -196,6 +215,18 @@ public class HUD {
 
     public void updated(float dt){
         timeCountMinute += dt;
+
+        if ((Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.S) ||
+                Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.A))
+                && Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            if (health > 0) {
+//                health -= 0.2f;
+            }
+            if(health <= 0){
+                health = 0;
+            }
+        }
+
         if(timeCountMinute >= 1){
             minuteTimer++;
             timeCountMinute = 0;
@@ -209,10 +240,9 @@ public class HUD {
             }
 
             if (health > 0){
-                health -= 1;
+//                health -= 1;
             }
-
-            if(health == 0){
+            if(health <= 0){
                 health = 0;
             }
 
@@ -227,28 +257,46 @@ public class HUD {
 
         if(hourTimer == 24){
             hourTimer = 0;
-
         }
 
         if(health > 560){
             healthBar.setRegion(colorBars.findRegion("green"));
+//            System.out.println(healthBar);
         }
-        else if(health > 300){
+        else if(health <= 560 && health > 300){
             healthBar.setRegion(colorBars.findRegion("orange"));
+//            System.out.println("orange");
         }
-        else {
+        else if (health < 300){
+//            System.out.println("red");
             healthBar.setRegion(colorBars.findRegion("red"));
         }
 
+//        System.out.println(health);
+
+        missionContent.update();
         lblCurTime.setText(String.format("%02d", hourTimer) + colon + String.format("%02d", minuteTimer));
         questOnScreenName.setText(missionContent.missionName);
         questOnScreenReq.setText(missionContent.missionRequirements);
         healthBarImg.setScale(health / 1920f, bar / 2);
         questTimerImg.setScale(questTime / currentQuestTime, timeLimitBar / 2);
+        questTable.setY(Gdx.graphics.getHeight() / 4 - questTable.getPrefHeight() / 2);
+        questTable.setX(Gdx.graphics.getWidth() / 16);
 
         //fps
 
+        if(fpsOn){
+            if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
+                fpsOn = false;
+            }
+        }
+        else{
+            if(Gdx.input.isKeyJustPressed(Input.Keys.F)){
+                fpsOn = true;
+            }
+        }
         FPS = Gdx.graphics.getFramesPerSecond();
+
 //        int minFPS[];
 //        minFPS = new int[100];
 //
@@ -262,8 +310,23 @@ public class HUD {
 //            }
 //        }
 
-        fps.setText("FPS: " + FPS + "\n" + "MIN FPS: " + MIN + "\n" + "MAX FPS: " + MAX);
+        if (fpsOn){
+            fps.setText("FPS: " + FPS + "\n" +
+            "Quest Table: " + questTable.getMinHeight() + "\n" +
+                    "Quest Table: " + questTable.getMaxHeight() + "\n" +
+                    "Quest Table: " + questTable.getPrefHeight() + "\n");
+            locationOfSampleCharacter.setText("curLocationX: " + curLocation.x + " \n" +
+            "expected LocationX: " + expectedLocation.x + "\n" +
+                    "curLocationZ: " + curLocation.z + " \n" +
+                            "expected LocationZ: " + expectedLocation.z );
+        }
+        else {
+            fps.setText("");
+            locationOfSampleCharacter.setText("");
+        }
         //fps
+
+//        System.out.println("GDX Version: " + com.badlogic.gdx.Version.VERSION);
 
         //
 //        healthColor();
@@ -277,25 +340,56 @@ public class HUD {
         }
         //
 
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
+        if(grab){
             timerIsOn = false;
             missionAccomplished.addAction(Actions.sequence(Actions.fadeIn(2f), Actions.show()));
             missionAccomplished.setVisible(true);
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
-            missionAccomplished.addAction(Actions.sequence(Actions.fadeOut(2f), Actions.hide()));
-            if (!timerIsOn){
+        if (!timerIsOn){
                 timerIsOn = true;
 
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
+                        missionAccomplished.addAction(Actions.sequence(Actions.fadeOut(2f), Actions.hide()));
                         missionAccomplished.setVisible(false);
 
                     }
                 }, 2);
-            }
+        }
+
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
+            gameData.putInteger(current + " missionId", 1);
+            gameData.flush();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
+            gameData.putInteger(current + " missionId", 2);
+            gameData.flush();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+            gameData.putInteger(current + " missionId", 3);
+            gameData.flush();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)){
+            gameData.putInteger(current + " missionId", 4);
+            gameData.flush();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)){
+            gameData.putInteger(current + " missionId", 5);
+            gameData.flush();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)){
+            gameData.putInteger(current + " missionId", 6);
+            gameData.flush();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_7)){
+            gameData.putInteger(current + " missionId", 7);
+            gameData.flush();
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)){
+            gameData.putInteger(current + " missionId", 8);
+            gameData.flush();
         }
 
 
@@ -321,7 +415,7 @@ public class HUD {
 
         gameData.putInteger(current + " hourTimer", hourTimer);
         gameData.putInteger(current + " minuteTimer", minuteTimer);
-        gameData.putInteger(current + " health", health);
+        gameData.putFloat(current + " health", health);
         gameData.putInteger(current + " questTime", questTime);
         gameData.flush();
 

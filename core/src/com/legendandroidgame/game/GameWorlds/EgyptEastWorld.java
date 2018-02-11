@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -14,10 +15,7 @@ import com.legendandroidgame.game.AddonTools.WorldCamera;
 import com.legendandroidgame.game.BulletComponent.AnimationComponent;
 import com.legendandroidgame.game.BulletComponent.CharacterComponent;
 import com.legendandroidgame.game.BulletComponent.ModelComponent;
-import com.legendandroidgame.game.BulletSystem.BulletSystem;
-import com.legendandroidgame.game.BulletSystem.PlayerSystem;
-import com.legendandroidgame.game.BulletSystem.RenderSystem;
-import com.legendandroidgame.game.BulletSystem.StatusSystem;
+import com.legendandroidgame.game.BulletSystem.*;
 import com.legendandroidgame.game.BulletTools.CharacterEntityFactory;
 import com.legendandroidgame.game.BulletTools.MapEntityFactory;
 import com.legendandroidgame.game.BulletTools.ObjectEntityFactory;
@@ -35,6 +33,7 @@ public class EgyptEastWorld {
     private BulletSystem bulletSystem;
     private Entity character, portalEntity1, portalEntity2, portalEntity3, portalEntity4;
     private PlayerSystem playerSystem;
+    private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
     public WorldCamera worldCamera;
@@ -52,7 +51,7 @@ public class EgyptEastWorld {
     private String current = gameData.getString("current");
 
     private float posX, posZ;
-
+    public float moverX, moverY;
 
     public EgyptEastWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -184,7 +183,8 @@ public class EgyptEastWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -265,6 +265,8 @@ public class EgyptEastWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
         bulletSystem.dispose();

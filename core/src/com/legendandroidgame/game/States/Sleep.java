@@ -16,23 +16,33 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
  */
 public class Sleep extends GameState {
 
-    String current = gameData.getString("current");
-    Stage stage;
-    Texture sleepTex;
-    Image sleepImg;
+    private String current = gameData.getString("current");
+    private Stage stage;
+    private Texture sleepTex;
+    private Image sleepImg;
 
-
-
-    boolean timerIsOn = false;
+    private boolean timerIsOn = false;
 
     public Sleep(GameStateManager gsm) {
         super(gsm);
 
-        if(Gdx.graphics.getWidth() > 1800){
-            sleepTex = new Texture("1080/background/Sleep.png");
-        }
-        else {
-            sleepTex = new Texture("720/background/Sleep.png");
+        switch (Gdx.app.getType()){
+            case Android:
+                if(Gdx.graphics.getWidth() > 900){
+                    sleepTex = new Texture("1080/background/Sleep.png");
+                }
+                else {
+                    sleepTex = new Texture("720/background/Sleep.png");
+                }
+                break;
+            case Desktop:
+                if(Gdx.graphics.getWidth() > 1800){
+                    sleepTex = new Texture("1080/background/Sleep.png");
+                }
+                else {
+                    sleepTex = new Texture("720/background/Sleep.png");
+                }
+                break;
         }
 
         stage = new Stage();
@@ -46,26 +56,27 @@ public class Sleep extends GameState {
     @Override
     protected void handleInput() {
 
-        if (!timerIsOn){
-            timerIsOn = true;
+//        if (!timerIsOn){
+//            timerIsOn = true;
+//
+//            Timer.schedule(new Timer.Task() {
+//                @Override
+//                public void run() {
+//
+//
+//                }
+//            }, 0.1f);
+//        }
 
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-
-                    if(gameData.getInteger(current + " missionId") >= 2 ){
-                        gsm.set(new MosesHouse(gsm));
-                        dispose();
-                    }
-                    else {
-                        gsm.set(new HouseOfAbraham(gsm));
-                        dispose();
-                    }
-
-
-                }
-            }, 0.5f);
+        if(gameData.getInteger(current + " missionId") > 2 ){
+            gsm.set(new MosesHouse(gsm));
+            dispose();
         }
+        else {
+            gsm.set(new HouseOfAbraham(gsm));
+            dispose();
+        }
+
     }
 
     @Override
@@ -84,7 +95,6 @@ public class Sleep extends GameState {
 
     @Override
     public void dispose() {
-        sleepImg.clear();
         sleepTex.dispose();
         stage.dispose();
     }

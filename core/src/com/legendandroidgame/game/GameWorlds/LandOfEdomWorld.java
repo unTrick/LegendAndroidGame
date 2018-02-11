@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -53,6 +54,7 @@ public class LandOfEdomWorld {
     private String current = gameData.getString("current");
 
     private float posX, posZ;
+    public float moverX, moverY;
 
     public boolean goToEast = false, goToCave = false, goToJordan = false;
 
@@ -183,7 +185,7 @@ public class LandOfEdomWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
         engine.addSystem(numbersGuySystem = new NumbersGuySystem(bulletSystem));
 
         engine.addSystem(new StatusSystem());
@@ -231,10 +233,6 @@ public class LandOfEdomWorld {
 //            goToCave = true;
         }
 
-        if(numbersGuySystem.canTalk){
-            canTalkToGuy = true;
-        }
-
         worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);
@@ -257,6 +255,8 @@ public class LandOfEdomWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
 

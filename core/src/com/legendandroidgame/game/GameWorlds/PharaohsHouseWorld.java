@@ -5,8 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -55,25 +54,7 @@ public class PharaohsHouseWorld {
 
     private float posX = -45, posZ = -2;
 
-    public class MyContactListener extends ContactListener {
-        @Override
-        public void onContactStarted(btCollisionObject colObj0, btCollisionObject colObj1){
-            if (colObj0.userData instanceof Entity && colObj1.userData instanceof Entity) {
-                Entity entity0 = (Entity) colObj0.userData;
-                Entity entity1 = (Entity) colObj1.userData;
-                if(entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(DoorComponent.class) != null){
-                    if(entity1.getComponent(DoorComponent.class) != null){
-                        goOutside = true;
-                    }
-                    goOutside = true;
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(DoorComponent.class) == null){
-                    goOutside = false;
-                }
-            }
-        }
-    }
-
+    private Vector3 doorPos, playerPos;
 
     public PharaohsHouseWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -85,8 +66,6 @@ public class PharaohsHouseWorld {
         map = MapEntityFactory.loadPharaohHouse();
         modelComponent = map.getComponent(ModelComponent.class);
         addSystems(controller, actualGameButtons, modelComponent);
-        MyContactListener myContactListener = new MyContactListener();
-        myContactListener.enable();
         addEntities();
     }
 
@@ -146,7 +125,7 @@ public class PharaohsHouseWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
         engine.addSystem(pharaohSystem = new PharaohSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
@@ -181,6 +160,19 @@ public class PharaohsHouseWorld {
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+        doorPos = houseDoor.getComponent(DoorComponent.class).doorObject.getWorldTransform().getTranslation(new Vector3());
+
+
+        if((playerPos.x - doorPos.x) <= 5 && (playerPos.x - doorPos.x) >= -5
+                && (playerPos.z - doorPos.z) <= 5 && (playerPos.z - doorPos.z) >= -5){
+//            System.out.println("do you wat to go inside?");
+            goOutside = true;
+        }
+        else {
+            goOutside = false;
+        }
+
         if(pharaohSystem.canTalk){
             canTalkToPharaoh = true;
         }
@@ -207,6 +199,8 @@ public class PharaohsHouseWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
 

@@ -112,7 +112,7 @@ public class LoadScreen extends GameState {
                         case 23: gsm.set(new NumbersOne(gsm));
                             dispose();
                             break;
-                        case 24:
+                        case 24: gsm.set(new GenSceneOne(gsm));
                             dispose();
                             break;
                         case 25: gsm.set(new DeuTwo(gsm));

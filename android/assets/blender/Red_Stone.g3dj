@@ -112,25 +112,13 @@
 	], 
 	"materials": [
 		{
-			"id": "Material.000", 
+			"id": "rock", 
 			"ambient": [ 0.000000,  0.000000,  0.000000], 
 			"diffuse": [ 0.799103,  0.034316,  0.027427], 
 			"emissive": [ 0.799103,  0.034316,  0.027427], 
 			"opacity":  1.000000, 
 			"specular": [ 1.000000,  1.000000,  1.000000], 
-			"shininess":  9.607843, 
-			"textures": [
-				{
-					"id": "Texture.000", 
-					"filename": "Rock6.jpg", 
-					"type": "DIFFUSE"
-				}, 
-				{
-					"id": "Texture.000", 
-					"filename": "Rock6.jpg", 
-					"type": "NORMAL"
-				}
-			]
+			"shininess":  9.607843
 		}
 	], 
 	"nodes": [
@@ -142,8 +130,8 @@
 			"parts": [
 				{
 					"meshpartid": "rock.000_part1", 
-					"materialid": "Material.000", 
-					"uvMapping": [[  0,   1]]
+					"materialid": "rock", 
+					"uvMapping": [[]]
 				}
 			]
 		}

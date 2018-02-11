@@ -181,7 +181,7 @@ public class MapEntityFactory {
 
         Entity entity = new Entity();
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Egypt_East.g3dj"));
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/Egypt_EastFinal.g3dj"));
         Model model = new Model(modelData, new TextureProvider.FileTextureProvider());
         for (Node node : model.nodes) node.rotation.set(new Vector3(0,90,0), 180);
         model.calculateTransforms();

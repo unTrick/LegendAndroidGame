@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -36,7 +37,7 @@ public class JordanWorld {
     private Engine engine;
     private BulletSystem bulletSystem;
     private Entity character;
-    private Entity map, plaster, stoneOne, stoneTwo;
+    private Entity map, plaster, stoneOne, stoneTwo, portal1Entity, portal2Entity;
     private PlayerSystem playerSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
@@ -49,10 +50,13 @@ public class JordanWorld {
     private DebugDrawer debugDrawer;
     private static final boolean debug = false;
 
-    public boolean goToHaran = false, goToEdom = false;
+    public boolean goToMoriah = false, goToSinai = false;
     private boolean stone1Collide = false, stone2Collide = false, plasterCollide = false;
 
+    private Vector3 portal1Pos, portal2Pos, playerPos;
+
     private float posX, posZ;
+    public Vector2 mover;
 
     public JordanWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -63,13 +67,11 @@ public class JordanWorld {
         setDebug();
         map = MapEntityFactory.loadJordan();
         modelComponent = map.getComponent(ModelComponent.class);
-        if(gameData.getInteger(current + " from") == 2){
-            posX = 389;
-            posZ = -161;
-        }
+        mover = new Vector2();
+
         if(gameData.getInteger(current + " from") == 3){
-            posX = 389;
-            posZ = -161;
+            posX = 362;
+            posZ = 25;
         }
         if(gameData.getInteger(current + " from") == 8){
             posX = 43;
@@ -87,13 +89,10 @@ public class JordanWorld {
     private void initCamera() {
 
         worldCam = new WorldCamera();
-        if(gameData.getInteger(current + " from") == 2){
-            worldCam.worldCam.position.x = -1301f;
-            worldCam.worldCam.position.z = -1750f;
-        }
+
         if(gameData.getInteger(current + " from") == 3){
-            worldCam.worldCam.position.x = -1301f;
-            worldCam.worldCam.position.z = -1750f;
+            worldCam.worldCam.position.x = -1328f;
+            worldCam.worldCam.position.z = -1564f;
         }
         if(gameData.getInteger(current + " from") == 8){
             worldCam.worldCam.position.x = -1648f;
@@ -113,6 +112,8 @@ public class JordanWorld {
             loadLargeStonesTwo();
             loadPlaster();
         }
+        loadPortal1();
+        loadPortal2();
     }
 
     private void setDebug(){
@@ -148,11 +149,21 @@ public class JordanWorld {
         engine.addEntity(plaster);
     }
 
+    private void loadPortal1() {
+        portal1Entity = ObjectEntityFactory.loadPortalTop(389f,7f, -92f);
+        engine.addEntity(portal1Entity);
+    }
+
+    void loadPortal2(){
+        portal2Entity = ObjectEntityFactory.loadPortalLeft(101,7.5f,-342);
+        engine.addEntity(portal2Entity);
+    }
+
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -186,57 +197,23 @@ public class JordanWorld {
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x > 392) {
-//            goToHaran = true;
+        portal1Pos = portal1Entity.getComponent(ModelComponent.class).instance.transform.getTranslation(new Vector3());
+        portal2Pos = portal2Entity.getComponent(ModelComponent.class).instance.transform.getTranslation(new Vector3());
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+
+        if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
+                && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
+            goToMoriah = true;
         }
-        if (CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z < -346f) {
-//            goToEdom = true;
+        else if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
+                && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10) {
+            goToSinai = true;
         }
-
-        if(stone1Collide){
-            if(Gdx.input.justTouched()){
-                    engine.removeEntity(stoneOne);
-                    bulletSystem.collisionWorld.removeCollisionObject(stoneOne.getComponent(LargeStonesOneComponent.class).stoneObject);
-
-                    switch (gameData.getInteger(current + " missionCount")){
-                        case 0: gameData.putInteger(current + " missionCount", 1);
-                            gameData.flush();
-                            break;
-                        case 1: gameData.putInteger(current + " missionCount", 2);
-                            gameData.flush();
-                            break;
-
-                }
-            }
+        else {
+            goToMoriah = false;
+            goToSinai = false;
         }
 
-        if(stone2Collide){
-            if(Gdx.input.justTouched()){
-                    engine.removeEntity(stoneTwo);
-                    bulletSystem.collisionWorld.removeCollisionObject(stoneTwo.getComponent(LargeStonesTwoComponent.class).stoneObject);
-
-                    switch (gameData.getInteger(current + " missionCount")){
-                        case 0: gameData.putInteger(current + " missionCount", 1);
-                            gameData.flush();
-                            break;
-                        case 1: gameData.putInteger(current + " missionCount", 2);
-                            gameData.flush();
-                            break;
-
-                }
-            }
-        }
-
-        if(plasterCollide){
-            if(Gdx.input.justTouched()){
-                    engine.removeEntity(plaster);
-                    bulletSystem.collisionWorld.removeCollisionObject(plaster.getComponent(PlasterComponent.class).plasterObject);
-
-                    gameData.putString(current + " findPlaster", "Done");
-                    gameData.flush();
-
-            }
-        }
 
         worldCam.update();
         characterAnimation.update(dt);
@@ -260,6 +237,8 @@ public class JordanWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
 

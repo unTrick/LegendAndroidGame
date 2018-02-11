@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -30,37 +31,27 @@ public class SinaiWorld {
     private Engine engine;
     private BulletSystem bulletSystem;
     private Entity character;
-    private Entity lot, sarai, haran, houseDoor, portalEntity1, portalEntity2, campFire, well;
+    private Entity sinai, portalEntity1, portalEntity2, portalEntity3;
+    private Entity gold, silver, bronze, scarletYarn, twinedLinen, oil, spices, incense, onyxStone, stone,
+            goatHair, acaciaWood;
     private PlayerSystem playerSystem;
-    private SaraiSystem saraiSystem;
-    private LotSystem lotSystem;
-    private InstructorCharSystem instructorCharSystem;
     private AnimationComponent characterAnimation;
-    private AnimationComponent lotAnimation;
-    private AnimationComponent saraiAnimation;
     private ModelComponent modelComponent;
 
     public WorldCamera worldCamera;
-    //    public CameraInputController cameraInputController;
     public Environment environment;
-
-    public boolean lotBounds = false, saraiBounds = false;
 
     private DebugDrawer debugDrawer;
     private static final boolean debug = false;
 
     private String current = gameData.getString("current");
 
-
-    public boolean gotoAbrahamsHouse = false;
-    public boolean gotoBethel = false, goToJordan = false;
-    public boolean isWellTouch = false;
+    public boolean gotoBethel = false, goToJordan = false, goToEastEgypt;
 
     private float posX , posZ ;
+    public Vector2 mover;
 
-    private Vector3 portal1Pos, portal2Pos, playerPos, wellPos, wellInstructorPos, houseDoorPos;
-
-
+    private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos;
 
     public SinaiWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -69,29 +60,24 @@ public class SinaiWorld {
         initCamera();
         initModelBatch();
         initEnvironment();
-        haran = MapEntityFactory.loadHaran();
-        modelComponent = haran.getComponent(ModelComponent.class);
-        if(gameData.getInteger(current + " from") == 1){
-            posX = 46;
-            posZ = -65;
-//            (46.35008,3.9726622,-65.48449)
-//            this is z(-1645.254,1500.0,-1657.6821)
-        }
+        sinai = MapEntityFactory.loadMtSinai();
+        modelComponent = sinai.getComponent(ModelComponent.class);
+        mover = new Vector2(517,	392);
         if(gameData.getInteger(current + " from") == 3){
-            posX = 31;
-            posZ = -104;
+            posX = 172;
+            posZ = -23;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
         if(gameData.getInteger(current + " from") == 9){
-            posX = -91;
-            posZ = 66;
+            posX = 94;
+            posZ = 174;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
-        if(gameData.getInteger(current + " from") == 11){
-            posX = 31;
-            posZ = -104;
+        if(gameData.getInteger(current + " from") == 4){
+            posX = -42;
+            posZ = -164.4f;
         }
         addSystems(controller, actualGameButtons, modelComponent);
         addEntities();
@@ -106,28 +92,22 @@ public class SinaiWorld {
         worldCamera = new WorldCamera();
 //        cameraInputController = new CameraInputController(worldCamera.worldCam);
 
-        if(gameData.getInteger(current + " from") == 1){
-            worldCamera.worldCam.position.x = -1645f;
-            worldCamera.worldCam.position.z = -1658f;
-//            (46.35008,3.9726622,-65.48449)
-//            this is z(-1645.254,1500.0,-1657.6821)
-        }
         if(gameData.getInteger(current + " from") == 3){
-            worldCamera.worldCam.position.x = -1660f;
-            worldCamera.worldCam.position.z = -1697f;
+            worldCamera.worldCam.position.x = -1519f;
+            worldCamera.worldCam.position.z = -1613f;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
         if(gameData.getInteger(current + " from") == 9){
-            worldCamera.worldCam.position.x = -1782f;
-            worldCamera.worldCam.position.z = -1527f;
+            worldCamera.worldCam.position.x = -1597f;
+            worldCamera.worldCam.position.z = -1416f;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
 
-        if(gameData.getInteger(current + " from") == 11){
-            worldCamera.worldCam.position.x = -1660f;
-            worldCamera.worldCam.position.z = -1697f;
+        if(gameData.getInteger(current + " from") == 4){
+            worldCamera.worldCam.position.x = -1733f;
+            worldCamera.worldCam.position.z = -1754.5f;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
@@ -138,15 +118,11 @@ public class SinaiWorld {
     }
 
     private void addEntities() {
-        loadHaran();
+        loadSinai();
         createPlayer(posX,10,posZ);
-        loadHouseDoor(53,6,-73);
-        lotModel(-73,10,-26);
-        saraiModel(30,10,-44);
-//        loadCampFire(30,4,-61);
-        loadWell();
         loadPortal1();
         loadPortal2();
+        loadPortal3();
     }
 
     private void setDebug(){
@@ -156,20 +132,9 @@ public class SinaiWorld {
         }
     }
 
-    private void loadHaran() {
+    private void loadSinai() {
 
-        engine.addEntity(haran);
-    }
-
-    private void loadHouseDoor(float x, float y, float z){
-
-        houseDoor = ObjectEntityFactory.loadHouseDoor(bulletSystem, x, y, z);
-        engine.addEntity(houseDoor);
-    }
-
-    private void loadCampFire(float x, float y, float z){
-        campFire = ObjectEntityFactory.loadCampFire(bulletSystem, x, y ,z);
-        engine.addEntity(campFire);
+        engine.addEntity(sinai);
     }
 
     private void createPlayer(float x, float y, float z) {
@@ -179,33 +144,34 @@ public class SinaiWorld {
         playerSystem.playerAnimation = characterAnimation;
     }
 
-    private void lotModel(float x, float y, float z){
-        lot = CharacterEntityFactory.createLotCharacter(bulletSystem, x, y, z);
-        engine.addEntity(lot);
-        lotAnimation = new AnimationComponent(CharacterEntityFactory.lotComponent.instance);
-        lotSystem.playerAnimation = lotAnimation;
-    }
-
-    private void saraiModel(float x, float y, float z){
-        sarai = CharacterEntityFactory.createSaraiCharacter(bulletSystem, x, y, z);
-        engine.addEntity(sarai);
-        saraiAnimation = new AnimationComponent(CharacterEntityFactory.saraiComponent.instance);
-        saraiSystem.playerAnimation = saraiAnimation;
-    }
-
-    private void loadWell(){
-        well = ObjectEntityFactory.loadWell(bulletSystem, 7f,5.485676f,63f);
-        engine.addEntity(well);
-    }
-
     private void loadPortal1(){
-        portalEntity1 = ObjectEntityFactory.loadPortalLeft(28,3.7098236f,-116);
+        portalEntity1 = ObjectEntityFactory.loadPortalTop(182,9,-25);
         engine.addEntity(portalEntity1);
     }
 
     private void loadPortal2(){
-        portalEntity2 = ObjectEntityFactory.loadPortalBottom(-84f,3.6057749f,66.86713f);
+        portalEntity2 = ObjectEntityFactory.loadPortalLeft(-47,9,-188);
         engine.addEntity(portalEntity2);
+    }
+
+    private void loadPortal3(){
+        portalEntity3 = ObjectEntityFactory.loadPortalRight(94,9,184);
+        engine.addEntity(portalEntity3);
+    }
+
+    private void objects(){
+//        gold;
+//        silver;
+//        bronze;
+//        scarletYarn;
+//        twinedLinen;
+//        oil;
+//        spices;
+//        incense;
+//        onyxStone;
+//        stone;
+//        goatHair;
+//        acaciaWood;
     }
 
 
@@ -213,10 +179,7 @@ public class SinaiWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ));
-        engine.addSystem(saraiSystem = new SaraiSystem(bulletSystem));
-        engine.addSystem(lotSystem = new LotSystem(bulletSystem));
-        engine.addSystem(instructorCharSystem = new InstructorCharSystem(bulletSystem));
+        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, mover));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -225,94 +188,53 @@ public class SinaiWorld {
     public void render(float dt) {
 
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-
-            worldCamera.worldCam.position.x += 1;
-//            System.out.println("this is x" +  worldCamera.worldCam.position.x);
-
+            worldCamera.worldCam.position.x += .5f;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-
-            worldCamera.worldCam.position.z += 1;
-//            System.out.println("this is z" +  worldCamera.worldCam.position.z);
-
+            worldCamera.worldCam.position.z += .5f;
         }
-
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-
-            worldCamera.worldCam.position.x -= 1;
-//            System.out.println("this is x" +  worldCamera.worldCam.position.x);
-
+            worldCamera.worldCam.position.x -= .5f;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-
-            worldCamera.worldCam.position.z -= 1;
-//            System.out.println("this is z" +  worldCamera.worldCam.position.z);
+            worldCamera.worldCam.position.z -= .5f;
         }
-
-        //        System.out.println(Gdx.graphics.getFramesPerSecond());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.N)){
             System.out.println("\n");
             System.out.println("this is camera pos\t" +  worldCamera.worldCam.position);
             System.out.println("this is camera look\t" +  worldCamera.worldCam.direction);
-            /*
-            System.out.println("this is camera field of view\t" +  worldCamera.worldCam.fieldOfView);
-            System.out.println("this is camera frustum\t" +  worldCamera.worldCam.frustum);
-            System.out.println("this is camera invProjectionView\t" +  worldCamera.worldCam.invProjectionView);
-            System.out.println("this is camera view\t" +  worldCamera.worldCam.view);
-            */
             System.out.println("\n");
-
         }
-
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
-
         playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
-        wellInstructorPos = CharacterEntityFactory.instructorComponent.instance.transform.getTranslation(new Vector3());
-        portal1Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
-        portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
-        houseDoorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
-        wellPos = well.getComponent(WellComponent.class).wellObject.getWorldTransform().getTranslation(new Vector3());
-
-
+        portal1Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
+        portal2Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
+        portal3Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
 
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
 //            System.out.println("do you wat to go inside?");
             gotoBethel = true;
         }
-        else {
-            gotoBethel = false;
-        }
-
-        if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
+        else if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
                 && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10){
+//            System.out.println("do you wat to go inside?");
+            goToEastEgypt = true;
+        }
+        else if((playerPos.x - portal3Pos.x) <= 10 && (playerPos.x - portal3Pos.x) >= -10
+                && (playerPos.z - portal3Pos.z) <= 10 && (playerPos.z - portal3Pos.z) >= -10){
 //            System.out.println("do you wat to go inside?");
             goToJordan = true;
         }
         else {
             goToJordan = false;
-        }
-
-
-        if((playerPos.x - wellPos.x) <= 10 && (playerPos.x - wellPos.x) >= -10
-                && (playerPos.z - wellPos.z) <= 10 && (playerPos.z - wellPos.z) >= -10){
-            isWellTouch = true;
-        }
-        else {
-            isWellTouch = false;
-        }
-
-        if((playerPos.x - houseDoorPos.x) <= 5 && (playerPos.x - houseDoorPos.x) >= -5
-                && (playerPos.z - houseDoorPos.z) <= 5 && (playerPos.z - houseDoorPos.z) >= -5){
-            gotoAbrahamsHouse = true;
-        }
-        else {
-            gotoAbrahamsHouse = false;
+            goToEastEgypt = false;
+            gotoBethel = false;
         }
 
 //        if(!((playerPos.x - wellInstructorPos.x) <= 10) && !((playerPos.x - wellInstructorPos.x) >= -10)
@@ -349,11 +271,7 @@ public class SinaiWorld {
         */
 
         worldCamera.worldCam.update();
-//        worldCamera.update();
-//        cameraInputController.update();
         characterAnimation.update(dt);
-        saraiAnimation.update(dt);
-        lotAnimation.update(dt);
         renderWorld(dt);
 
     }
@@ -373,11 +291,10 @@ public class SinaiWorld {
     }
 
     public void dispose() {
-        instructorCharSystem.dispose();
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
-        bulletSystem.collisionWorld.removeCollisionObject(lot.getComponent(LotCharacterComponent.class).ghostObject);
-        bulletSystem.collisionWorld.removeCollisionObject(sarai.getComponent(SaraiCharacterComponent.class).ghostObject);
 
         bulletSystem.dispose();
 
@@ -389,16 +306,6 @@ public class SinaiWorld {
         character.getComponent(CharacterComponent.class).characterController.dispose();
         character.getComponent(CharacterComponent.class).ghostObject.dispose();
         character.getComponent(CharacterComponent.class).ghostShape.dispose();
-
-        lot.getComponent(LotCharacterComponent.class).ghostShape.dispose();
-        lot.getComponent(LotCharacterComponent.class).ghostObject.dispose();
-
-        sarai.getComponent(SaraiCharacterComponent.class).ghostShape.dispose();
-        sarai.getComponent(SaraiCharacterComponent.class).ghostObject.dispose();
-
-        houseDoor.getComponent(DoorComponent.class).doorShape.dispose();
-        houseDoor.getComponent(DoorComponent.class).doorObject.dispose();
-
 
         environment.dispose();
     }

@@ -1,7 +1,6 @@
 package com.legendandroidgame.game.AddonTools;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
@@ -24,7 +23,7 @@ public class WorldCamera {
         worldCam.near = 1f;
         worldCam.far = 2850f;
 
-        worldCam.zoom = 0.03f;
+        worldCam.zoom = 0.06f;
 
         worldCam.update();
 

@@ -2,6 +2,7 @@ package com.legendandroidgame.game.PopupBox;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,339 +15,322 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 /**
  * Created by Patrick on 5/2/2017.
  */
+
 public class Conversation {
 
     private Stage stage;
-    private Texture nextTex;
+    private Texture nextTxt;
     public ImageButton nextBtn;
-    private Texture haran1Tex, haran2Tex, haran3Tex, exoOneTex, exoTwoTex, exoMoses1Tex, exoMoses2Tex,  pharaoh1Tex, pharaoh2Tex,
-            levMoses1Tex, numbersGuyTex, numbersOneTex,  joshuaLast1, joshuaLast2, diaBack, wellIns1Tex, wellIns2Tex, wellAbraham1Tex,
-            wellAbraham2Tex;
-    public Image haran1, haran2, haran3, exoOne, exoTwo, exoMoses1, exoMoses2, pharaoh1, pharaoh2, levMoses1, numbersGuy,
-    numbersOne, joshuaLast1Img, joshuaLast2Img, wellIns1Img, wellIns2Img, wellAbraham1Img, wellAbraham2Img;
+    private TextureAtlas conversationAtlas;
+    private TextureRegion convoRegion;
+    private Image convoImg;
     String current = gameData.getString("current");
-    public boolean exoOneConvo = true;
-    public boolean pharaohConvo = true;
-    public boolean haranConvo = true;
-    public boolean aaronConvoLev = true;
-    public boolean talkToNumbersGuy = true;
-    public boolean joshuaLastMsg1 = true;
-    public boolean joshuaLastMsg2 = true;
-    public boolean haranInsConvo1 = true;
-    public boolean haranInsConvo2 = true;
+    public int clickCount = 0;
 
     public Conversation(Stage stage) {
+
         this.stage = stage;
 
-        if(Gdx.graphics.getWidth() > 1800){
-            nextTex = new Texture("1080/convo/Arrow Right.png");
-            diaBack = new Texture("1080/convo/Genesis Convo 1 Part 1.png");
-            haran1Tex = new Texture("1080/convo/Genesis Convo 1 Part 1.png");
-            haran2Tex = new Texture("1080/convo/Genesis Convo 1 Part 2.png");
-            haran3Tex = new Texture("1080/convo/Genesis Convo 1 Part 3.png");
-            exoOneTex = new Texture("1080/convo/ExodusGod1.png");
-            exoTwoTex = new Texture("1080/convo/ExodusGod2.png");
-            exoMoses1Tex = new Texture("1080/convo/ExodusMoses1.png");
-            exoMoses2Tex = new Texture("1080/convo/ExodusMoses2.png");
-            pharaoh1Tex = new Texture("1080/convo/ExodusPharaoh1.png");
-            pharaoh2Tex = new Texture("1080/convo/ExodusPharaoh2.png");
-            levMoses1Tex = new Texture("1080/convo/LeviticusConvo1.png");
-            numbersGuyTex = new Texture("1080/convo/NumbersGuy.png");
-            numbersOneTex = new Texture("1080/convo/GodNumbers.png");
-            joshuaLast1 = new Texture("1080/convo/JoshuaLast1.png");
-            joshuaLast2 = new Texture("1080/convo/JoshuaLast2.png");
-        }
-        else {
-            nextTex = new Texture("720/convo/Arrow Right.png");
-            diaBack = new Texture("720/convo/Abraham_Convo2.png");
-            haran1Tex = new Texture("720/convo/Genesis Convo 1 Part 1.png");
-            haran2Tex = new Texture("720/convo/Genesis Convo 1 Part 2.png");
-            haran3Tex = new Texture("720/convo/Genesis Convo 1 Part 3.png");
-            exoOneTex = new Texture("720/convo/ExodusGod1.png");
-            exoTwoTex = new Texture("720/convo/ExodusGod2.png");
-            exoMoses1Tex = new Texture("720/convo/ExodusMoses1.png");
-            exoMoses2Tex = new Texture("720/convo/ExodusMoses2.png");
-            pharaoh1Tex = new Texture("720/convo/ExodusPharaoh1.png");
-            pharaoh2Tex = new Texture("720/convo/ExodusPharaoh2.png");
-            levMoses1Tex = new Texture("720/convo/LeviticusConvo1.png");
-            numbersGuyTex = new Texture("720/convo/NumbersGuy.png");
-            numbersOneTex = new Texture("720/convo/GodNumbers.png");
-            joshuaLast1 = new Texture("720/convo/JoshuaLast1.png");
-            joshuaLast2 = new Texture("720/convo/JoshuaLast2.png");
-            wellIns1Tex = new Texture("720/convo/Man_Convo1.png");
-            wellIns2Tex = new Texture("720/convo/Man_Convo2.png");
-            wellAbraham1Tex = new Texture("720/convo/Abraham_Convo1.png");
-            wellAbraham2Tex = new Texture("720/convo/Abraham_Convo2.png");
+        switch(Gdx.app.getType()) {
+            case Android:
+                if(Gdx.graphics.getWidth() > 900){ // HDPI
+                    nextTxt = new Texture("1080/button/next.png");
+                    conversationAtlas = new TextureAtlas("1080/Texturepack/Convo-HDPI.pack");
+                }
+                else { // MDPI
+                    nextTxt = new Texture("720/button/next.png");
+                    conversationAtlas = new TextureAtlas("720/Texturepack/Convo-MDPI.pack");
+                }
+                break;
+            case Desktop:
+                if(Gdx.graphics.getWidth() > 1800){ // HDPI
+                    nextTxt = new Texture("1080/button/next.png");
+                    conversationAtlas = new TextureAtlas("1080/Texturepack/Convo-HDPI.pack");
+                }
+                else { // MDPI
+                    nextTxt = new Texture("720/button/next.png");
+                    conversationAtlas = new TextureAtlas("720/Texturepack/Convo-MDPI.pack");
+                }
+                break;
         }
 
-        haran1 = new Image(haran1Tex);
-        haran1.setPosition(Gdx.graphics.getWidth() / 2 - haran1Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - haran1Tex.getHeight() * 2);
 
-        haran2 = new Image(haran2Tex);
-        haran2.setPosition(Gdx.graphics.getWidth() / 2 - haran2Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - haran2Tex.getHeight() * 2);
 
-        haran3 = new Image(haran3Tex);
-        haran3.setPosition(Gdx.graphics.getWidth() / 2 - haran3Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - haran3Tex.getHeight() * 2);
+        // Mission Panel
 
-        exoOne = new Image(exoOneTex);
-        exoOne.setPosition(Gdx.graphics.getWidth() / 2 - exoOneTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - exoOneTex.getHeight() * 2);
+        convoRegion = conversationAtlas.findRegion("First_Part 1");
+        convoImg = new Image(convoRegion);
+        convoImg.setPosition(Gdx.graphics.getWidth() / 2 - convoRegion.getRegionWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - convoRegion.getRegionHeight() * 2);
 
-        exoTwo = new Image(exoTwoTex);
-        exoTwo.setPosition(Gdx.graphics.getWidth() / 2 - exoTwoTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - exoTwoTex.getHeight() * 2);
+        // Buttons
+        Drawable nextDraw = new TextureRegionDrawable(new TextureRegion(nextTxt));
 
-        exoMoses1 = new Image(exoMoses1Tex);
-        exoMoses1.setPosition(Gdx.graphics.getWidth() / 2 - exoMoses1Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - exoMoses1Tex.getHeight() * 2);
-
-        exoMoses2 = new Image(exoMoses2Tex);
-        exoMoses2.setPosition(Gdx.graphics.getWidth() / 2 - exoMoses2Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - exoMoses2Tex.getHeight() * 2);
-
-        pharaoh1 = new Image(pharaoh1Tex);
-        pharaoh1.setPosition(Gdx.graphics.getWidth() / 2 - pharaoh1Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - pharaoh1Tex.getHeight() * 2);
-
-        pharaoh2 = new Image(pharaoh2Tex);
-        pharaoh2.setPosition(Gdx.graphics.getWidth() / 2 - pharaoh2Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - pharaoh2Tex.getHeight() * 2);
-
-        levMoses1 = new Image(levMoses1Tex);
-        levMoses1.setPosition(Gdx.graphics.getWidth() / 2 - levMoses1Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - levMoses1Tex.getHeight() * 2);
-
-        numbersGuy = new Image(numbersGuyTex);
-        numbersGuy.setPosition(Gdx.graphics.getWidth() / 2 - numbersGuyTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - numbersGuyTex.getHeight() * 2);
-
-        numbersOne = new Image(numbersOneTex);
-        numbersOne.setPosition(Gdx.graphics.getWidth() / 2 - numbersOneTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - numbersOneTex.getHeight() * 2);
-
-        joshuaLast1Img = new Image(joshuaLast1);
-        joshuaLast1Img.setPosition(Gdx.graphics.getWidth() / 2 - joshuaLast1.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - joshuaLast1.getHeight() * 2);
-
-        joshuaLast2Img = new Image(joshuaLast2);
-        joshuaLast2Img.setPosition(Gdx.graphics.getWidth() / 2 - joshuaLast2.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - joshuaLast2.getHeight() * 2);
-
-        wellIns1Img = new Image(wellIns1Tex);
-        wellIns1Img.setPosition(Gdx.graphics.getWidth() / 2 - wellIns1Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - wellIns1Tex.getHeight() * 1.3f);
-
-        wellIns2Img = new Image(wellIns2Tex);
-        wellIns2Img.setPosition(Gdx.graphics.getWidth() / 2 - wellIns2Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - wellIns2Tex.getHeight() * 1.3f);
-
-        wellAbraham1Img = new Image(wellAbraham1Tex);
-        wellAbraham1Img.setPosition(Gdx.graphics.getWidth() / 2 - wellAbraham1Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - wellAbraham1Tex.getHeight() * 1.3f);
-
-        wellAbraham2Img = new Image(wellAbraham2Tex);
-        wellAbraham2Img.setPosition(Gdx.graphics.getWidth() / 2 - wellAbraham2Tex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - wellAbraham2Tex.getHeight() * 1.3f);
-
-        Drawable nextDraw = new TextureRegionDrawable(new TextureRegion(nextTex));
         nextBtn = new ImageButton(nextDraw);
-            nextBtn.setPosition(Gdx.graphics.getWidth() / 2 + diaBack.getWidth() / 2 - nextTex.getWidth(),
-                Gdx.graphics.getHeight() / 2 - diaBack.getHeight() * 1.2f );
 
+        nextBtn.setPosition((Gdx.graphics.getWidth() / 2 + convoRegion.getRegionWidth() / 2) - nextTxt.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - convoRegion.getRegionHeight() * 2);
+
+    }
+
+    public void conversation(){ 
+        stage.addActor(convoImg);
+        stage.addActor(nextBtn);
+    }
+
+    public void closeConversation(){ 
+        convoImg.remove();
+        nextBtn.remove();
     }
 
 
     public void update(){
 
-        /*
-        if(haranInsConvo1){
-            if (gameData.getInteger(current + " convoId") == 1){
-                stage.addActor(wellIns1Img);
-                stage.addActor(nextBtn);
-            }
-            else if(gameData.getInteger(current + " convoId") == 2){
-                wellIns1Img.remove();
-                nextBtn.remove();
-                stage.addActor(wellAbraham1Img);
-                stage.addActor(nextBtn);
-            }
+
+        if(gameData.getInteger(current + " convoId") == 1){ //
+            convoRegion.setRegion(conversationAtlas.findRegion("First_Part 1"));
         }
-        else if(haranInsConvo2){
-            if (gameData.getInteger(current + " convoId") == 1){
-                stage.addActor(wellIns2Img);
-                stage.addActor(nextBtn);
-            }
-            else if(gameData.getInteger(current + " convoId") == 2){
-                wellIns2Img.remove();
-                nextBtn.remove();
-                stage.addActor(wellAbraham2Img);
-                stage.addActor(nextBtn);
-            }
+        else if(gameData.getInteger(current + " convoId") == 2){
+            convoRegion.setRegion(conversationAtlas.findRegion("First_Part 2"));
         }
-        else {
-            wellAbraham2Img.remove();
-            wellAbraham1Img.remove();
-            nextBtn.remove();
+        else if(gameData.getInteger(current + " convoId") == 3){
+            convoRegion.setRegion(conversationAtlas.findRegion("First_Part 3"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 4){
+            convoRegion.setRegion(conversationAtlas.findRegion("Second_Part 1"));
+        }        
+         else if(gameData.getInteger(current + " convoId") == 5){
+            convoRegion.setRegion(conversationAtlas.findRegion("Second_Part 2"));
+        }       
+         else if(gameData.getInteger(current + " convoId") == 6){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_Part1")); 
+        }
+         else if(gameData.getInteger(current + " convoId") == 7){
+            convoRegion.setRegion(conversationAtlas.findRegion("Isaac"));
+        }
+         else if(gameData.getInteger(current + " convoId") == 8){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_Part2"));
+        }
+         else if(gameData.getInteger(current + " convoId") == 9){
+            convoRegion.setRegion(conversationAtlas.findRegion("Third_Part 1"));
+        }
+         else if(gameData.getInteger(current + " convoId") == 10){
+            convoRegion.setRegion(conversationAtlas.findRegion("Third_Part 2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 11){
+            convoRegion.setRegion(conversationAtlas.findRegion("Fourth_Part 1"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 12){
+            convoRegion.setRegion(conversationAtlas.findRegion("Fourth_Part 2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 13){
+            convoRegion.setRegion(conversationAtlas.findRegion("Fifth"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 14){
+            convoRegion.setRegion(conversationAtlas.findRegion("Sixth"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 15){
+            convoRegion.setRegion(conversationAtlas.findRegion("Seventh_Part 1"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 16){
+            convoRegion.setRegion(conversationAtlas.findRegion("Seventh_Part 2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 17){
+            convoRegion.setRegion(conversationAtlas.findRegion("Seventh_Part 3"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 18){
+            convoRegion.setRegion(conversationAtlas.findRegion("Eighth"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 19){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_Convo20")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 20){
+            convoRegion.setRegion(conversationAtlas.findRegion("Israelites_Convo_21_Part1"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 21){
+            convoRegion.setRegion(conversationAtlas.findRegion("Israelites_Convo_21_Part2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 22){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_Convo_22_Part1")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 23){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_Convo_22_Part2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 24){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_Convo_22_Part3"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 25){
+            convoRegion.setRegion(conversationAtlas.findRegion("Israelites_Convo23")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 26){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_Convo24")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 27){
+            convoRegion.setRegion(conversationAtlas.findRegion("Israelites_Convo25")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 28){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_Convo26")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 29){
+            convoRegion.setRegion(conversationAtlas.findRegion("Israelites_Convo27")); 
         }
 
-        if (haranConvo){
-            if(gameData.getInteger(current + " convoId") == 1){
-                stage.addActor(haran1);
-                stage.addActor(nextBtn);
-            }
-            else if(gameData.getInteger(current + " convoId") == 2){
-                haran1.remove();
-                nextBtn.remove();
-                stage.addActor(haran2);
-                stage.addActor(nextBtn);
-            }
-            else if(gameData.getInteger(current + " convoId") == 3){
-                haran1.remove();
-                haran2.remove();
-                nextBtn.remove();
-                stage.addActor(haran3);
-                stage.addActor(nextBtn);
-            }
-            // TODO
-            if (gameData.getString(current + " isHaranConvoDone").equals("done")){
-                haran1.remove();
-                haran2.remove();
-                haran3.remove();
-                nextBtn.remove();
-            }
+        //modified convo
+
+        else if(gameData.getInteger(current + " convoId") == 30){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham Intro"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 31){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_SearchBethel"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 32){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo1"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 33){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo_Decline1"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 34){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_Wondering"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 35){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_SearchStone"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 36){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo_Decline2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 37){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_Thankyou"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 38){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_SearchMoriah"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 39){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 40){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_Wondering1"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 41){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_SearchWood"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 42){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo_Decline3"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 43){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo_Decline4"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 44){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo_Decline5"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 45){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_WonderingRam"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 46){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_SearchRam"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 47){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses Intro"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 48){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_SearchEgypt"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 49){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo3"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 50){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_Part1")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 51){
+            convoRegion.setRegion(conversationAtlas.findRegion("Pharaoh_Part1")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 52){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_Part2")); 
+        }
+        else if(gameData.getInteger(current + " convoId") == 53){
+            convoRegion.setRegion(conversationAtlas.findRegion("Pharaoh_Part2"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 54){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_WonderingStaff"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 55){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_SearchStaff"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 56){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_Thankyou"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 57){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_SearchSinai"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 58){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo4"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 59){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_WonderingMaterials"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 60){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_SearchMaterials"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 61){
+            convoRegion.setRegion(conversationAtlas.findRegion("Moses_Thankyou1"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 62){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua Intro"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 63){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_SearchJordan"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 64){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo5"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 65){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_SearchStones"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 66){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_Thankyou"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 67){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_SearchShechem"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 68){
+            convoRegion.setRegion(conversationAtlas.findRegion("OtherCharacter_Convo6"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 69){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_WonderingStone"));
+        }
+        else if(gameData.getInteger(current + " convoId") == 70){
+            convoRegion.setRegion(conversationAtlas.findRegion("Joshua_SearchLargeStones"));
         }
 
-        // TODO the list of codes below are full of sheete!
-
-        if(gameData.getInteger(current + " convoId") >= 6){
-            if (exoOneConvo){
-                if(gameData.getInteger(current + " convoId") == 4){
-                    stage.addActor(exoOne);
-                    stage.addActor(nextBtn);
-                }
-                else if(gameData.getInteger(current + " convoId") == 5){
-                    exoOne.remove();
-                    nextBtn.remove();
-                    stage.addActor(exoTwo);
-                    stage.addActor(nextBtn);
-                }
-            }
-            else {
-                exoTwo.remove();
-                nextBtn.remove();
-            }
+        // well
+        else if (gameData.getInteger(current + " convoId") == 71){
+            convoRegion.setRegion(conversationAtlas.findRegion("Man_Convo1"));
         }
-
-
-        if(pharaohConvo){
-            if(gameData.getInteger(current + " convoId") == 6){
-                stage.addActor(exoMoses1);
-                stage.addActor(nextBtn);
-            }
-            else if(gameData.getInteger(current + " convoId") == 7){
-                exoMoses1.remove();
-                nextBtn.remove();
-                stage.addActor(pharaoh1);
-                stage.addActor(nextBtn);
-            }
-            if(gameData.getInteger(current + " convoId") == 8){
-                pharaoh1.remove();
-                nextBtn.remove();
-                stage.addActor(exoMoses2);
-                stage.addActor(nextBtn);
-            }
-            else if(gameData.getInteger(current + " convoId") == 9){
-                exoMoses2.remove();
-                nextBtn.remove();
-                stage.addActor(pharaoh2);
-                stage.addActor(nextBtn);
-            }
+        else if (gameData.getInteger(current + " convoId") == 72){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_Convo1"));
         }
-        else {
-            if(gameData.getInteger(current + " convoId") >= 9){
-                pharaoh2.remove();
-                nextBtn.remove();
-            }
-
+        else if (gameData.getInteger(current + " convoId") == 73){
+            convoRegion.setRegion(conversationAtlas.findRegion("Man_Convo2"));
         }
-
-        if(aaronConvoLev){
-            if(gameData.getInteger(current + " convoId") == 10){
-                stage.addActor(levMoses1);
-                stage.addActor(nextBtn);
-            }
+        else if (gameData.getInteger(current + " convoId") == 74){
+            convoRegion.setRegion(conversationAtlas.findRegion("Abraham_Convo2"));
         }
-        else {
-            if(gameData.getString(current + " talkToAaronLev").equals("Done")){
-//                TODO nothing happens here
-            }
-            else {
-                if(gameData.getInteger(current + " convoId") == 11){
-                    levMoses1.remove();
-                    nextBtn.remove();
-                    gameData.putString(current + " talkToAaronLev", "Done");
-                }
-            }
+        else if (gameData.getInteger(current + " convoId") == 75){
+            convoRegion.setRegion(conversationAtlas.findRegion("Man_Convo3"));
         }
-
-        if(talkToNumbersGuy){
-            if(gameData.getInteger(current + " convoId") == 11){
-                stage.addActor(numbersGuy);
-                stage.addActor(nextBtn);
-            }
-        }
-        else {
-                if(gameData.getInteger(current + " convoId") == 12){
-                    numbersGuy.remove();
-                    nextBtn.remove();
-                }
-        }
-
-        if(gameData.getInteger(current + " convoId") == 12){
-            stage.addActor(numbersOne);
-            stage.addActor(nextBtn);
-        }
-        if (gameData.getInteger(current + " convoId") == 13 && gameData.getInteger(current + " missionId") == 0){
-            numbersOne.remove();
-            nextBtn.remove();
-        }
-
-        if(gameData.getInteger(current + " missionId") == 7){
-            if(joshuaLastMsg1){
-                stage.addActor(joshuaLast1Img);
-                stage.addActor(nextBtn);
-            }
-            else {
-                joshuaLast1Img.remove();
-                nextBtn.remove();
-            }
-        }
-
-
-        if(gameData.getString(current + " joshuaLast").equals("Done")){
-            if(joshuaLastMsg2){
-                stage.addActor(joshuaLast2Img);
-                stage.addActor(nextBtn);
-            }
-            else {
-                joshuaLast2Img.remove();
-                nextBtn.remove();
-            }
-        }
-
-*/
 
     }
 
     public void dispose(){
+        nextTxt.dispose();
+        conversationAtlas.dispose();
+    }
 
-        nextTex.dispose();
-        haran1Tex.dispose();
-        haran2Tex.dispose();
-        haran3Tex.dispose();
+    public Stage getStage() {
+        return stage;
+    }
 
+
+    public ImageButton getNextBtn() {
+        return nextBtn;
     }
 }

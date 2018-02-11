@@ -2,9 +2,12 @@ package com.legendandroidgame.game.GameWorlds;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.graphics.g3d.model.data.ModelData;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -33,14 +36,16 @@ public class BethelWorld {
     private Engine engine;
     private BulletSystem bulletSystem;
     private Entity character;
-    private Entity stoneEntity1, stoneEntity2, stoneEntity3, stoneEntity4, altarEntity,
-            portalEntity1, portalEntity2, portalEntity3, arrow;
+    private Entity portalEntity1, portalEntity2, portalEntity3, arrow, altarEntity;
+    private Entity stoneEntity1, stoneEntity2, stoneEntity3, stoneEntity4;
     private Entity map;
     private PlayerSystem playerSystem;
+    private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private AnimationComponent altarAnimation;
     private AnimationComponent arrowAnimation;
     private ModelComponent modelComponent;
+    private ActualGameButtons actualGameButtons;
 
     private String current = gameData.getString("current");
 
@@ -52,6 +57,7 @@ public class BethelWorld {
 
 
     public boolean stone1 = false, stone2 = false, stone3 = false, stone4 = false;
+    public boolean isStone1Click = false, isStone2Click = false, isStone3Click = false, isStone4Click = false;
     public boolean goLight = false;
     public boolean gotoEgypt = false;
     public boolean gotoHaran = false;
@@ -60,11 +66,12 @@ public class BethelWorld {
 
 
     private float posX, posZ;
-    private Vector3 sun = new Vector3(-48, 5, 19);
+    public Vector2 mover;
     private Vector3 trans;
 
     private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos, arrowPos,
     stone1Pos, stone2Pos, stone3Pos, stone4Pos;
+//    public boolean isKuha = false;
 
     public BethelWorld(Controller controller, ActualGameButtons actualGameButtons) {
 
@@ -76,6 +83,7 @@ public class BethelWorld {
         initEnvironment();
         map = MapEntityFactory.loadBethel();
         modelComponent = map.getComponent(ModelComponent.class);
+        mover = new Vector2();
         if(gameData.getInteger(current + " from") == 2){
             posX = 119;
             posZ = 27;
@@ -97,7 +105,7 @@ public class BethelWorld {
 //            this is z(-1708.3252,1500.0,-1693.5457)
         }
 
-        if(gameData.getInteger(current + " from") == 9){
+        if(gameData.getInteger(current + " from") == 8){
             posX = 91;
             posZ = 102;
 //            (-18.581291,3.907349,-103.72422)
@@ -107,6 +115,7 @@ public class BethelWorld {
         addSystems(controller,actualGameButtons, modelComponent);
         addEntities();
         trans = ObjectEntityFactory.altarModelComponent.instance.transform.getTranslation(new Vector3());
+        this.actualGameButtons = actualGameButtons;
     }
 
 
@@ -138,7 +147,7 @@ public class BethelWorld {
 //            this is z(-1708.3252,1500.0,-1693.5457)
         }
 
-        if(gameData.getInteger(current + " from") == 9){
+        if(gameData.getInteger(current + " from") == 8){
             worldCam.worldCam.position.x = -1597;
             worldCam.worldCam.position.z = -1487f;
 //            (-18.581291,3.907349,-103.72422)
@@ -181,14 +190,26 @@ public class BethelWorld {
     }
 
     private void loadStone(){
-        stoneEntity1 = ObjectEntityFactory.loadFirstRedStone(bulletSystem,-18,3,58);
-        stoneEntity2 = ObjectEntityFactory.loadSecondRedStone(bulletSystem,-93,3,7);
-        stoneEntity3 = ObjectEntityFactory.loadThirdRedStone(bulletSystem,-35,3,-20);
-        stoneEntity4 = ObjectEntityFactory.loadFourthRedStone(bulletSystem,36,3,-58);
-        engine.addEntity(stoneEntity1);
-        engine.addEntity(stoneEntity2);
-        engine.addEntity(stoneEntity3);
-        engine.addEntity(stoneEntity4);
+        if(gameData.getInteger(current + " missionId") == 1){
+            stoneEntity1 = ObjectEntityFactory.loadFirstRedStone(bulletSystem,-18,3,58);
+            stoneEntity2 = ObjectEntityFactory.loadSecondRedStone(bulletSystem,-93,3,7);
+            stoneEntity3 = ObjectEntityFactory.loadThirdRedStone(bulletSystem,-30,3,-20);
+            stoneEntity4 = ObjectEntityFactory.loadFourthRedStone(bulletSystem,36,3,-58);
+
+            engine.addEntity(stoneEntity1);
+            engine.addEntity(stoneEntity2);
+            engine.addEntity(stoneEntity3);
+            engine.addEntity(stoneEntity4);
+        }
+    }
+
+    private void loadArrow(){
+        if(gameData.getInteger(current + " missionId") == 1) {
+            arrow = ObjectEntityFactory.loadArrow(-20.084229f, -100, -42.610023f);
+            engine.addEntity(arrow);
+            arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
+            arrowAnimation.animate("Cube|CubeAction", -1, 1);
+        }
     }
 
     private void loadAltar(){
@@ -212,18 +233,12 @@ public class BethelWorld {
         engine.addEntity(portalEntity3);
     }
 
-    private void loadArrow(){
-        arrow = ObjectEntityFactory.loadArrow(-20.084229f,0,-42.610023f);
-        engine.addEntity(arrow);
-        arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
-        arrowAnimation.animate("Cube|CubeAction", -1, 1);
-    }
-
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -268,16 +283,16 @@ public class BethelWorld {
 
 
         playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
-        arrowPos = ObjectEntityFactory.arrowPointerComponent.instance.transform.getTranslation(new Vector3());
         portal1Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
 
-        stone1Pos = stoneEntity1.getComponent(FirstRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
-        stone2Pos = stoneEntity2.getComponent(SecondRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
-        stone3Pos = stoneEntity3.getComponent(ThirdRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
-        stone4Pos = stoneEntity4.getComponent(FourthRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
-
+        if(gameData.getInteger(current + " missionId") == 1) {
+            stone1Pos = stoneEntity1.getComponent(FirstRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
+            stone2Pos = stoneEntity2.getComponent(SecondRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
+            stone3Pos = stoneEntity3.getComponent(ThirdRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
+            stone4Pos = stoneEntity4.getComponent(FourthRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
+        }
 
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
@@ -300,145 +315,89 @@ public class BethelWorld {
             goToJordan = false;
         }
 
-        if((playerPos.x - arrowPos.x) <= 10 && (playerPos.x - arrowPos.x) >= -10
-                && (playerPos.z - arrowPos.z) <= 10 && (playerPos.z - arrowPos.z) >= -10){
-//                isMissionFinish = true;
-        }
 
-        if((playerPos.x - stone1Pos.x) <= 5 && (playerPos.x - stone1Pos.x) >= -5
-                && (playerPos.z - stone1Pos.z) <= 5 && (playerPos.z - stone1Pos.z) >= -5){
+        if(gameData.getInteger(current + " missionId") == 1) {
+
+            if(gameData.getInteger(current + " missionCount") == 4) {
+                ObjectEntityFactory.arrowPointerComponent.instance.transform.setToTranslation(new Vector3(-20.084229f, 0, -42.610023f));
+                arrowPos = ObjectEntityFactory.arrowPointerComponent.instance.transform.getTranslation(new Vector3());
+                if ((playerPos.x - arrowPos.x) <= 3 && (playerPos.x - arrowPos.x) >= -3
+                        && (playerPos.z - arrowPos.z) <= 3 && (playerPos.z - arrowPos.z) >= -3) {
+                    isMissionFinish = true;
+                    goLight = true;
+                }
+            }
+
+            if ((playerPos.x - stone1Pos.x) <= 5 && (playerPos.x - stone1Pos.x) >= -5
+                    && (playerPos.z - stone1Pos.z) <= 5 && (playerPos.z - stone1Pos.z) >= -5
+                    && engine.getEntitiesFor(Family.all(FirstRedStone.class).get()).size() >= 1) {
 //            System.out.println("do you wat to go inside?");
-            stone1 = true;
-        }
+                stone1 = true;
+            }
 
-
-        if((playerPos.x - stone2Pos.x) <= 5 && (playerPos.x - stone2Pos.x) >= -5
-                && (playerPos.z - stone2Pos.z) <= 5 && (playerPos.z - stone2Pos.z) >= -5){
+            else if ((playerPos.x - stone2Pos.x) <= 5 && (playerPos.x - stone2Pos.x) >= -5
+                    && (playerPos.z - stone2Pos.z) <= 5 && (playerPos.z - stone2Pos.z) >= -5
+                    && engine.getEntitiesFor(Family.all(SecondRedStone.class).get()).size() >= 1 ) {
 //            System.out.println("do you wat to go inside?");
-            stone2 = true;
-        }
+                stone2 = true;
+            }
 
-        if((playerPos.x - stone3Pos.x) <= 5 && (playerPos.x - stone3Pos.x) >= -5
-                && (playerPos.z - stone3Pos.z) <= 5 && (playerPos.z - stone3Pos.z) >= -5){
+            else if ((playerPos.x - stone3Pos.x) <= 5 && (playerPos.x - stone3Pos.x) >= -5
+                    && (playerPos.z - stone3Pos.z) <= 5 && (playerPos.z - stone3Pos.z) >= -5
+                    && engine.getEntitiesFor(Family.all(ThirdRedStone.class).get()).size() >= 1) {
 //            System.out.println("do you wat to go inside?");
-            stone3 = true;
-        }
-
-        if((playerPos.x - stone3Pos.x) <= 5 && (playerPos.x - stone3Pos.x) >= -5
-                && (playerPos.z - stone3Pos.z) <= 5 && (playerPos.z - stone3Pos.z) >= -5){
+                stone3 = true;
+            }
+            else if ((playerPos.x - stone4Pos.x) <= 5 && (playerPos.x - stone4Pos.x) >= -5
+                    && (playerPos.z - stone4Pos.z) <= 5 && (playerPos.z - stone4Pos.z) >= -5
+                    && engine.getEntitiesFor(Family.all(FourthRedStone.class).get()).size() >= 1) {
 //            System.out.println("do you wat to go inside?");
-            stone4 = true;
-        }
+                stone4 = true;
+            }
+            else {
+                stone1 = false;
+                stone2 = false;
+                stone3 = false;
+                stone4 = false;
+            }
 
-
-        if(stone1){
-            engine.removeEntity(stoneEntity1);
-            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity1.getComponent(FirstRedStone.class).stoneObject);
-
-            switch (gameData.getInteger(current + " missionCount")){
-                case 0: gameData.putInteger(current + " missionCount", 1);
-                    gameData.flush();
-                    break;
-                case 1: gameData.putInteger(current + " missionCount", 2);
-                    gameData.flush();
-                    break;
-                case 2: gameData.putInteger(current + " missionCount", 3);
-                    gameData.flush();
-                    break;
-                case 3: gameData.putInteger(current + " missionCount", 4);
-                    gameData.flush();
-                    break;
+            if (actualGameButtons.btnGrab.isPressed()) {
+                if (stone1) {
+                    isStone1Click = true;
+                    engine.removeEntity(stoneEntity1);
+                    bulletSystem.collisionWorld.removeCollisionObject(stoneEntity1.getComponent(FirstRedStone.class).stoneObject);
+                } else if (stone2) {
+                    isStone2Click = true;
+                    engine.removeEntity(stoneEntity2);
+                    bulletSystem.collisionWorld.removeCollisionObject(stoneEntity2.getComponent(SecondRedStone.class).stoneObject);
+                } else if (stone3) {
+                    isStone3Click = true;
+                    engine.removeEntity(stoneEntity3);
+                    bulletSystem.collisionWorld.removeCollisionObject(stoneEntity3.getComponent(ThirdRedStone.class).stoneObject);
+                } else if (stone4) {
+                    isStone4Click = true;
+                    engine.removeEntity(stoneEntity4);
+                    bulletSystem.collisionWorld.removeCollisionObject(stoneEntity4.getComponent(FourthRedStone.class).stoneObject);
+                }
+            }
+            else {
+                isStone1Click = false;
+                isStone2Click = false;
+                isStone3Click = false;
+                isStone4Click = false;
             }
         }
 
-
-        if(stone2){
-            engine.removeEntity(stoneEntity2);
-            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity2.getComponent(SecondRedStone.class).stoneObject);
-
-            switch (gameData.getInteger(current + " missionCount")){
-                case 0: gameData.putInteger(current + " missionCount", 1);
-                    gameData.flush();
-                    break;
-                case 1: gameData.putInteger(current + " missionCount", 2);
-                    gameData.flush();
-                    break;
-                case 2: gameData.putInteger(current + " missionCount", 3);
-                    gameData.flush();
-                    break;
-                case 3: gameData.putInteger(current + " missionCount", 4);
-                    gameData.flush();
-                    break;
-            }
-        }
-
-
-
-        if(stone3){
-            engine.removeEntity(stoneEntity3);
-            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity3.getComponent(ThirdRedStone.class).stoneObject);
-
-            switch (gameData.getInteger(current + " missionCount")){
-                case 0: gameData.putInteger(current + " missionCount", 1);
-                    gameData.flush();
-                    break;
-                case 1: gameData.putInteger(current + " missionCount", 2);
-                    gameData.flush();
-                    break;
-                case 2: gameData.putInteger(current + " missionCount", 3);
-                    gameData.flush();
-                    break;
-                case 3: gameData.putInteger(current + " missionCount", 4);
-                    gameData.flush();
-                    break;
-            }
-
-        }
-
-        if(stone4){
-            engine.removeEntity(stoneEntity4);
-            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity4.getComponent(FourthRedStone.class).stoneObject);
-
-            switch (gameData.getInteger(current + " missionCount")){
-                case 0: gameData.putInteger(current + " missionCount", 1);
-                    gameData.flush();
-                    break;
-                case 1: gameData.putInteger(current + " missionCount", 2);
-                    gameData.flush();
-                    break;
-                case 2: gameData.putInteger(current + " missionCount", 3);
-                    gameData.flush();
-                    break;
-                case 3: gameData.putInteger(current + " missionCount", 4);
-                    gameData.flush();
-                    break;
-            }
-
-        }
-
-//        if(Gdx.input.isKeyJustPressed(Input.Keys.G)){
-//            goLight = true;
-//        }
-
-
-        if(!goLight){
-            ObjectEntityFactory.altarModelComponent.instance.transform.setToTranslation(trans.x , - 100, trans.z);
+        if(gameData.getInteger(current + " missionId") > 1) {
+            altarEntity.getComponent(AltarComponent.class).altarObject.getWorldTransform().setToTranslation(trans.x, trans.y, trans.z);
         }
         else {
-            ObjectEntityFactory.altarModelComponent.instance.transform.setToTranslation(trans.x , trans.y, trans.z);
+            if (!goLight) {
+                ObjectEntityFactory.altarModelComponent.instance.transform.setToTranslation(trans.x, -100, trans.z);
+            } else {
+                ObjectEntityFactory.altarModelComponent.instance.transform.setToTranslation(trans.x, trans.y, trans.z);
+            }
         }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.L)){
-            gameData.putString("isPaused","true");
-            gameData.flush();
-        }
-        else{
-            gameData.putString("isPaused","false");
-            gameData.flush();
-        }
-
-
-//        System.out.println(Gdx.graphics.getFramesPerSecond());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.B)){
             System.out.print(gameData.getInteger(current + "missionCount"));
@@ -446,8 +405,10 @@ public class BethelWorld {
 
         worldCam.update();
         characterAnimation.update(dt);
-        altarAnimation.update(dt);
-        arrowAnimation.update(dt);
+//        altarAnimation.update(dt);
+        if(gameData.getInteger(current + " missionId") == 1) {
+            arrowAnimation.update(dt);
+        }
         renderWorld(dt);
 
 
@@ -471,10 +432,14 @@ public class BethelWorld {
     public void dispose() {
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
-        bulletSystem.collisionWorld.removeCollisionObject(stoneEntity1.getComponent(FirstRedStone.class).stoneObject);
-        bulletSystem.collisionWorld.removeCollisionObject(stoneEntity2.getComponent(SecondRedStone.class).stoneObject);
-        bulletSystem.collisionWorld.removeCollisionObject(stoneEntity3.getComponent(ThirdRedStone.class).stoneObject);
-        bulletSystem.collisionWorld.removeCollisionObject(stoneEntity4.getComponent(FourthRedStone.class).stoneObject);
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
+        if(gameData.getInteger(current + " missionId") < 2) {
+            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity1.getComponent(FirstRedStone.class).stoneObject);
+            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity2.getComponent(SecondRedStone.class).stoneObject);
+            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity3.getComponent(ThirdRedStone.class).stoneObject);
+            bulletSystem.collisionWorld.removeCollisionObject(stoneEntity4.getComponent(FourthRedStone.class).stoneObject);
+        }
         bulletSystem.collisionWorld.removeCollisionObject(altarEntity.getComponent(AltarComponent.class).altarObject);
 
         bulletSystem.dispose();
@@ -488,18 +453,19 @@ public class BethelWorld {
         character.getComponent(CharacterComponent.class).ghostObject.dispose();
         character.getComponent(CharacterComponent.class).ghostShape.dispose();
 
-        stoneEntity1.getComponent(FirstRedStone.class).stoneObject.dispose();
-        stoneEntity1.getComponent(FirstRedStone.class).stoneShape.dispose();
+        if(gameData.getInteger(current + " missionId") < 2) {
+            stoneEntity1.getComponent(FirstRedStone.class).stoneObject.dispose();
+            stoneEntity1.getComponent(FirstRedStone.class).stoneShape.dispose();
 
-        stoneEntity2.getComponent(SecondRedStone.class).stoneObject.dispose();
-        stoneEntity2.getComponent(SecondRedStone.class).stoneShape.dispose();
+            stoneEntity2.getComponent(SecondRedStone.class).stoneObject.dispose();
+            stoneEntity2.getComponent(SecondRedStone.class).stoneShape.dispose();
 
-        stoneEntity3.getComponent(ThirdRedStone.class).stoneObject.dispose();
-        stoneEntity3.getComponent(ThirdRedStone.class).stoneShape.dispose();
+            stoneEntity3.getComponent(ThirdRedStone.class).stoneObject.dispose();
+            stoneEntity3.getComponent(ThirdRedStone.class).stoneShape.dispose();
 
-        stoneEntity4.getComponent(FourthRedStone.class).stoneObject.dispose();
-        stoneEntity4.getComponent(FourthRedStone.class).stoneShape.dispose();
-
+            stoneEntity4.getComponent(FourthRedStone.class).stoneObject.dispose();
+            stoneEntity4.getComponent(FourthRedStone.class).stoneShape.dispose();
+        }
         altarEntity.getComponent(AltarComponent.class).altarObject.dispose();
         altarEntity.getComponent(AltarComponent.class).altarShape.dispose();
 

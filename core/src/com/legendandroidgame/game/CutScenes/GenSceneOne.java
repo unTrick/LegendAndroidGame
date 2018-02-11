@@ -13,6 +13,8 @@ import com.legendandroidgame.game.States.GameState;
 import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
 
+import static com.legendandroidgame.game.LegendAndroidGame.gameData;
+
 /**
  * Created by Patrick on 10/3/2017.
  */
@@ -22,6 +24,7 @@ public class GenSceneOne extends GameState{
     private Image oneImg, twoImg, threeImg;
     private Texture one, two, three;
     private CutSceneButtons cutSceneButtons;
+    private String current = gameData.getString("current");
 
     private int counter = 1;
 
@@ -29,16 +32,16 @@ public class GenSceneOne extends GameState{
         super(gsm);
 
         if(Gdx.graphics.getWidth() > 1800){
-            one = new Texture("1080/cutscene/1.jpg");
-            two = new Texture("1080/cutscene/2.jpg");
-            three = new Texture("1080/cutscene/3.jpg");
+            one = new Texture("1080/cutscene/GenOne/1.jpg");
+            two = new Texture("1080/cutscene/GenOne/2.jpg");
+            three = new Texture("1080/cutscene/GenOne/3.jpg");
 
 
         }
         else {
-            one = new Texture("720/cutscene/1.jpg");
-            two = new Texture("720/cutscene/2.jpg");
-            three = new Texture("720/cutscene/3.jpg");
+            one = new Texture("720/cutscene/GenOne/1.jpg");
+            two = new Texture("720/cutscene/GenOne/2.jpg");
+            three = new Texture("720/cutscene/GenOne/3.jpg");
 
 
         }
@@ -83,7 +86,7 @@ public class GenSceneOne extends GameState{
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
 
-                gsm.set(new LoadScreen(gsm,3));
+                gsm.set(new LoadScreen(gsm,2));
                 dispose();
 
                 return false;
@@ -134,6 +137,8 @@ public class GenSceneOne extends GameState{
     public void dispose() {
         stage.dispose();
         cutSceneButtons.dispose();
+        gameData.putInteger(current + " from", 1);
+        gameData.flush();
     }
 
     @Override

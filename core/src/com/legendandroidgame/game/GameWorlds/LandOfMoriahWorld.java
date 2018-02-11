@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -13,7 +14,6 @@ import com.legendandroidgame.game.AddonTools.Environment;
 import com.legendandroidgame.game.AddonTools.WorldCamera;
 import com.legendandroidgame.game.BulletComponent.*;
 import com.legendandroidgame.game.BulletSystem.*;
-import com.legendandroidgame.game.BulletTools.AnimalsEntityFactory;
 import com.legendandroidgame.game.BulletTools.CharacterEntityFactory;
 import com.legendandroidgame.game.BulletTools.MapEntityFactory;
 import com.legendandroidgame.game.BulletTools.ObjectEntityFactory;
@@ -32,11 +32,11 @@ public class LandOfMoriahWorld {
     private BulletSystem bulletSystem;
     private Entity character;
     private Entity portalEntity1, portalEntity2, portalEntity3, landOfMoriah, wood1, wood2,
-            wood3, wood4, wood5, knife, ram;
+            wood3, wood4, wood5, knife;
     private PlayerSystem playerSystem;
     private AnimalSystem animalSystem;
-    private InstructorCharSystem instructorCharSystem;
-    private AnimationComponent characterAnimation, ramAnimation;
+    private IsraelitesSystem israelitesSystem;
+    private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
 
     public WorldCamera worldCamera;
@@ -51,6 +51,7 @@ public class LandOfMoriahWorld {
     public boolean gotoBethel = false, goToJordan = false, goToHaran;
 
     private float posX , posZ ;
+    public float moverX, moverY;
 
     private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos, wood1Pos,
             wood2Pos, wood3Pos, wood4Pos, wood5Pos, knifePos, ramPos;
@@ -71,8 +72,8 @@ public class LandOfMoriahWorld {
             posZ = 17;
         }
         if(gameData.getInteger(current + " from") == 3){
-            posX = 10;
-            posZ = -149;
+            posX = 102;
+            posZ = -150;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
@@ -105,8 +106,8 @@ public class LandOfMoriahWorld {
         }
 
         if(gameData.getInteger(current + " from") == 3){
-            worldCamera.worldCam.position.x = -1593f;
-            worldCamera.worldCam.position.z = -1741f;
+            worldCamera.worldCam.position.x = -1591f;
+            worldCamera.worldCam.position.z = -1742f;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
@@ -130,7 +131,6 @@ public class LandOfMoriahWorld {
         loadPortal3();
         loadWood();
         loadKnife();
-        loadRam();
     }
 
     private void setDebug(){
@@ -194,19 +194,14 @@ public class LandOfMoriahWorld {
         engine.addEntity(knife);
     }
 
-    private void loadRam(){
-        ram = AnimalsEntityFactory.createRamAnimal(bulletSystem, -39.39078f,5.544506f,10.239446f);
-        engine.addEntity(ram);
-//        ramAnimation = new AnimationComponent(AnimalsEntityFactory.ramComponent.instance);
-//        animalSystem.ramAnimation = ramAnimation;
-    }
 
 
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, new Vector2()));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(animalSystem = new AnimalSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
@@ -267,7 +262,7 @@ public class LandOfMoriahWorld {
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
         knifePos = ObjectEntityFactory.flintKnifeComponent.instance.transform.getTranslation(new Vector3());
-//        ramPos = ObjectEntityFactory.ramComponent.instance.transform.getTranslation(new Vector3());
+        ramPos = animalSystem.ram.getComponent(AnimalsComponent.class).ramObject.getWorldTransform().getTranslation(new Vector3());
 
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
@@ -346,7 +341,9 @@ public class LandOfMoriahWorld {
     }
 
     public void dispose() {
-        instructorCharSystem.dispose();
+//        animalSystem.dispose();
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
 

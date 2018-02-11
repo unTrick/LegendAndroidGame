@@ -5,8 +5,11 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
 import com.legendandroidgame.game.BulletComponent.*;
 import com.legendandroidgame.game.BulletTools.CharacterEntityFactory;
+
+import java.util.Random;
 
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
@@ -16,7 +19,7 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
  */
 public class InstructorCharSystem extends EntitySystem implements EntityListener {
 
-    private Entity instructor;
+    public Entity instructor;
     private ImmutableArray<Entity> entities;
     private Engine engine;
     private InstructorCharacterComponent characterComponent;
@@ -27,6 +30,7 @@ public class InstructorCharSystem extends EntitySystem implements EntityListener
     private String current = gameData.getString("current");
     private BulletSystem bulletSystem;
 
+    private boolean timerIsOn = false;
 
     public InstructorCharSystem(BulletSystem bulletSystem) {
         this.bulletSystem = bulletSystem;
@@ -34,7 +38,7 @@ public class InstructorCharSystem extends EntitySystem implements EntityListener
             instructor = CharacterEntityFactory.createInstructor(bulletSystem,0.5f,6,62);
         }
         else {
-            instructor = CharacterEntityFactory.createInstructor(bulletSystem,40, 10, -65);
+            instructor = CharacterEntityFactory.createInstructor(bulletSystem,39, 10, -73);
 
         }
         playerAnimation = new AnimationComponent(CharacterEntityFactory.instructorComponent.instance);
@@ -114,9 +118,33 @@ public class InstructorCharSystem extends EntitySystem implements EntityListener
                 playerAnimation.animate("Armature|Walk",-1,1);
             }
             else {
-                playerAnimation.animate("Armature|Stand",-1,1);
+                playerAnimation.animate("Armature|ArmatureAction",-1,1);
                 gameData.putString(current + " isInsWalkDone", "done");
                 gameData.flush();
+            }
+        }
+
+        if (instructor.getComponent(InstructorComponent.class).state.equals(InstructorComponent.STATE.IDLE)){
+            if (!timerIsOn){
+                timerIsOn = true;
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        Random rand = new Random();
+                        int randomNumber = rand.nextInt(100) - 35;
+//                        System.out.println(randomNumber);
+                        if(randomNumber >= 1 && randomNumber <= 49){
+                            playerAnimation.animate("Armature|ArmatureAction",-1,1);
+                        }
+                        else if (randomNumber >= 50){
+                            playerAnimation.animate("Armature|Bow",1,1);
+                        }
+                        else {
+                            playerAnimation.animate("Armature|Stand",-1,1);
+                        }
+                        timerIsOn = false;
+                    }
+                }, 2);
             }
         }
 

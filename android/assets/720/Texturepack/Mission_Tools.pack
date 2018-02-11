@@ -3,6 +3,13 @@ Mission_Tools.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+Mission fakePanel 1
+  rotate: false
+  xy: 1, 1476
+  size: 508, 467
+  orig: 508, 467
+  offset: 0, 0
+  index: -1
 Mission Panel 1
   rotate: false
   xy: 1, 1476
@@ -59,6 +66,13 @@ Mission Panel 8
   orig: 508, 467
   offset: 0, 0
   index: -1
+Mission1 fake
+rotate: false
+xy: 1021, 1007
+size: 508, 467
+orig: 508, 467
+offset: 0, 0
+index: -1
 Mission1 Preview
   rotate: false
   xy: 1021, 1007
@@ -144,6 +158,13 @@ Mission Overview 4
   offset: 0, 0
   index: -1
 Mission Overview 1
+  rotate: false
+  xy: 3061, 1322
+  size: 664, 177
+  orig: 664, 177
+  offset: 0, 0
+  index: -1
+Mission Overviewfake
   rotate: false
   xy: 3061, 1322
   size: 664, 177

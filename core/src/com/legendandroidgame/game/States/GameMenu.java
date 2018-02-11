@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.legendandroidgame.game.LegendAndroidGame;
+import com.legendandroidgame.game.Maps.DeveloperMap;
 
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 import static com.legendandroidgame.game.LegendAndroidGame.gameView;
@@ -254,6 +255,11 @@ public class GameMenu extends GameState{
                 gsm.set(new LoadScreen(gsm, id));
                 dispose();
             }
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D)){
+            gsm.set(new DeveloperMap(gsm));
+            dispose();
         }
 
     }

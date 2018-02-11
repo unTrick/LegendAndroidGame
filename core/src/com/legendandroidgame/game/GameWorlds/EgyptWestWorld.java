@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -14,10 +15,7 @@ import com.legendandroidgame.game.AddonTools.WorldCamera;
 import com.legendandroidgame.game.BulletComponent.AnimationComponent;
 import com.legendandroidgame.game.BulletComponent.CharacterComponent;
 import com.legendandroidgame.game.BulletComponent.ModelComponent;
-import com.legendandroidgame.game.BulletSystem.BulletSystem;
-import com.legendandroidgame.game.BulletSystem.PlayerSystem;
-import com.legendandroidgame.game.BulletSystem.RenderSystem;
-import com.legendandroidgame.game.BulletSystem.StatusSystem;
+import com.legendandroidgame.game.BulletSystem.*;
 import com.legendandroidgame.game.BulletTools.CharacterEntityFactory;
 import com.legendandroidgame.game.BulletTools.MapEntityFactory;
 import com.legendandroidgame.game.BulletTools.ObjectEntityFactory;
@@ -39,6 +37,7 @@ public class EgyptWestWorld {
     private Entity character, entityPortal1, entityPortal2, entityPortal3;
     private Entity map;
     private PlayerSystem playerSystem;
+    private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
 
@@ -52,7 +51,7 @@ public class EgyptWestWorld {
     private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos;
 
     private float posX, posZ;
-
+    public Vector2 mover;
 
     public EgyptWestWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -62,6 +61,7 @@ public class EgyptWestWorld {
         setDebug();
         map = MapEntityFactory.loadEgyptWest();
         modelComponent = map.getComponent(ModelComponent.class);
+        mover = new Vector2();
         if(gameData.getInteger(current + " from") == 4){
             posX = 15;
             posZ = 229;
@@ -169,7 +169,8 @@ public class EgyptWestWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -251,6 +252,8 @@ public class EgyptWestWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
         bulletSystem.dispose();

@@ -5,13 +5,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
-import com.badlogic.gdx.physics.bullet.collision.ContactListener;
-import com.badlogic.gdx.physics.bullet.collision.btCollisionObject;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
 import com.legendandroidgame.game.AddonTools.Environment;
 import com.legendandroidgame.game.AddonTools.WorldCamera;
@@ -35,8 +32,9 @@ public class ShechemWorld {
     private Engine engine;
     private BulletSystem bulletSystem;
     private Entity character;
-    private Entity map, stone;
+    private Entity map, stone, portal1Entity, portal2Entity, portal3Entity;
     private PlayerSystem playerSystem;
+    private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
     private ActualGameButtons actualGameButtons;
@@ -47,12 +45,13 @@ public class ShechemWorld {
     private String current = gameData.getString("current");
 
     private float posX, posZ;
+    public Vector2 mover;
 
     public boolean stoneCollide = false, nearTree = false;
 
-    public boolean goToHaran = false, goJordan = false, goToBethel = false;
+    public boolean goToHaran = false, goToJordan = false, goToBethel = false;
 
-    private Vector3 playerPosition = new Vector3();
+    private Vector3 playerPos, portal1Pos, portal2Pos, portal3Pos;
     private Vector3 treePosition = new Vector3(94.93171f,5.256006f,46.945618f);
 
 
@@ -65,6 +64,7 @@ public class ShechemWorld {
         setDebug();
         map = MapEntityFactory.loadShechem();
         modelComponent = map.getComponent(ModelComponent.class);
+        mover = new Vector2();
         if(gameData.getInteger(current + " from") == 2){
             posX = 258;
             posZ = -225;
@@ -163,6 +163,9 @@ public class ShechemWorld {
                 !gameData.getString(current + " findLargeStone").equals("Done")){
             loadLargeStone();
         }
+        loadPortal1();
+        loadPortal2();
+        loadPortal3();
     }
 
 
@@ -189,12 +192,27 @@ public class ShechemWorld {
         engine.addEntity(map);
     }
 
+    private void loadPortal1(){
+        portal1Entity = ObjectEntityFactory.loadPortalRight(-13f,8f,250);
+        engine.addEntity(portal1Entity);
+    }
+
+    private void loadPortal2(){
+        portal2Entity = ObjectEntityFactory.loadPortalBottom(-262,7,-218);
+        engine.addEntity(portal2Entity);
+    }
+
+    private void loadPortal3(){
+        portal3Entity = ObjectEntityFactory.loadPortalBottom(-262,7,171);
+        engine.addEntity(portal3Entity);
+    }
+
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
-
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -228,35 +246,38 @@ public class ShechemWorld {
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
-        if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x > 260){
-//            goToHaran = true;
-        }
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+        portal1Pos = portal1Entity.getComponent(ModelComponent.class).instance.transform.getTranslation(new Vector3());
+        portal2Pos = portal2Entity.getComponent(ModelComponent.class).instance.transform.getTranslation(new Vector3());
+        portal3Pos = portal3Entity.getComponent(ModelComponent.class).instance.transform.getTranslation(new Vector3());
 
-        if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).x < -270){
-//            goToBethel = true;
-        }
-
-        if(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()).z > 265){
-//            goJordan = true;
-        }
-
-        if(stoneCollide){
-            if(Gdx.input.justTouched()){
-                    characterAnimation.animate("Armature|Bow",1,1);
-                    engine.removeEntity(stone);
-                    bulletSystem.collisionWorld.removeCollisionObject(stone.getComponent(LargeStoneComponent.class).stoneObject);
-
-                        gameData.putString(current + " findLargeStone", "Done");
-                        gameData.flush();
-            }
-        }
-
-        playerPosition = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
-
-        if((playerPosition.x - treePosition.x) <= 10 && (playerPosition.x - treePosition.x) >= -10
-                && (playerPosition.z - treePosition.z) <= 10 && (playerPosition.z - treePosition.z) >= -10){
+        if((playerPos.x - treePosition.x) <= 10 && (playerPos.x - treePosition.x) >= -10
+                && (playerPos.z - treePosition.z) <= 10 && (playerPos.z - treePosition.z) >= -10){
                 nearTree = true;
         }
+        else {
+            nearTree = false;
+        }
+
+        if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
+                && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
+            goToHaran = true;
+        }
+        else if ((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
+                && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10){
+            goToBethel = true;
+
+        }
+        else if ((playerPos.x - portal3Pos.x) <= 10 && (playerPos.x - portal3Pos.x) >= -10
+                && (playerPos.z - portal3Pos.z) <= 10 && (playerPos.z - portal3Pos.z) >= -10){
+            goToJordan = true;
+        }
+        else {
+            goToJordan = false;
+            goToHaran = false;
+            goToBethel = false;
+        }
+
 
         worldCam.update();
         characterAnimation.update(dt);
@@ -280,6 +301,8 @@ public class ShechemWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
 

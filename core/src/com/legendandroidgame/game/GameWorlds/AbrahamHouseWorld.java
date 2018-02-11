@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -55,26 +56,7 @@ public class AbrahamHouseWorld {
 
     private float posX = 0, posZ = 0;
 
-    public class MyContactListener extends ContactListener {
-        @Override
-        public void onContactStarted(btCollisionObject colObj0, btCollisionObject colObj1){
-            if (colObj0.userData instanceof Entity && colObj1.userData instanceof Entity) {
-                Entity entity0 = (Entity) colObj0.userData;
-                Entity entity1 = (Entity) colObj1.userData;
-                if (entity0.getComponent(CharacterComponent.class) != null && entity1.getComponent(DoorComponent.class) != null) {
-                    if(entity1.getComponent(DoorComponent.class) != null){
-                        goOutside = true;
-                    }
-//                    System.out.println("Collide");
-                }
-                if(entity0.getComponent(CharacterComponent.class) == null || entity1.getComponent(DoorComponent.class) == null){
-                    goOutside = false;
-//                    System.out.println("no co");
-                }
-            }
-        }
-
-    }
+    private Vector3 doorPos, playerPos;
 
     public AbrahamHouseWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -85,14 +67,11 @@ public class AbrahamHouseWorld {
         abramHouse = MapEntityFactory.loadAbrahamHouse();
         modelComponent = abramHouse.getComponent(ModelComponent.class);
         addSystems(controller, actualGameButtons, modelComponent);
-        MyContactListener myContactListener = new MyContactListener();
-        myContactListener.enable();
         addEntities();
     }
 
     private void initEnvironment() {
         environment = new Environment();
-
     }
 
     private void initCamera() {
@@ -142,7 +121,7 @@ public class AbrahamHouseWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, new Vector2()));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -192,6 +171,19 @@ public class AbrahamHouseWorld {
             System.out.println("Back key is click");
         }
 
+        playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
+        doorPos = doorEntity.getComponent(DoorComponent.class).doorObject.getWorldTransform().getTranslation(new Vector3());
+
+
+        if((playerPos.x - doorPos.x) <= 5 && (playerPos.x - doorPos.x) >= -5
+                && (playerPos.z - doorPos.z) <= 5 && (playerPos.z - doorPos.z) >= -5){
+//            System.out.println("do you wat to go inside?");
+            goOutside = true;
+        }
+        else {
+            goOutside = false;
+        }
+
 //        System.out.println(goOutside);
 //        System.out.println(character.getComponent(CharacterComponent.class).ghostObject.checkCollideWith
 //                (doorEntity.getComponent(DoorComponent.class).doorObject));
@@ -217,6 +209,8 @@ public class AbrahamHouseWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
         bulletSystem.dispose();

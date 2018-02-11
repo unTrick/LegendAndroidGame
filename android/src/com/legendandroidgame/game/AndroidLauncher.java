@@ -14,5 +14,6 @@ public class AndroidLauncher extends AndroidApplication {
 
 
 		initialize(new LegendAndroidGame(), config);
+
 	}
 }

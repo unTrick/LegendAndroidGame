@@ -10,13 +10,6 @@ blue
   orig: 499, 49
   offset: 0, 0
   index: -1
-green
-  rotate: false
-  xy: 1, 1
-  size: 499, 49
-  orig: 499, 49
-  offset: 0, 0
-  index: -1
 orange
   rotate: false
   xy: 502, 52
@@ -31,3 +24,17 @@ red
   orig: 499, 49
   offset: 0, 0
   index: -1
+green
+    rotate: false
+    xy: 1, 1
+    size: 499, 49
+    orig: 499, 49
+    offset: 0, 0
+    index: -1
+full
+    rotate: false
+    xy: 1, 1
+    size: 499, 49
+    orig: 499, 49
+    offset: 0, 0
+    index: -1

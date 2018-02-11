@@ -25,10 +25,11 @@ public class AnimalsEntityFactory {
 
     public static ModelComponent ramComponent;
 
+    private static Model ramModel;
+
     public static Entity createRamAnimal(BulletSystem bulletSystem, float x, float y, float z) {
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
         ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/ram_keme.g3dj"));
-        Model ramModel = new Model();
         if (ramModel == null) {
             ramModel = new Model(modelData, new
                     TextureProvider.FileTextureProvider());

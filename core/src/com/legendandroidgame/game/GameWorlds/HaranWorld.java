@@ -4,7 +4,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
 import com.badlogic.gdx.physics.bullet.linearmath.btIDebugDraw;
@@ -33,6 +35,7 @@ public class HaranWorld {
     private PlayerSystem playerSystem;
     private SaraiSystem saraiSystem;
     private LotSystem lotSystem;
+    private KidIsaacSystem kidIsaacSystem;
     private InstructorCharSystem instructorCharSystem;
     private AnimationComponent characterAnimation;
     private AnimationComponent lotAnimation;
@@ -43,7 +46,7 @@ public class HaranWorld {
 //    public CameraInputController cameraInputController;
     public Environment environment;
 
-    public boolean lotBounds = false, saraiBounds = false;
+    public boolean lotBounds = false, saraiBounds = false, wellInstructorBounds = false;
 
     private DebugDrawer debugDrawer;
     private static final boolean debug = false;
@@ -52,10 +55,11 @@ public class HaranWorld {
 
 
     public boolean gotoAbrahamsHouse = false;
-    public boolean gotoBethel = false, goToJordan = false;
+    public boolean gotoBethel = false, goToMoriah = false;
     public boolean isWellTouch = false;
 
     private float posX , posZ ;
+    public Vector2 mover;
 
     private Vector3 portal1Pos, portal2Pos, playerPos, wellPos, wellInstructorPos, houseDoorPos;
 
@@ -70,9 +74,10 @@ public class HaranWorld {
         initEnvironment();
         haran = MapEntityFactory.loadHaran();
         modelComponent = haran.getComponent(ModelComponent.class);
+        mover = new Vector2(517,	392);
         if(gameData.getInteger(current + " from") == 1){
-            posX = 46;
-            posZ = -65;
+            posX = 47;
+            posZ = -74;
 //            (46.35008,3.9726622,-65.48449)
 //            this is z(-1645.254,1500.0,-1657.6821)
         }
@@ -82,8 +87,8 @@ public class HaranWorld {
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
-        if(gameData.getInteger(current + " from") == 9){
-            posX = -91;
+        if(gameData.getInteger(current + " from") == 8){
+            posX = -66;
             posZ = 66;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
@@ -106,8 +111,8 @@ public class HaranWorld {
 //        cameraInputController = new CameraInputController(worldCamera.worldCam);
 
         if(gameData.getInteger(current + " from") == 1){
-            worldCamera.worldCam.position.x = -1645f;
-            worldCamera.worldCam.position.z = -1658f;
+            worldCamera.worldCam.position.x = -1644f;
+            worldCamera.worldCam.position.z = -1667f;
 //            (46.35008,3.9726622,-65.48449)
 //            this is z(-1645.254,1500.0,-1657.6821)
         }
@@ -117,8 +122,8 @@ public class HaranWorld {
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
         }
-        if(gameData.getInteger(current + " from") == 9){
-            worldCamera.worldCam.position.x = -1782f;
+        if(gameData.getInteger(current + " from") == 8){
+            worldCamera.worldCam.position.x = -1757f;
             worldCamera.worldCam.position.z = -1527f;
 //            (23.299538,3.6052663,-109.526855)
 //            this is z(-1668.3046,1500.0,-1701.7246)
@@ -207,15 +212,15 @@ public class HaranWorld {
         engine.addEntity(portalEntity2);
     }
 
-
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, mover));
         engine.addSystem(saraiSystem = new SaraiSystem(bulletSystem));
         engine.addSystem(lotSystem = new LotSystem(bulletSystem));
         engine.addSystem(instructorCharSystem = new InstructorCharSystem(bulletSystem));
+        engine.addSystem(kidIsaacSystem = new KidIsaacSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -251,7 +256,6 @@ public class HaranWorld {
         //        System.out.println(Gdx.graphics.getFramesPerSecond());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.N)){
-            System.out.println("\n");
             System.out.println("this is camera pos\t" +  worldCamera.worldCam.position);
             System.out.println("this is camera look\t" +  worldCamera.worldCam.direction);
             /*
@@ -260,18 +264,15 @@ public class HaranWorld {
             System.out.println("this is camera invProjectionView\t" +  worldCamera.worldCam.invProjectionView);
             System.out.println("this is camera view\t" +  worldCamera.worldCam.view);
             */
-            System.out.println("\n");
-
         }
-
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
-
         playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
-        wellInstructorPos = CharacterEntityFactory.instructorComponent.instance.transform.getTranslation(new Vector3());
+        wellInstructorPos = instructorCharSystem.instructor.getComponent(InstructorCharacterComponent.class)
+                .ghostObject.getWorldTransform().getTranslation(new Vector3());
         portal1Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         houseDoorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
@@ -291,10 +292,10 @@ public class HaranWorld {
         if((playerPos.x - portal2Pos.x) <= 10 && (playerPos.x - portal2Pos.x) >= -10
                 && (playerPos.z - portal2Pos.z) <= 10 && (playerPos.z - portal2Pos.z) >= -10){
 //            System.out.println("do you wat to go inside?");
-                goToJordan = true;
+            goToMoriah = true;
         }
         else {
-            goToJordan = false;
+            goToMoriah = false;
         }
 
 
@@ -314,14 +315,18 @@ public class HaranWorld {
             gotoAbrahamsHouse = false;
         }
 
-//        if(!((playerPos.x - wellInstructorPos.x) <= 10) && !((playerPos.x - wellInstructorPos.x) >= -10)
-//                && !((playerPos.z - wellInstructorPos.z) <= 10) && !((playerPos.z - wellInstructorPos.z) >= -10)) {
-//            if(!gameData.getString(current + " isWellInstructDone").equals("done")){
-//                CharacterEntityFactory.playerComponent.instance.transform.set
-//                        (new Vector3(wellInstructorPos.x, wellInstructorPos.y, wellInstructorPos.z), new Quaternion());
-//                CharacterEntityFactory.playerComponent.instance.calculateTransforms();
-//            }
-//        }
+        if((playerPos.x - wellInstructorPos.x) <= 10 && (playerPos.x - wellInstructorPos.x) >= -10
+                && (playerPos.z - wellInstructorPos.z) <= 10 && (playerPos.z - wellInstructorPos.z) >= -10){
+            wellInstructorBounds = true;
+        }
+        else {
+            wellInstructorBounds = false;
+        }
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+//            System.out.println(haran.getComponent(ModelComponent.class).instance.calculateBoundingBox(new BoundingBox()));
+        }
 
 //        System.out.println(wellInstructorPos);
 
@@ -353,6 +358,7 @@ public class HaranWorld {
         characterAnimation.update(dt);
         saraiAnimation.update(dt);
         lotAnimation.update(dt);
+
         renderWorld(dt);
 
     }
@@ -373,6 +379,9 @@ public class HaranWorld {
 
     public void dispose() {
         instructorCharSystem.dispose();
+        kidIsaacSystem.dispose();
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
         bulletSystem.collisionWorld.removeCollisionObject(lot.getComponent(LotCharacterComponent.class).ghostObject);

@@ -15,20 +15,33 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.legendandroidgame.game.BulletComponent.*;
 import com.legendandroidgame.game.BulletSystem.BulletSystem;
 
+import static com.legendandroidgame.game.LegendAndroidGame.gameData;
+
 
 /**
  * Created by Patrick on 9/27/2017.
  */
 public class CharacterEntityFactory {
 
-    private static Model playerModel;
-    private static Model lotModel;
-    private static Model saraiModel;
-    private static Model pharoahModel;
-    private static Model aaronModel;
-    private static Model peopleOfEdomModel;
-    private static Model numbersGuyModel;
-    private static Model instructorModel;
+    public static Model playerModel;
+    public static Model lotModel;
+    public static Model saraiModel;
+    public static Model pharoahModel;
+    public static Model aaronModel;
+    public static Model peopleOfEdomModel;
+    public static Model numbersGuyModel;
+    public static Model instructorModel;
+    public static Model israelitesModel1;
+    public static Model israelitesModel2;
+    public static Model israelitesModel3;
+    public static Model israelitesModel4;
+    public static Model israelitesModel5;
+    public static Model israelitesModel6;
+    public static Model israelitesModel7;
+    public static Model israelitesModel8;
+    public static Model israelitesModel9;
+    public static Model israelitesModel10;
+    public static Model kidIsaac;
 
     private static BoundingBox playerBounds;
 
@@ -40,16 +53,36 @@ public class CharacterEntityFactory {
     public static ModelComponent peopleOfEdomComponent;
     public static ModelComponent numbersGuyComponent;
     public static ModelComponent instructorComponent;
+    public static ModelComponent kidIsaacComponent;
 
+    public static ModelComponent israelitesComponent1;
+    public static ModelComponent israelitesComponent2;
+    public static ModelComponent israelitesComponent3;
+    public static ModelComponent israelitesComponent4;
+    public static ModelComponent israelitesComponent5;
+    public static ModelComponent israelitesComponent6;
+    public static ModelComponent israelitesComponent7;
+    public static ModelComponent israelitesComponent8;
+    public static ModelComponent israelitesComponent9;
+    public static ModelComponent israelitesComponent10;
+
+    public static ModelData character;
 
     public static Entity createCharacter(BulletSystem bulletSystem, float x, float y, float z) {
-
+        String current = gameData.getString("current");
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData;
-        modelData  = modelLoader.loadModelData(Gdx.files.internal("blender/abraham.g3dj"));
+        if (gameData.getInteger(current + " missionId") >= 7){
+            character = modelLoader.loadModelData(Gdx.files.internal("blender/joshua.g3dj"));
+        }
+        else if(gameData.getInteger(current + " missionId") >= 3){
+            character = modelLoader.loadModelData(Gdx.files.internal("blender/moses.g3dj"));
+        }
+        else {
+            character = modelLoader.loadModelData(Gdx.files.internal("blender/abraham.g3dj"));
+        }
 
         if (playerModel == null) {
-            playerModel = new Model(modelData, new
+            playerModel = new Model(character, new
                     TextureProvider.FileTextureProvider());
             playerModel.calculateTransforms();
         }
@@ -62,7 +95,7 @@ public class CharacterEntityFactory {
         CharacterComponent characterComponent = new CharacterComponent();
         characterComponent.ghostObject = new btPairCachingGhostObject();
         characterComponent.ghostObject.setWorldTransform(playerComponent.instance.transform);
-        characterComponent.ghostShape = new btCapsuleShapeZ(playerBounds.getHeight() / 8,playerBounds.getHeight() / 1.4f);
+        characterComponent.ghostShape = new btCapsuleShapeZ(playerBounds.getHeight() / 8,playerBounds.getHeight() / 1f);
         characterComponent.ghostObject.setCollisionShape(characterComponent.ghostShape);
         characterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         characterComponent.characterController = new btKinematicCharacterController(characterComponent.ghostObject, characterComponent.ghostShape, 0.35f);
@@ -81,6 +114,7 @@ public class CharacterEntityFactory {
 
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
         ModelData modelData;
+
         modelData = modelLoader.loadModelData(Gdx.files.internal("blender/moses.g3dj"));
 
         if (playerModel == null) {
@@ -97,7 +131,7 @@ public class CharacterEntityFactory {
         CharacterComponent characterComponent = new CharacterComponent();
         characterComponent.ghostObject = new btPairCachingGhostObject();
         characterComponent.ghostObject.setWorldTransform(playerComponent.instance.transform);
-        characterComponent.ghostShape = new btCapsuleShapeZ(playerBounds.getHeight() / 8,playerBounds.getHeight() / 1.4f);
+        characterComponent.ghostShape = new btCapsuleShapeZ(playerBounds.getHeight() / 8,playerBounds.getHeight() / 1f);
         characterComponent.ghostObject.setCollisionShape(characterComponent.ghostShape);
         characterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         characterComponent.characterController = new btKinematicCharacterController(characterComponent.ghostObject, characterComponent.ghostShape, 0.35f);
@@ -130,7 +164,7 @@ public class CharacterEntityFactory {
         LotCharacterComponent lotCharacterComponent = new LotCharacterComponent();
         lotCharacterComponent.ghostObject = new btPairCachingGhostObject();
         lotCharacterComponent.ghostObject.setWorldTransform(lotComponent.instance.transform);
-        lotCharacterComponent.ghostShape = new btCapsuleShapeZ(lotBounds.getHeight() / 4,lotBounds.getHeight() / 1.4f);
+        lotCharacterComponent.ghostShape = new btCapsuleShapeZ(lotBounds.getHeight() / 8,lotBounds.getHeight() / 1f);
         lotCharacterComponent.ghostObject.setCollisionShape(lotCharacterComponent.ghostShape);
         lotCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         lotCharacterComponent.characterController = new btKinematicCharacterController(lotCharacterComponent.ghostObject, lotCharacterComponent.ghostShape, 0.35f);
@@ -165,7 +199,7 @@ public class CharacterEntityFactory {
         PharaohCharacterComponent pharaohCharacterComponent = new PharaohCharacterComponent();
         pharaohCharacterComponent.ghostObject = new btPairCachingGhostObject();
         pharaohCharacterComponent.ghostObject.setWorldTransform(pharaohComponent.instance.transform);
-        pharaohCharacterComponent.ghostShape = new btCapsuleShapeZ(saraiBounds.getHeight() / 4,saraiBounds.getHeight() / 1.4f);
+        pharaohCharacterComponent.ghostShape = new btCapsuleShapeZ(saraiBounds.getHeight() / 8,saraiBounds.getHeight() / 1f);
         pharaohCharacterComponent.ghostObject.setCollisionShape(pharaohCharacterComponent.ghostShape);
         pharaohCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         pharaohCharacterComponent.characterController = new btKinematicCharacterController(pharaohCharacterComponent.ghostObject, pharaohCharacterComponent.ghostShape, 0.35f);
@@ -198,7 +232,7 @@ public class CharacterEntityFactory {
         SaraiCharacterComponent saraiCharacterComponent = new SaraiCharacterComponent();
         saraiCharacterComponent.ghostObject = new btPairCachingGhostObject();
         saraiCharacterComponent.ghostObject.setWorldTransform(saraiComponent.instance.transform);
-        saraiCharacterComponent.ghostShape = new btCapsuleShapeZ(saraiBounds.getHeight() / 4,saraiBounds.getHeight() / 1.4f);
+        saraiCharacterComponent.ghostShape = new btCapsuleShapeZ(saraiBounds.getHeight() / 8,saraiBounds.getHeight() / 1f);
         saraiCharacterComponent.ghostObject.setCollisionShape(saraiCharacterComponent.ghostShape);
         saraiCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         saraiCharacterComponent.characterController = new btKinematicCharacterController(saraiCharacterComponent.ghostObject, saraiCharacterComponent.ghostShape, 0.35f);
@@ -231,7 +265,7 @@ public class CharacterEntityFactory {
         AaronCharacterComponent aaronCharacterComponent = new AaronCharacterComponent();
         aaronCharacterComponent.ghostObject = new btPairCachingGhostObject();
         aaronCharacterComponent.ghostObject.setWorldTransform(aaronComponent.instance.transform);
-        aaronCharacterComponent.ghostShape = new btCapsuleShapeZ(aaronBounds.getHeight() / 4,aaronBounds.getHeight() / 1.4f);
+        aaronCharacterComponent.ghostShape = new btCapsuleShapeZ(aaronBounds.getHeight() / 8,aaronBounds.getHeight() / 1f);
         aaronCharacterComponent.ghostObject.setCollisionShape(aaronCharacterComponent.ghostShape);
         aaronCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         aaronCharacterComponent.characterController = new btKinematicCharacterController(aaronCharacterComponent.ghostObject, aaronCharacterComponent.ghostShape, 0.35f);
@@ -264,7 +298,7 @@ public class CharacterEntityFactory {
         PeopleOfEdomChararacterComponent peopleOfEdomChararacterComponent = new PeopleOfEdomChararacterComponent();
         peopleOfEdomChararacterComponent.ghostObject = new btPairCachingGhostObject();
         peopleOfEdomChararacterComponent.ghostObject.setWorldTransform(peopleOfEdomComponent.instance.transform);
-        peopleOfEdomChararacterComponent.ghostShape = new btCapsuleShapeZ(peopleOfEdomBounds.getHeight() / 4,peopleOfEdomBounds.getHeight() / 1.4f);
+        peopleOfEdomChararacterComponent.ghostShape = new btCapsuleShapeZ(peopleOfEdomBounds.getHeight() / 8,peopleOfEdomBounds.getHeight() / 1f);
         peopleOfEdomChararacterComponent.ghostObject.setCollisionShape(peopleOfEdomChararacterComponent.ghostShape);
         peopleOfEdomChararacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         peopleOfEdomChararacterComponent.characterController = new btKinematicCharacterController(peopleOfEdomChararacterComponent.ghostObject, peopleOfEdomChararacterComponent.ghostShape, 0.35f);
@@ -297,7 +331,7 @@ public class CharacterEntityFactory {
         NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
         numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
         numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent.instance.transform);
-        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 4,numbersGuyBounds.getHeight() / 1.4f);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
         numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
         numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
@@ -315,7 +349,7 @@ public class CharacterEntityFactory {
 
     public static Entity createInstructor(BulletSystem bulletSystem, float x, float y, float z) {
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/resize_support2.g3dj"));
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newman.g3dj"));
         if (instructorModel == null) {
             instructorModel = new Model(modelData, new
                     TextureProvider.FileTextureProvider());
@@ -331,7 +365,7 @@ public class CharacterEntityFactory {
         InstructorCharacterComponent instructorCharacterComponent = new InstructorCharacterComponent();
         instructorCharacterComponent.ghostObject = new btPairCachingGhostObject();
         instructorCharacterComponent.ghostObject.setWorldTransform(instructorComponent.instance.transform);
-        instructorCharacterComponent.ghostShape = new btCapsuleShapeZ(instructorBounds.getHeight() / 4,instructorBounds.getHeight() / 1.4f);
+        instructorCharacterComponent.ghostShape = new btCapsuleShapeZ(instructorBounds.getHeight() / 8,instructorBounds.getHeight() / 1f);
         instructorCharacterComponent.ghostObject.setCollisionShape(instructorCharacterComponent.ghostShape);
         instructorCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         instructorCharacterComponent.characterController = new btKinematicCharacterController(instructorCharacterComponent.ghostObject, instructorCharacterComponent.ghostShape, 0.35f);
@@ -345,4 +379,368 @@ public class CharacterEntityFactory {
         entity.add(new InstructorComponent(InstructorComponent.STATE.IDLE));
         return entity;
     }
+
+    public static Entity createIsraelites1(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newman.g3dj"));
+        if (israelitesModel1 == null) {
+            israelitesModel1 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel1.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel1.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent1 = new ModelComponent(israelitesModel1, x, y, z);
+        entity.add(israelitesComponent1);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent1.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites2(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newwoman.g3dj"));
+        if (israelitesModel2 == null) {
+            israelitesModel2 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel2.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel2.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent2 = new ModelComponent(israelitesModel2, x, y, z);
+        entity.add(israelitesComponent2);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent2.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites3(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newman.g3dj"));
+        if (israelitesModel3 == null) {
+            israelitesModel3 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel3.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel3.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent3 = new ModelComponent(israelitesModel3, x, y, z);
+        entity.add(israelitesComponent3);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent3.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites4(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newwoman.g3dj"));
+        if (israelitesModel4 == null) {
+            israelitesModel4 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel4.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel4.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent4 = new ModelComponent(israelitesModel4, x, y, z);
+        entity.add(israelitesComponent4);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent4.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites5(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newman.g3dj"));
+        if (israelitesModel5 == null) {
+            israelitesModel5 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel5.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel5.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent5 = new ModelComponent(israelitesModel5, x, y, z);
+        entity.add(israelitesComponent5);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent5.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites6(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newman.g3dj"));
+        if (israelitesModel6 == null) {
+            israelitesModel6 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel6.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel6.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent6 = new ModelComponent(israelitesModel6, x, y, z);
+        entity.add(israelitesComponent6);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent6.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites7(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newwoman.g3dj"));
+        if (israelitesModel7 == null) {
+            israelitesModel7 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel7.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel7.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent7 = new ModelComponent(israelitesModel7, x, y, z);
+        entity.add(israelitesComponent7);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent7.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites8(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newwoman.g3dj"));
+        if (israelitesModel8 == null) {
+            israelitesModel8 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel8.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel8.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent8 = new ModelComponent(israelitesModel8, x, y, z);
+        entity.add(israelitesComponent8);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent8.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites9(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newman.g3dj"));
+        if (israelitesModel9 == null) {
+            israelitesModel9 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel9.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel9.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent9 = new ModelComponent(israelitesModel9, x, y, z);
+        entity.add(israelitesComponent9);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent9.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createIsraelites10(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/newwoman.g3dj"));
+        if (israelitesModel10 == null) {
+            israelitesModel10 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            israelitesModel10.calculateTransforms();
+        }
+
+        BoundingBox israelitesBounds = new BoundingBox();
+        israelitesModel10.calculateBoundingBox(israelitesBounds);
+
+        Entity entity = new Entity();
+        israelitesComponent10 = new ModelComponent(israelitesModel10, x, y, z);
+        entity.add(israelitesComponent10);
+        IsraelitesCharacterComponent israelitesCharacterComponent = new IsraelitesCharacterComponent();
+        israelitesCharacterComponent.israelitestObject = new btPairCachingGhostObject();
+        israelitesCharacterComponent.israelitestObject.setWorldTransform(israelitesComponent10.instance.transform);
+        israelitesCharacterComponent.israelitesShape = new btCapsuleShapeZ(israelitesBounds.getHeight() / 8,israelitesBounds.getHeight() / 1f);
+        israelitesCharacterComponent.israelitestObject.setCollisionShape(israelitesCharacterComponent.israelitesShape);
+        israelitesCharacterComponent.israelitestObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        israelitesCharacterComponent.characterController = new btKinematicCharacterController(israelitesCharacterComponent.israelitestObject, israelitesCharacterComponent.israelitesShape, 0.35f);
+        israelitesCharacterComponent.israelitestObject.userData = entity;
+        entity.add(israelitesCharacterComponent);
+        israelitesCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(IsraelitesCharacterComponent.class).israelitestObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(IsraelitesCharacterComponent.class).characterController);
+        entity.add(new IsraelitesComponent(IsraelitesComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createKidIsaac(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/child.g3dj"));
+        if (kidIsaac == null) {
+            kidIsaac = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            kidIsaac.calculateTransforms();
+        }
+
+        BoundingBox kidBounds = new BoundingBox();
+        kidIsaac.calculateBoundingBox(kidBounds);
+
+        Entity entity = new Entity();
+        kidIsaacComponent = new ModelComponent(kidIsaac, x, y, z);
+        entity.add(kidIsaacComponent);
+        KidIsaacCharacterComponent kidIsaacCharacterComponent = new KidIsaacCharacterComponent();
+        kidIsaacCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        kidIsaacCharacterComponent.ghostObject.setWorldTransform(kidIsaacComponent.instance.transform);
+        kidIsaacCharacterComponent.ghostShape = new btCapsuleShapeZ(kidBounds.getHeight() / 8,kidBounds.getHeight() / 1f);
+        kidIsaacCharacterComponent.ghostObject.setCollisionShape(kidIsaacCharacterComponent.ghostShape);
+        kidIsaacCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        kidIsaacCharacterComponent.characterController = new btKinematicCharacterController(kidIsaacCharacterComponent.ghostObject, kidIsaacCharacterComponent.ghostShape, 0.35f);
+        kidIsaacCharacterComponent.ghostObject.userData = entity;
+        entity.add(kidIsaacCharacterComponent);
+        kidIsaacCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(KidIsaacCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(KidIsaacCharacterComponent.class).characterController);
+        entity.add(new KidIsaacComponent(KidIsaacComponent.STATE.IDLE));
+        return entity;
+    }
+
 }

@@ -36,6 +36,7 @@ public class Jordan extends GameState {
     private Maps maps;
     private MissionQuest missionQuest;
     private Conversation conversation;
+    private Warning warning;
     String current = gameData.getString("current");
     int convoId = gameData.getInteger(current + " convoId");
 
@@ -55,6 +56,7 @@ public class Jordan extends GameState {
         maps = new Maps(stage);
         missionQuest = new MissionQuest(stage);
         conversation = new Conversation(stage);
+        warning = new Warning(stage);
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setCursorCatched(true);
@@ -234,18 +236,27 @@ public class Jordan extends GameState {
     @Override
     protected void handleInput() {
 
-        if(jordanWorld.goToHaran){
-            gameData.putInteger(current + " from", 9);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 2));
-            dispose();
+        if(jordanWorld.goToMoriah){
+            warning.isMoriah = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 9);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 8));
+                dispose();
+            }
         }
-
-        if(jordanWorld.goToEdom){
-            gameData.putInteger(current + " from", 9);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 8));
-            dispose();
+        else if(jordanWorld.goToSinai){
+            warning.isSinai = true;
+            if(warning.yesBtn.isPressed()){
+                gameData.putInteger(current + " from", 9);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 14));
+                dispose();
+            }
+        }
+        else {
+            warning.isMoriah = false;
+            warning.isSinai = false;
         }
 
         if(hud.health == 0){
@@ -264,7 +275,8 @@ public class Jordan extends GameState {
         hud.updated(dt);
         conversation.update();
         missionQuest.update();
-
+        maps.update(dt);
+        warning.update();
         handleInput();
     }
 
@@ -288,6 +300,7 @@ public class Jordan extends GameState {
         insideGameMenu.dispose();
         maps.dispose();
         stage.dispose();
+        warning.dispose();
     }
 
     @Override

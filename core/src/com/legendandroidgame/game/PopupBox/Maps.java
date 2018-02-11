@@ -25,29 +25,37 @@ public class Maps {
     private Image abrahamHeadImg;
     private ImageButton closeBtn;
     private String current = gameData.getString("current");
-    private Vector2 pos = new Vector2(550, 540);
-
+    public Vector2 pos = new Vector2();
 
     public Maps(Stage stage){
         this.stage = stage;
 
         if(Gdx.graphics.getWidth() > 1800){
             closeTex = new Texture("1080/button/close.png");
+            haranTex = new Texture("1080/map/Haran.png");
+            bethelTex = new Texture("1080/map/Bethel.png");
+            shechemTex = new Texture("1080/map/shechem.png");
+            edomTex = new Texture("1080/map/Edom.png");
+            jordanTex = new Texture("1080/map/Jordan.png");
+            eWestTex = new Texture("1080/map/E_west.PNG");
+            eNorthTex = new Texture("1080/map/E_north.PNG");
+            eSouthTex = new Texture("1080/map/E_south.PNG");
+            eEastTex = new Texture("1080/map/E_east.PNG");
+            abrahamHeadText = new Texture("1080/map/abrahamIndicator.png");
         }
         else {
             closeTex = new Texture("720/button/close.png");
+            haranTex = new Texture("720/map/Haran.png");
+            bethelTex = new Texture("720/map/Bethel.png");
+            shechemTex = new Texture("720/map/shechem.png");
+            edomTex = new Texture("720/map/Edom.png");
+            jordanTex = new Texture("720/map/Jordan.png");
+            eWestTex = new Texture("720/map/E_west.PNG");
+            eNorthTex = new Texture("720/map/E_north.PNG");
+            eSouthTex = new Texture("720/map/E_south.PNG");
+            eEastTex = new Texture("720/map/E_east.PNG");
+            abrahamHeadText = new Texture("720/map/abrahamIndicator.png");
         }
-
-        haranTex = new Texture("720/map/Haran.png");
-        bethelTex = new Texture("720/map/Bethel.png");
-        shechemTex = new Texture("720/map/Scechem.png");
-        edomTex = new Texture("720/map/Edom.png");
-        jordanTex = new Texture("720/map/Jordan.png");
-        eWestTex = new Texture("720/map/E_west.PNG");
-        eNorthTex = new Texture("720/map/E_north.PNG");
-        eSouthTex = new Texture("720/map/E_south.PNG");
-        eEastTex = new Texture("720/map/E_east.PNG");
-        abrahamHeadText = new Texture("720/map/abrahamIndicator.png");
 
         haranImg = new Image(haranTex);
         bethelImg = new Image(bethelTex);
@@ -60,27 +68,25 @@ public class Maps {
         eEastImg = new Image(eEastTex);
         abrahamHeadImg = new Image(abrahamHeadText);
 
-        haranImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
-        bethelImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
+        haranImg.setPosition(Gdx.graphics.getWidth() / 2 - haranTex.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - haranTex.getHeight() / 2);
+        bethelImg.setPosition(Gdx.graphics.getWidth() / 2 - bethelTex.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - bethelTex.getHeight() / 2);
         shechemImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
-        edomImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
-        jordanImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
+                Gdx.graphics.getHeight() / 2 - shechemTex.getHeight() / 2);
+        edomImg.setPosition(Gdx.graphics.getWidth() / 2 - edomTex.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - edomTex.getHeight() / 2);
+        jordanImg.setPosition(Gdx.graphics.getWidth() / 2 - jordanTex.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - jordanTex.getHeight() / 2);
         eWestImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
                 Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
-        eNorthImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
-        eSouthImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
-        eEastImg.setPosition(Gdx.graphics.getWidth() / 2 - eWestTex.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2 - eWestTex.getHeight() / 2);
-
+        eNorthImg.setPosition(Gdx.graphics.getWidth() / 2 - eNorthTex.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - eNorthTex.getHeight() / 2);
+        eSouthImg.setPosition(Gdx.graphics.getWidth() / 2 - eSouthTex.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - eSouthTex.getHeight() / 2);
+        eEastImg.setPosition(Gdx.graphics.getWidth() / 2 - eEastTex.getWidth() / 2,
+                Gdx.graphics.getHeight() / 2 - eEastTex.getHeight() / 2);
 //        bethelImg.setRotation(90);
-
         Drawable closeDraw = new TextureRegionDrawable(new TextureRegion(closeTex));
         closeBtn = new ImageButton(closeDraw);
 
@@ -157,25 +163,32 @@ public class Maps {
             stage.addActor(eEastImg);
             stage.addActor(closeBtn);
         }
-
         stage.addActor(abrahamHeadImg);
     }
 
-    public void update(){
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            pos.y += 1;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            pos.y -= 1;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            pos.x -= 1;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            pos.x += 1;
-        }
-        abrahamHeadImg.setPosition(pos.x,pos.y);
+    public void update(float delta){
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
+////            System.out.println(haranTex.getHeight());
+//        }
 
+//        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+//            pos.y += .5;
+//        }
+//        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+//            pos.x += .5;
+//        }
+//        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+//            pos.y -= .5;
+//        }
+//        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+//            pos.x -= .5;
+//        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+            System.out.println("this is from maps" + pos.x + "\t" + pos.y);
+        }
+
+        abrahamHeadImg.setPosition(pos.x,pos.y);
 //        if(Gdx.input.justTouched()){
 //            System.out.println(Gdx.input.getX());
 //            System.out.println(Gdx.input.getY());

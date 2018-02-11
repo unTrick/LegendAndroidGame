@@ -2,15 +2,12 @@ package com.legendandroidgame.game.Maps;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.profiling.GL20Profiler;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
 import com.legendandroidgame.game.GameWorlds.BethelWorld;
@@ -127,6 +124,7 @@ public class Bethel extends GameState {
 
         });
 
+
         missionQuest.getCloseBtn().addListener(new ClickListener(){
 
             @Override
@@ -238,9 +236,41 @@ public class Bethel extends GameState {
 
                 gameData.putInteger(current + " missionCount", 0);
                 gameData.putInteger(current + " missionId", 2);
-                gsm.set(new LoadScreen(gsm, 21));
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 24));
                 dispose();
                 return false;
+            }
+
+        });
+
+        actualGameButtons.btnGrab.addListener(new InputListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                if(bethelWorld.stone1 || bethelWorld.stone2 || bethelWorld.stone3 || bethelWorld.stone4) {
+                    switch (gameData.getInteger(current + " missionCount")) {
+                        case 0:
+                            gameData.putInteger(current + " missionCount", 1);
+                            gameData.flush();
+                            break;
+                        case 1:
+                            gameData.putInteger(current + " missionCount", 2);
+                            gameData.flush();
+                            break;
+                        case 2:
+                            gameData.putInteger(current + " missionCount", 3);
+                            gameData.flush();
+                            break;
+                        case 3:
+                            gameData.putInteger(current + " missionCount", 4);
+                            gameData.flush();
+                            break;
+                    }
+                }
+                return true;
             }
 
         });
@@ -248,8 +278,10 @@ public class Bethel extends GameState {
 
     @Override
     protected void handleInput() {
+
+
         if(bethelWorld.gotoEgypt){
-            if (gameData.getInteger(current + " missionId") == 7 ||
+            if (gameData.getInteger(current + " missionId") >= 7 ||
                     gameData.getInteger(current + " missionId") == 0){
                 warning.isShechem = true;
             }
@@ -258,7 +290,7 @@ public class Bethel extends GameState {
             }
             if(warning.yesBtn.isPressed()) {
                 // goto Shechem if on Last Mission
-                if (gameData.getInteger(current + " missionId") == 7 ||
+                if (gameData.getInteger(current + " missionId") >= 7 ||
                         gameData.getInteger(current + " missionId") == 0) {
                     gameData.putInteger(current + " from", 3);
                     gameData.flush();
@@ -308,8 +340,8 @@ public class Bethel extends GameState {
 //        }
 
         if(hud.health == 0){
-//            gsm.set(new Sleep(gsm));
-//            dispose();
+            gsm.set(new Sleep(gsm));
+            dispose();
         }
 
         if(bethelWorld.isMissionFinish){
@@ -324,8 +356,20 @@ public class Bethel extends GameState {
             }
         }
 
-        if(bethelWorld.stone1){
+        if(bethelWorld.isStone1Click || bethelWorld.isStone2Click || bethelWorld.isStone3Click || bethelWorld.isStone4Click){
             hud.grab = true;
+        }
+        else {
+            hud.grab = false;
+        }
+
+        if(hud.questTime <= 0){
+            if(gameData.getInteger(current + " missionId") == 1) {
+                gsm.set(new LoadScreen(gsm, 2));
+                gameData.putInteger(current + " questTime", 300);
+                gameData.flush();
+                dispose();
+            }
         }
 
     }
@@ -339,7 +383,7 @@ public class Bethel extends GameState {
         hud.updated(dt);
         actualGameButtons.update();
         missionQuest.update();
-        maps.update();
+        maps.update(dt);
         warning.update();
 //        System.out.println(Gdx.graphics.getFramesPerSecond());
 //        System.out.println(Gdx);
@@ -364,6 +408,8 @@ public class Bethel extends GameState {
         bethelWorld.dispose();
         maps.dispose();
         stage.dispose();
+        warning.dispose();
+
     }
 
     @Override

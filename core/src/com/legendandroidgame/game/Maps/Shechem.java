@@ -35,10 +35,9 @@ public class Shechem extends GameState{
     private MissionQuest missionQuest;
     private Conversation conversation;
     private Trivia trivia;
+    private Warning warning;
     String current = gameData.getString("current");
     private int convoId = gameData.getInteger(current + " convoId");
-    private int convoCount = 1;
-
 
     public Shechem(GameStateManager gsm) {
         super(gsm);
@@ -57,7 +56,7 @@ public class Shechem extends GameState{
         conversation = new Conversation(stage);
         trivia = new Trivia(stage);
         maps = new Maps(stage);
-
+        warning = new Warning(stage);
 
 
         Gdx.input.setInputProcessor(stage);
@@ -243,21 +242,6 @@ public class Shechem extends GameState{
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
 
-                convoId += 1;
-                convoCount += 1;
-                gameData.putInteger(current + " convoId", convoId);
-                gameData.flush();
-
-                conversation.joshuaLastMsg1 = false;
-                gameData.putString(current + " joshuaLast", "Done");
-                gameData.flush();
-                if(convoCount == 2){
-                    conversation.joshuaLastMsg2 = true;
-                }
-                if(convoCount == 3){
-                    gsm.set(new LoadScreen(gsm, 26));
-                    dispose();
-                }
 
                 return false;
             }
@@ -285,25 +269,37 @@ public class Shechem extends GameState{
             dispose();
         }
 
-        if(shechemWorld.goJordan){
-            gameData.putInteger(current + " from", 11);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 9));
-            dispose();
+        if(shechemWorld.goToJordan){
+            warning.isJordan = true;
+            if (warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 11);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 9));
+                dispose();
+            }
         }
-
-        if(shechemWorld.goToBethel){
-            gameData.putInteger(current + " from", 11);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 3));
-            dispose();
+        else if(shechemWorld.goToBethel){
+            warning.isBethel = true;
+            if (warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 11);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 3));
+                dispose();
+            }
         }
-
-        if(shechemWorld.goToHaran){
-            gameData.putInteger(current + " from", 11);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 2));
-            dispose();
+        else if(shechemWorld.goToHaran){
+            warning.isHaran = true;
+            if (warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 11);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 2));
+                dispose();
+            }
+        }
+        else {
+            warning.isJordan = false;
+            warning.isBethel = false;
+            warning.isHaran = false;
         }
 
 
@@ -318,7 +314,8 @@ public class Shechem extends GameState{
         hud.updated(dt);
         conversation.update();
         missionQuest.update();
-
+        warning.update();
+        maps.update(dt);
         handleInput();
     }
 
@@ -341,7 +338,7 @@ public class Shechem extends GameState{
         insideGameMenu.dispose();
         maps.dispose();
         stage.dispose();
-
+        warning.dispose();
     }
 
     @Override

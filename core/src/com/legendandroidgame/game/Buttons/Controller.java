@@ -127,11 +127,16 @@ public class Controller {
             }
         });
 
-        stage.addActor(btnUp);
-        stage.addActor(btnDown);
-        stage.addActor(btnLeft);
-        stage.addActor(btnRight);
-
+        switch (Gdx.app.getType()){
+            case Android:
+                stage.addActor(btnUp);
+                stage.addActor(btnDown);
+                stage.addActor(btnLeft);
+                stage.addActor(btnRight);
+                break;
+            case Desktop:
+                break;
+        }
     }
 
     public void dispose(){

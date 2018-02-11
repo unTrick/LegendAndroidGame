@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
-import com.legendandroidgame.game.GameWorlds.BethelWorld;
 import com.legendandroidgame.game.GameWorlds.LandOfEdomWorld;
 import com.legendandroidgame.game.HUD.HUD;
 import com.legendandroidgame.game.LegendAndroidGame;
@@ -18,7 +17,6 @@ import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
 import com.legendandroidgame.game.States.Sleep;
 
-import static com.legendandroidgame.game.LegendAndroidGame.gameCam;
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
 /**
@@ -117,9 +115,6 @@ public class LandOfEdom extends GameState {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                if(landOfEdomWorld.canTalkToGuy){
-                    conversation.talkToNumbersGuy = true;
-                }
 
                 return false;
             }
@@ -298,9 +293,6 @@ public class LandOfEdom extends GameState {
             dispose();
         }
 
-        if(convoId > 11){
-            conversation.talkToNumbersGuy = false;
-        }
 
         if(gameData.getInteger(current + " missionId") == 5 &&
                 gameData.getString(current + " findStaff").equals("Done") &&

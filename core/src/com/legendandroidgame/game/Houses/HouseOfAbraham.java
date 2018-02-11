@@ -12,8 +12,8 @@ import com.legendandroidgame.game.GameWorlds.AbrahamHouseWorld;
 import com.legendandroidgame.game.HUD.HUD;
 import com.legendandroidgame.game.LegendAndroidGame;
 import com.legendandroidgame.game.PopupBox.InsideGameMenu;
-import com.legendandroidgame.game.PopupBox.Inventory;
 import com.legendandroidgame.game.PopupBox.MissionQuest;
+import com.legendandroidgame.game.PopupBox.Warning;
 import com.legendandroidgame.game.States.GameState;
 import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
@@ -34,6 +34,8 @@ public class HouseOfAbraham extends GameState {
     private InsideGameMenu insideGameMenu;
 //    private Inventory inventory;
     private MissionQuest missionQuest;
+    private Warning warning;
+
     public String current = gameData.getString("current");
 
     public HouseOfAbraham(GameStateManager gsm) {
@@ -49,9 +51,8 @@ public class HouseOfAbraham extends GameState {
         insideGameMenu = new InsideGameMenu(stage);
 //        inventory = new Inventory(stage);
         missionQuest = new MissionQuest(stage);
+        warning = new Warning(stage);
         abrahamHouseWorld = new AbrahamHouseWorld(controller, actualGameButtons);
-
-
 //        Gdx.input.setInputProcessor(new InputMultiplexer(stage, abrahamHouseWorld.cameraInputController));
         Gdx.input.setInputProcessor(stage);
 
@@ -147,6 +148,17 @@ public class HouseOfAbraham extends GameState {
 
         });
 
+        missionQuest.getCloseBtn().addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameData.putString(current + " m2over", "done");
+                gameData.flush();
+                return false;
+            }
+        });
+
         // Mission Buttons End...
 
         // addition TODO
@@ -221,15 +233,26 @@ public class HouseOfAbraham extends GameState {
     protected void handleInput() {
 
         if(abrahamHouseWorld.goOutside){
-            gameData.putInteger(current + " from", 1);
-            gameData.flush();
-            gsm.set(new LoadScreen(gsm, 2));
-            dispose();
+            warning.isHouse = true;
+            if(warning.yesBtn.isPressed()) {
+                gameData.putInteger(current + " from", 1);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 2));
+                dispose();
+            }
+        }
+        else {
+            warning.isHouse = false;
         }
 
         if(hud.health == 0){
             gsm.set(new Sleep(gsm));
             dispose();
+        }
+
+        if(gameData.getInteger(current + " missionId") == 2 &&
+                !gameData.getString(current + " m2over").equals("done")){
+            missionQuest.missionOverview();
         }
     }
 
@@ -242,6 +265,7 @@ public class HouseOfAbraham extends GameState {
         hud.updated(dt);
 //        inventory.update();
         missionQuest.update();
+        warning.update();
 
 //        System.out.println(Gdx.graphics.getFramesPerSecond());
     }
@@ -262,6 +286,7 @@ public class HouseOfAbraham extends GameState {
         actualGameButtons.dispose();
         controller.dispose();
         insideGameMenu.dispose();
+        warning.dispose();
     }
 
     @Override

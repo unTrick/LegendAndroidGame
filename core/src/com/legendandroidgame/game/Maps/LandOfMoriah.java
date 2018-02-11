@@ -78,10 +78,6 @@ public class LandOfMoriah extends GameState {
         stage.addActor(actualGameButtons.getBtnMenu());
         buttonControls();
 
-        if (conversation.haranInsConvo1){
-            gameData.getString("isPaused", "true");
-            gameData.flush();
-        }
 
         // for center
 
@@ -304,20 +300,29 @@ public class LandOfMoriah extends GameState {
         if (landOfMoriahWorld.goToHaran){
             warning.isHaran = true;
             if(warning.yesBtn.isPressed()){
-
+                gameData.putInteger(current + " from", 8);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 2));
+                dispose();
             }
         }
         else if (landOfMoriahWorld.gotoBethel) {
             warning.isBethel = true;
             if(warning.yesBtn.isPressed()){
-
+                gameData.putInteger(current + " from", 8);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 3));
+                dispose();
             }
         }
 
         else if (landOfMoriahWorld.goToJordan){
             warning.isJordan = true;
             if(warning.yesBtn.isPressed()){
-
+                gameData.putInteger(current + " from", 8);
+                gameData.flush();
+                gsm.set(new LoadScreen(gsm, 9));
+                dispose();
             }
         }
         else {
@@ -338,7 +343,7 @@ public class LandOfMoriah extends GameState {
         actualGameButtons.update();
         conversation.update();
         missionQuest.update();
-        maps.update();
+        maps.update(dt);
         warning.update();
 
         /*

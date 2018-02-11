@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.physics.bullet.DebugDrawer;
@@ -40,6 +41,7 @@ public class EgyptSouthWorld {
     private Entity aaron;
     private Entity  houseDoor;
     private PlayerSystem playerSystem;
+    private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
     private AaronSystem aaronSystem;
@@ -56,6 +58,7 @@ public class EgyptSouthWorld {
     private String current = gameData.getString("current");
 
     private float posX, posZ;
+    public float moverX, moverY;
     public boolean goInside = false;
 
     private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos;
@@ -217,7 +220,8 @@ public class EgyptSouthWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, new Vector2()));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         if(gameData.getInteger(current + " missionId") >= 3) {
             engine.addSystem(aaronSystem = new AaronSystem(bulletSystem));
         }
@@ -310,6 +314,8 @@ public class EgyptSouthWorld {
     }
 
     public void dispose() {
+        CharacterEntityFactory.character = null;
+        CharacterEntityFactory.playerModel = null;
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
         if(gameData.getInteger(current + " missionId") >= 3) {

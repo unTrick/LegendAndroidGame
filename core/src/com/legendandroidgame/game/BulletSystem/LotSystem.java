@@ -118,7 +118,7 @@ public class LotSystem extends EntitySystem implements EntityListener  {
                 cm.get(e).characterController.setWalkDirection(cm.get(e).walkDirection);
 
 //                System.out.println("true");
-                playerAnimation.animate("Armature|Stand",-1,1);
+                playerAnimation.animate("Armature|ArmatureAction",-1,1);
 
 
             }
@@ -133,7 +133,7 @@ public class LotSystem extends EntitySystem implements EntityListener  {
                 cm.get(e).characterController.setWalkDirection(cm.get(e).walkDirection);
 
 //                System.out.println("true");
-                playerAnimation.animate("Armature|Stand",-1,1);
+                playerAnimation.animate("Armature|ArmatureAction",-1,1);
 
                 /*
                 theta  = (float) (Math.atan2(dX, dZ));

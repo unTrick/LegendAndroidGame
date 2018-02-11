@@ -19,10 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class ActualGameButtons {
 
-    private Texture menu, talk, run, drink, inventory, mission, map;
-    public ImageButton btnMenu, btnTalk, btnRun, btnDrink, btnInventory, btnMission, btnMap;
+    private Texture menu, talk, run, drink, inventory, mission, map, grab;
+    public ImageButton btnMenu, btnTalk, btnRun, btnDrink, btnInventory, btnMission, btnMap, btnGrab;
     private Stage stage;
-    public Drawable drawMenu, drawTalk, drawRun, drawDrink, drawInventory, drawMission, drawMap;
+    public Drawable drawMenu, drawTalk, drawRun, drawDrink, drawInventory, drawMission, drawMap, drawGrab;
     private boolean runPressed;
 
     public ActualGameButtons(Stage stage){
@@ -37,6 +37,7 @@ public class ActualGameButtons {
             inventory = new Texture("1080/button/inventorybtn.png");
             mission = new Texture("1080/button/questbtn.png");
             map = new Texture("1080/button/mapbtn.png");
+            grab  = new Texture("1080/button/grabbtn.png");
         }
         else {
             menu = new Texture("720/button/close.png");
@@ -46,6 +47,7 @@ public class ActualGameButtons {
             inventory = new Texture("720/button/inventorybtn.png");
             mission = new Texture("720/button/questbtn.png");
             map = new Texture("720/button/mapbtn.png");
+            grab  = new Texture("720/button/grabbtn.png");
         }
 
 
@@ -71,6 +73,9 @@ public class ActualGameButtons {
         drawMap = new TextureRegionDrawable(new TextureRegion(map));
         btnMap = new ImageButton(drawMap);
 
+        drawGrab = new TextureRegionDrawable(new TextureRegion(grab));
+        btnGrab = new ImageButton(drawGrab);
+
         Table table = new Table();
         table.right();
         table.bottom().padBottom(50);
@@ -83,12 +88,23 @@ public class ActualGameButtons {
         table.add().width(100).height(100).pad(20,0,0,20);
         table.add(btnMap).width(map.getWidth()).height(map.getHeight()).pad(20,0,0,20);
         table.row();
-        table.add().width(100).height(100).pad(20,0,0,20);
-        table.add(btnTalk).width(talk.getWidth()).height(talk.getHeight()).pad(20,0,0,20);
-        table.row();
-        table.add(btnRun).width(run.getWidth()).height(run.getHeight()).pad(20,0,0,20);
-        table.add(btnDrink).width(drink.getWidth()).height(drink.getHeight()).pad(20,0,0,20);
 
+        switch(Gdx.app.getType()) {
+            case Android:
+                table.add(btnGrab).width(grab.getWidth()).height(grab.getHeight()).pad(20,0,0,20);
+                table.add(btnTalk).width(talk.getWidth()).height(talk.getHeight()).pad(20,0,0,20);
+                table.row();
+                table.add(btnRun).width(run.getWidth()).height(run.getHeight()).pad(20,0,0,20);
+                table.add(btnDrink).width(drink.getWidth()).height(drink.getHeight()).pad(20,0,0,20);
+                break;
+            case Desktop:
+                table.add().width(grab.getWidth()).height(grab.getHeight()).pad(20,0,0,20);
+                table.add(btnTalk).width(talk.getWidth()).height(talk.getHeight()).pad(20,0,0,20);
+                table.row();
+                table.add(btnGrab).width(grab.getWidth()).height(grab.getHeight()).pad(20,0,0,20);
+                table.add(btnDrink).width(drink.getWidth()).height(drink.getHeight()).pad(20,0,0,20);
+                break;
+        }
         stage.addActor(table);
 
         btnRun.addListener(new InputListener(){
@@ -104,25 +120,6 @@ public class ActualGameButtons {
                runPressed = false;
             }
         });
-
-
-//        btnGrab.addListener(new ClickListener(){
-//
-//
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                grabPressed = true;
-//
-//                return true;
-//            }
-//
-//            @Override
-//            public void touchUp(InputEvent e, float x, float y, int pointer, int button){
-//                grabPressed = false;
-//            }
-//
-//        });
-
 
     }
 
@@ -172,4 +169,5 @@ public class ActualGameButtons {
     public ImageButton getBtnDrink() {
         return btnDrink;
     }
+
 }

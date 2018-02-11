@@ -2,12 +2,12 @@ package com.legendandroidgame.game.Maps;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
 import com.legendandroidgame.game.GameWorlds.HaranWorld;
@@ -38,11 +38,7 @@ public class Haran extends GameState {
     private Conversation conversation;
     private Warning warning;
     String current = gameData.getString("current");
-    private int convoIdMission = gameData.getInteger(current + " convoId");
-    private int convoIdInstructor = gameData.getInteger(current + " convoId");
-    private int convoIdPeople = gameData.getInteger(current + " convoId");
 
-    private boolean haranTimer = false, haranT1mer = false;
     /*
     public String pos, direction, fieldOfView, frustum, invProkectionView, view;
     private Label posLbl, directionLbl, frustumLbl, invProkectionViewLbl, viewLbl;
@@ -75,11 +71,6 @@ public class Haran extends GameState {
 
         stage.addActor(actualGameButtons.getBtnMenu());
         buttonControls();
-
-        if (conversation.haranInsConvo1){
-            gameData.getString("isPaused", "true");
-            gameData.flush();
-        }
 
         /*
         pos = "Camera Position: \t " + haranWorld.worldCamera.worldCam.position.toString();
@@ -143,18 +134,39 @@ public class Haran extends GameState {
                 insideGameMenu.close();
                 missionQuest.close();
                 maps.open();
-
                 return false;
             }
 
         });
 
+        actualGameButtons.btnTalk.addListener(new ClickListener(){
+           @Override
+            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+               if (haranWorld.wellInstructorBounds){
+                   if (gameData.getString(current + " isWellInstructDone").equals("done")){
+                       gameData.putInteger(current + " convoId", 73);
+                       gameData.flush();
+                       conversation.conversation();
+                   }
+                   else if (conversation.clickCount >= 2){
+                       conversation.conversation();
+                   }
+                   else {
+                       gameData.putInteger(current + " convoId", 71);
+                       gameData.flush();
+                       conversation.conversation();
+                   }
+               }
+
+
+               return false;
+           }
+        });
+
         maps.getCloseBtn().addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
                 maps.close();
-
                 return false;
             }
 
@@ -210,6 +222,8 @@ public class Haran extends GameState {
                         missionQuest.clickCount = 0;
                     }
                 }
+
+
                 return false;
             }
 
@@ -284,66 +298,75 @@ public class Haran extends GameState {
 
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-                if (conversation.haranConvo){
-                    convoIdMission += 1;
-                    if (convoIdMission < 4){
-                        gameData.putInteger(current + " convoId", convoIdMission);
-                        gameData.flush();
-                    }
-                }
-                if (conversation.haranInsConvo1){
-                    convoIdInstructor += 1;
-                    gameData.putInteger(current + " convoId", convoIdInstructor);
+
+                conversation.clickCount += 1;
+                if (gameData.getInteger(current + " convoId") == 71){
+                    gameData.putInteger(current + " convoId", 72);
                     gameData.flush();
                 }
-                if (conversation.haranInsConvo2){
-                    convoIdInstructor += 1;
-                    gameData.putInteger(current + " convoId", convoIdInstructor);
+                else if(gameData.getInteger(current + " convoId") == 72){
+                    gameData.putInteger(current + " convoId", 73);
+                    gameData.putString(current + " isHaranConvoInsDone", "done");
+                    gameData.flush();
+                    conversation.closeConversation();
+                }
+
+                else if(gameData.getInteger(current + " convoId") == 73){
+                    gameData.putInteger(current + " convoId", 74);
                     gameData.flush();
                 }
+                else if(gameData.getInteger(current + " convoId") == 74){
+                    gameData.putInteger(current + " convoId", 75);
+                    gameData.putString(current + " isWellInstructDone", "done");
+                    gameData.flush();
 
-//                convoIdPeople += 1;
-                if (conversation.haranInsConvo1){
-                    if(convoIdInstructor == 3){
-                        convoIdInstructor = 1;
-                        gameData.putString(current + " isHaranConvoInsDone", "done");
-                        gameData.putInteger(current + " convoId", 1);
-                        gameData.flush();
-                    }
+                }
+                else if (gameData.getInteger(current + " convoId") == 75){
+                    conversation.closeConversation();
                 }
 
-                if(conversation.haranInsConvo2){
-                    if(convoIdInstructor == 3){
-                        convoIdInstructor = 1;
-                        gameData.putString(current + " isHaranConvoInsDone2", "done");
-                        gameData.putString(current + " isWellInstructDone", "done");
-                        gameData.putInteger(current + " convoId", 1);
-                        gameData.flush();
-                    }
-                }
 
-                if(convoIdMission == 3){
-                    gameData.putString(current + " isHaranConvoDone", "done");
-                    gameData.putInteger(current + " missionId", 1);
-                    gameData.putInteger(current + " questTime", 300);
+                if(gameData.getInteger(current + " convoId") == 1){
+                    gameData.putString(current + " firstTalktoGod", "done");
+                    gameData.putInteger(current + " convoId", 2);
+                    gameData.flush();
+                }
+                else if (gameData.getInteger(current + " convoId") == 2){
+                    gameData.putInteger(current + " convoId", 3);
+                    gameData.flush();
+                }
+                else if (gameData.getInteger(current + " convoId") == 3){
+                    conversation.closeConversation();
+                    missionQuest.missionOverview();
+                    hud.questTime = 300;
+                    hud.currentQuestTime = 600;
                     gameData.putInteger(current + " currentQuestTime", 600);
-                    gameData.putInteger(current + " convoId", 1);
-                    gameData.putString("isPaused", "false");
+                    gameData.putInteger(current + " questTime", 300);
+                    gameData.putInteger(current + " missionId", 1);
                     gameData.flush();
-
                 }
-
 
                 return false;
             }
 
         });
 
-
     }
 
     @Override
     protected void handleInput() {
+
+        // Map point mover
+
+        maps.pos.x = haranWorld.mover.x;
+        maps.pos.y = haranWorld.mover.y;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+            System.out.println("this is from haran" + haranWorld.mover.x + "\t" + haranWorld.mover.y);
+            System.out.println("this is from haran" + maps.pos.x + "\t" + maps.pos.y);
+        }
+
+        // Map point mover
 
         if(haranWorld.gotoBethel){
             warning.isBethel = true;
@@ -374,12 +397,12 @@ public class Haran extends GameState {
             }
         }
 
-        else if(haranWorld.goToJordan){
-            warning.isJordan = true;
+        else if(haranWorld.goToMoriah){
+            warning.isMoriah = true;
             if(warning.yesBtn.isPressed()){
                 gameData.putInteger(current + " from", 2);
                 gameData.flush();
-                gsm.set(new LoadScreen(gsm, 9));
+                gsm.set(new LoadScreen(gsm, 8));
                 dispose();
             }
         }
@@ -387,7 +410,7 @@ public class Haran extends GameState {
         else {
             warning.isBethel = false;
             warning.isHouse = false;
-            warning.isJordan = false;
+            warning.isMoriah = false;
         }
 
         if(hud.health == 0){
@@ -395,20 +418,13 @@ public class Haran extends GameState {
             dispose();
         }
 
-        if(!gameData.getString(current + " isWellInstructDone").equals("done")){
-            conversation.haranConvo = false;
-        }
-
-        if(gameData.getString(current + " isHaranConvoDone").equals("done")){
-            if(!haranTimer){
-                haranTimer = true;
-
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        conversation.haranConvo = false;
-                    }
-                }, 1);
+        if(hud.questTime <= 0){
+            if(gameData.getInteger(current + " missionId") == 1) {
+                gsm.set(new LoadScreen(gsm, 2));
+                hud.questTime = 300;
+                gameData.putInteger(current + " questTime", 300);
+                gameData.flush();
+                dispose();
             }
         }
 
@@ -423,28 +439,13 @@ public class Haran extends GameState {
             }
         }
 
-        if(gameData.getString(current + " isHaranConvoInsDone").equals("done")){
-            conversation.haranInsConvo1 = false;
-        }
 
-        if (!gameData.getString(current + " isInsWalkDone").equals("done")){
-            conversation.haranInsConvo2 = false;
-        }
-        if (gameData.getString(current + " isInsWalkDone").equals("done")){
-            conversation.haranInsConvo2 = true;
-        }
 
-        if(gameData.getString(current + " isHaranConvoInsDone2").equals("done")){
-            conversation.haranInsConvo2 = false;
-            if(!haranT1mer){
-                haranT1mer = true;
-
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        conversation.haranConvo = true;
-                    }
-                }, 1);
+        if(gameData.getString(current + " isWellInstructDone").equals("done")){
+            if (!gameData.getString(current + " firstTalktoGod").equals("done")){
+                gameData.putInteger(current + " convoId", 1);
+                gameData.flush();
+                conversation.conversation();
             }
         }
 
@@ -460,7 +461,7 @@ public class Haran extends GameState {
         actualGameButtons.update();
         conversation.update();
         missionQuest.update();
-        maps.update();
+        maps.update(dt);
         warning.update();
 
         /*
