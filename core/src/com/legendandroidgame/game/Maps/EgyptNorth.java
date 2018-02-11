@@ -139,6 +139,8 @@ public class EgyptNorth extends GameState{
 
         });
 
+        // new click
+
         conversation.nextBtn.addListener(new ClickListener(){
 
 
