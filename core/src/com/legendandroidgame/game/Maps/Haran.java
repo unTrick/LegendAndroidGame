@@ -172,7 +172,110 @@ public class Haran extends GameState {
 
         });
 
+
+        actualGameButtons.getBtnTalk().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                //NPC01
+                if(haranWorld.haranNPC01){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(haranWorld.haranNPC02){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(haranWorld.haranNPC03){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(haranWorld.haranNPC04){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(haranWorld.haranNPC05){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(haranWorld.haranNPC06){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(haranWorld.haranNPC07){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(haranWorld.haranNPC08){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(haranWorld.haranNPC09){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(haranWorld.haranNPC10){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                return false;
+            }
+
+
+        });
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount >=1 ){
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
+        });
+
+
         // TODO Mission Buttons
+
+
 
         actualGameButtons.getBtnMission().addListener(new ClickListener(){
 
@@ -450,6 +553,9 @@ public class Haran extends GameState {
         }
 
     }
+
+
+
 
     @Override
     public void update(float dt) {

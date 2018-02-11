@@ -44,6 +44,7 @@ public class EgyptSouth extends GameState{
     private Trivia trivia;
     private Warning warning;
 
+
     private int convoId = gameData.getInteger(current + " convoId");
 
     // for center
@@ -126,11 +127,80 @@ public class EgyptSouth extends GameState{
 
         });
 
-
         actualGameButtons.getBtnTalk().addListener(new ClickListener(){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                //NPC01
+                if(egyptSouthWorld.israelitesNPC01){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(egyptSouthWorld.israelitesNPC02){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(egyptSouthWorld.israelitesNPC03){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(egyptSouthWorld.israelitesNPC04){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(egyptSouthWorld.israelitesNPC05){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(egyptSouthWorld.israelitesNPC06){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(egyptSouthWorld.israelitesNPC07){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(egyptSouthWorld.israelitesNPC08){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(egyptSouthWorld.israelitesNPC09){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(egyptSouthWorld.israelitesNPC10){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
 
 
                 return false;
@@ -138,6 +208,25 @@ public class EgyptSouth extends GameState{
 
 
         });
+
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount >=1 ){
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
+        });
+
 
 
 // TODO Mission Buttons

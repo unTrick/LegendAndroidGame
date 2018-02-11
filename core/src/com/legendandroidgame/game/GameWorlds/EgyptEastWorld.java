@@ -43,6 +43,29 @@ public class EgyptEastWorld {
     public Boolean goToNorth = false, goToSouth = false, goToWest = false, goToEdom = false;
     private Vector3 portal1Pos, portal2Pos, portal3Pos, portal4Pos, playerPos;
 
+    public Boolean israelitesNPC01 = false;
+    public Boolean israelitesNPC02 = false;
+    public Boolean israelitesNPC03 = false;
+    public Boolean israelitesNPC04 = false;
+    public Boolean israelitesNPC05 = false;
+    public Boolean israelitesNPC06 = false;
+    public Boolean israelitesNPC07 = false;
+    public Boolean israelitesNPC08 = false;
+    public Boolean israelitesNPC09 = false;
+    public Boolean israelitesNPC10 = false;
+
+
+    private Vector3 israelitesNPC01position;
+    private Vector3 israelitesNPC02position;
+    private Vector3 israelitesNPC03position;
+    private Vector3 israelitesNPC04position;
+    private Vector3 israelitesNPC05position;
+    private Vector3 israelitesNPC06position;
+    private Vector3 israelitesNPC07position;
+    private Vector3 israelitesNPC08position;
+    private Vector3 israelitesNPC09position;
+    private Vector3 israelitesNPC10position;
+
     private Entity map;
 
     private DebugDrawer debugDrawer;
@@ -222,6 +245,17 @@ public class EgyptEastWorld {
         portal3Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
         portal4Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
 
+        israelitesNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
+        israelitesNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
+        israelitesNPC03position = CharacterEntityFactory.israelitesComponent3.instance.transform.getTranslation(new Vector3());
+        israelitesNPC04position = CharacterEntityFactory.israelitesComponent4.instance.transform.getTranslation(new Vector3());
+        israelitesNPC05position = CharacterEntityFactory.israelitesComponent5.instance.transform.getTranslation(new Vector3());
+        israelitesNPC06position = CharacterEntityFactory.israelitesComponent6.instance.transform.getTranslation(new Vector3());
+        israelitesNPC07position = CharacterEntityFactory.israelitesComponent7.instance.transform.getTranslation(new Vector3());
+        israelitesNPC08position = CharacterEntityFactory.israelitesComponent8.instance.transform.getTranslation(new Vector3());
+        israelitesNPC09position = CharacterEntityFactory.israelitesComponent9.instance.transform.getTranslation(new Vector3());
+        israelitesNPC10position = CharacterEntityFactory.israelitesComponent10.instance.transform.getTranslation(new Vector3());
+
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
             goToNorth = true;
@@ -245,10 +279,76 @@ public class EgyptEastWorld {
             goToEdom = false;
         }
 
+        if((playerPos.x - israelitesNPC01position.x) <= 10 && (playerPos.x - israelitesNPC01position.x) >= -10
+                && (playerPos.z - israelitesNPC01position.z) <= 10 && (playerPos.z - israelitesNPC01position.z) >= -10){
+            israelitesNPC01 = true;
+        }
+        else if((playerPos.x - israelitesNPC02position.x) <= 10 && (playerPos.x - israelitesNPC02position.x) >= -10
+                && (playerPos.z - israelitesNPC02position.z) <= 10 && (playerPos.z - israelitesNPC02position.z) >= -10){
+
+            israelitesNPC02 =  true;
+        }
+        else if((playerPos.x - israelitesNPC03position.x) <= 10 && (playerPos.x - israelitesNPC03position.x) >= -10
+                && (playerPos.z - israelitesNPC03position.z) <= 10 && (playerPos.z - israelitesNPC03position.z) >= -10){
+
+            israelitesNPC03 =  true;
+        }
+        else if((playerPos.x - israelitesNPC04position.x) <= 10 && (playerPos.x - israelitesNPC04position.x) >= -10
+                && (playerPos.z - israelitesNPC04position.z) <= 10 && (playerPos.z - israelitesNPC04position.z) >= -10){
+
+            israelitesNPC04 =  true;
+        }
+        else if((playerPos.x - israelitesNPC05position.x) <= 10 && (playerPos.x - israelitesNPC05position.x) >= -10
+                && (playerPos.z - israelitesNPC05position.z) <= 10 && (playerPos.z - israelitesNPC05position.z) >= -10){
+
+            israelitesNPC05 =  true;
+        }
+        else if((playerPos.x - israelitesNPC06position.x) <= 10 && (playerPos.x - israelitesNPC06position.x) >= -10
+                && (playerPos.z - israelitesNPC06position.z) <= 10 && (playerPos.z - israelitesNPC06position.z) >= -10){
+
+            israelitesNPC06 =  true;
+        }
+        else if((playerPos.x - israelitesNPC07position.x) <= 10 && (playerPos.x - israelitesNPC07position.x) >= -10
+                && (playerPos.z - israelitesNPC07position.z) <= 10 && (playerPos.z - israelitesNPC07position.z) >= -10){
+
+            israelitesNPC07 =  true;
+        }
+        else if((playerPos.x - israelitesNPC08position.x) <= 10 && (playerPos.x - israelitesNPC08position.x) >= -10
+                && (playerPos.z - israelitesNPC08position.z) <= 10 && (playerPos.z - israelitesNPC08position.z) >= -10){
+
+            israelitesNPC08 =  true;
+        }
+        else if((playerPos.x - israelitesNPC09position.x) <= 10 && (playerPos.x - israelitesNPC09position.x) >= -10
+                && (playerPos.z - israelitesNPC09position.z) <= 10 && (playerPos.z - israelitesNPC09position.z) >= -10){
+
+            israelitesNPC09 =  true;
+        }
+        else if((playerPos.x - israelitesNPC10position.x) <= 10 && (playerPos.x - israelitesNPC10position.x) >= -10
+                && (playerPos.z - israelitesNPC10position.z) <= 10 && (playerPos.z - israelitesNPC10position.z) >= -10){
+
+            israelitesNPC10 =  true;
+        }
+        else {
+            israelitesNPC01 = false;
+            israelitesNPC02 = false;
+            israelitesNPC03 = false;
+            israelitesNPC04 = false;
+            israelitesNPC05 = false;
+            israelitesNPC06 = false;
+            israelitesNPC07 = false;
+            israelitesNPC08 = false;
+            israelitesNPC09 = false;
+            israelitesNPC10 = false;
+        }
+
         worldCamera.worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);
     }
+
+
+
+
 
     private void renderWorld(float delta) {
         engine.update(delta);

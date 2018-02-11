@@ -213,6 +213,22 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             israelites9 = CharacterEntityFactory.createIsraelites9(bulletSystem, 67.90971f,7,94.78648f);
             israelites10 = CharacterEntityFactory.createIsraelites10(bulletSystem, -62.58716f,7,27.981432f);
         }
+
+        if (gameData.getInteger(current + " currentLocation") == 2){ // HARAN
+            israelites1 = CharacterEntityFactory.createIsraelites1(bulletSystem, -8.247004f,7,-35.9064f);
+            israelites2 = CharacterEntityFactory.createIsraelites2(bulletSystem, -44.786545f,7,-56.624752f);
+            israelites3 = CharacterEntityFactory.createIsraelites3(bulletSystem, 68.80595f,7,-108.66547f);
+            israelites4 = CharacterEntityFactory.createIsraelites4(bulletSystem, 48.220192f,7,-43.188274f);
+            israelites5 = CharacterEntityFactory.createIsraelites5(bulletSystem, -77.5894f,7,-91.70316f);
+            israelites6 = CharacterEntityFactory.createIsraelites6(bulletSystem, -41.929565f,7,3.6486053f);
+            israelites7 = CharacterEntityFactory.createIsraelites7(bulletSystem, -0.3891179f,7,62.33569f);
+            israelites8 = CharacterEntityFactory.createIsraelites8(bulletSystem, 77.26265f,7,55.4955f);
+            israelites9 = CharacterEntityFactory.createIsraelites9(bulletSystem, 73.843025f,7,-24.225368f);
+            israelites10 = CharacterEntityFactory.createIsraelites10(bulletSystem, -5.8213596f,7,-4.8830333f);
+        }
+
+
+
         modelComponent1 = CharacterEntityFactory.israelitesComponent1;
         modelComponent2 = CharacterEntityFactory.israelitesComponent2;
         modelComponent3 = CharacterEntityFactory.israelitesComponent3;

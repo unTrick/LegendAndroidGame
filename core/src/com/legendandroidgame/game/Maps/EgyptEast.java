@@ -34,6 +34,7 @@ public class EgyptEast extends GameState {
     private Maps maps;
     private MissionQuest missionQuest;
     private Warning warning;
+    private Conversation conversation;
     String current = gameData.getString("current");
 
     public EgyptEast(GameStateManager gsm) {
@@ -51,6 +52,7 @@ public class EgyptEast extends GameState {
         insideGameMenu = new InsideGameMenu(stage);
         maps = new Maps(stage);
         missionQuest = new MissionQuest(stage);
+        conversation = new Conversation(stage);
         warning = new Warning(stage);
 
         Gdx.input.setInputProcessor(stage);
@@ -97,6 +99,106 @@ public class EgyptEast extends GameState {
 
         });
 
+        actualGameButtons.getBtnTalk().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                //NPC01
+                if(egyptEastWorld.israelitesNPC01){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(egyptEastWorld.israelitesNPC02){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(egyptEastWorld.israelitesNPC03){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(egyptEastWorld.israelitesNPC04){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(egyptEastWorld.israelitesNPC05){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(egyptEastWorld.israelitesNPC06){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(egyptEastWorld.israelitesNPC07){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(egyptEastWorld.israelitesNPC08){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(egyptEastWorld.israelitesNPC09){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(egyptEastWorld.israelitesNPC10){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                return false;
+            }
+
+
+        });
+
+        // new click
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount >=1 ){
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
+        });
 
 
 // TODO Mission Buttons

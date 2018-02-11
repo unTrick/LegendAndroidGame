@@ -13,6 +13,7 @@ import com.legendandroidgame.game.Buttons.Controller;
 import com.legendandroidgame.game.GameWorlds.EgyptWestWorld;
 import com.legendandroidgame.game.HUD.HUD;
 import com.legendandroidgame.game.LegendAndroidGame;
+import com.legendandroidgame.game.PopupBox.Conversation;
 import com.legendandroidgame.game.PopupBox.InsideGameMenu;
 import com.legendandroidgame.game.PopupBox.Maps;
 import com.legendandroidgame.game.PopupBox.MissionQuest;
@@ -40,6 +41,7 @@ public class EgyptWest extends GameState{
     private Maps maps;
     private MissionQuest missionQuest;
     private Warning warning;
+    private Conversation conversation;
     String current = gameData.getString("current");
 
     // for center
@@ -65,6 +67,7 @@ public class EgyptWest extends GameState{
         maps = new Maps(stage);
         missionQuest = new MissionQuest(stage);
         warning = new Warning(stage);
+        conversation = new Conversation(stage);
 
         // for center
 
@@ -119,6 +122,106 @@ public class EgyptWest extends GameState{
             }
 
         });
+
+        actualGameButtons.getBtnTalk().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                //NPC01
+                if(egyptWestWorld.israelitesNPC01){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(egyptWestWorld.israelitesNPC02){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(egyptWestWorld.israelitesNPC03){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(egyptWestWorld.israelitesNPC04){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(egyptWestWorld.israelitesNPC05){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(egyptWestWorld.israelitesNPC06){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(egyptWestWorld.israelitesNPC07){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(egyptWestWorld.israelitesNPC08){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(egyptWestWorld.israelitesNPC09){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(egyptWestWorld.israelitesNPC10){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                return false;
+            }
+
+
+        });
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount >=1 ){
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
+        });
+
 
 
 // TODO Mission Buttons
