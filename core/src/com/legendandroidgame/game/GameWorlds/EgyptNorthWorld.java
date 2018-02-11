@@ -41,7 +41,7 @@ public class EgyptNorthWorld {
     private ModelComponent modelComponent;
 
 
-    public Boolean goToBethel = false, goToSouth = false, goToWest = false, goToEast = false;
+    public Boolean goToBethel = false, goToSouth = false, goToWest = false, goToEast = false, tukoy = false;
     public boolean goInside = false;
 
     private DebugDrawer debugDrawer;
@@ -52,7 +52,7 @@ public class EgyptNorthWorld {
 
     private float posX, posZ;
     public float moverX, moverY;
-    private Vector3 portal1Pos, portal2Pos, playerPos, portal3Pos, portal4Pos;
+    private Vector3 portal1Pos, portal2Pos, playerPos, portal3Pos, portal4Pos, tukoyPos;
 
 
     public EgyptNorthWorld(Controller controller, ActualGameButtons actualGameButtons) {
@@ -239,6 +239,7 @@ public class EgyptNorthWorld {
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
         portal4Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
+        tukoyPos = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
 
         if ((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10) {
@@ -261,6 +262,14 @@ public class EgyptNorthWorld {
             goToEast = false;
             goToSouth = false;
             goToWest = false;
+        }
+
+        if((playerPos.x - tukoyPos.x) <= 10 && (playerPos.x - tukoyPos.x) >= -10
+                && (playerPos.z - tukoyPos.z) <= 10 && (playerPos.z - tukoyPos.z) >= -10){
+            tukoy = true;
+        }
+        else {
+            tukoy = false;
         }
 
         worldCam.update();

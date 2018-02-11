@@ -127,10 +127,33 @@ public class EgyptNorth extends GameState{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
 
+                if(egyptNorthWorld.tukoy){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
                 return false;
             }
 
 
+        });
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount >1 ){
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
         });
 
 
