@@ -1,0 +1,537 @@
+
+Convo-HDPI.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Abraham_Convo1
+  rotate: false
+  xy: 1, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_Convo2
+  rotate: false
+  xy: 1, 3486
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_SearchBethel
+  rotate: false
+  xy: 793, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_SearchMoriah
+  rotate: false
+  xy: 1, 3217
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_SearchRam
+  rotate: false
+  xy: 793, 3486
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_SearchStone
+  rotate: false
+  xy: 1585, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_SearchWood
+  rotate: false
+  xy: 1, 2948
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_Thankyou
+  rotate: false
+  xy: 793, 3217
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_Wondering
+  rotate: false
+  xy: 1585, 3486
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_Wondering1
+  rotate: false
+  xy: 2377, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham_WonderingRam
+  rotate: false
+  xy: 1, 2679
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Eighth
+  rotate: false
+  xy: 793, 2948
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Joshua_SearchJordan
+  rotate: false
+  xy: 1585, 3217
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Joshua_SearchLargeStones
+  rotate: false
+  xy: 2377, 3486
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Joshua_SearchShechem
+  rotate: false
+  xy: 3169, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Joshua_SearchStones
+  rotate: false
+  xy: 1, 2410
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Joshua_Thankyou
+  rotate: false
+  xy: 793, 2679
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Joshua_WonderingStone
+  rotate: false
+  xy: 1585, 2948
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Man_Convo1
+  rotate: false
+  xy: 2377, 3217
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Man_Convo2
+  rotate: false
+  xy: 3169, 3486
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_SearchEgypt
+  rotate: false
+  xy: 3961, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_SearchMaterials
+  rotate: false
+  xy: 1, 2141
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_SearchSinai
+  rotate: false
+  xy: 793, 2410
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_SearchStaff
+  rotate: false
+  xy: 1585, 2679
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_Thankyou
+  rotate: false
+  xy: 2377, 2948
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_Thankyou1
+  rotate: false
+  xy: 3169, 3217
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_WonderingMaterials
+  rotate: false
+  xy: 3961, 3486
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Moses_WonderingStaff
+  rotate: false
+  xy: 4753, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo1
+  rotate: false
+  xy: 1, 1872
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo2
+  rotate: false
+  xy: 793, 2141
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo3
+  rotate: false
+  xy: 1585, 2410
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo4
+  rotate: false
+  xy: 2377, 2679
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo5
+  rotate: false
+  xy: 3169, 2948
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo6
+  rotate: false
+  xy: 3961, 3217
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo_Decline2
+  rotate: false
+  xy: 4753, 3486
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo_Decline3
+  rotate: false
+  xy: 5545, 3755
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo_Decline4
+  rotate: false
+  xy: 1, 1603
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo_Decline5
+  rotate: false
+  xy: 793, 1872
+  size: 790, 267
+  orig: 790, 267
+  offset: 0, 0
+  index: -1
+Abraham Intro
+  rotate: false
+  xy: 1585, 2142
+  size: 789, 266
+  orig: 789, 266
+  offset: 0, 0
+  index: -1
+Joshua Intro
+  rotate: false
+  xy: 2377, 2411
+  size: 789, 266
+  orig: 789, 266
+  offset: 0, 0
+  index: -1
+Moses Intro 1
+  rotate: false
+  xy: 3169, 2680
+  size: 789, 266
+  orig: 789, 266
+  offset: 0, 0
+  index: -1
+Moses Intro
+  rotate: false
+  xy: 3961, 2949
+  size: 789, 266
+  orig: 789, 266
+  offset: 0, 0
+  index: -1
+Abraham_Part1
+  rotate: false
+  xy: 4753, 3219
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Abraham_Part2
+  rotate: false
+  xy: 5545, 3488
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Isaac
+  rotate: false
+  xy: 6337, 3757
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Israelites_Convo23
+  rotate: false
+  xy: 1, 1336
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Israelites_Convo25
+  rotate: false
+  xy: 793, 1605
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Israelites_Convo27
+  rotate: false
+  xy: 1585, 1875
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Israelites_Convo_21_Part1
+  rotate: false
+  xy: 7128, 3757
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Israelites_Convo_21_Part2
+  rotate: false
+  xy: 1, 1069
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Joshua_Convo20
+  rotate: false
+  xy: 1, 802
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Joshua_Convo24
+  rotate: false
+  xy: 1, 535
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Joshua_Convo26
+  rotate: false
+  xy: 1, 268
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Joshua_Convo_22_Part1
+  rotate: false
+  xy: 1, 1
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Joshua_Convo_22_Part2
+  rotate: false
+  xy: 1585, 1608
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Joshua_Convo_22_Part3
+  rotate: false
+  xy: 4753, 2952
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Moses_Part1
+  rotate: false
+  xy: 5545, 3221
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Moses_Part2
+  rotate: false
+  xy: 5544, 2954
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Pharaoh_Part1
+  rotate: false
+  xy: 6337, 3490
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Pharaoh_Part2
+  rotate: false
+  xy: 7128, 3490
+  size: 789, 265
+  orig: 789, 265
+  offset: 0, 0
+  index: -1
+Man_Convo3
+  rotate: false
+  xy: 6336, 3221
+  size: 786, 267
+  orig: 786, 267
+  offset: 0, 0
+  index: -1
+OtherCharacter_Convo_Decline1
+  rotate: false
+  xy: 7124, 3221
+  size: 786, 267
+  orig: 786, 267
+  offset: 0, 0
+  index: -1
+Fifth
+  rotate: false
+  xy: 6335, 2960
+  size: 785, 259
+  orig: 785, 259
+  offset: 0, 0
+  index: -1
+First_Part 1
+  rotate: false
+  xy: 7122, 2959
+  size: 779, 260
+  orig: 779, 260
+  offset: 0, 0
+  index: -1
+Third_Part 1
+  rotate: false
+  xy: 6335, 2704
+  size: 780, 254
+  orig: 780, 254
+  offset: 0, 0
+  index: -1
+First_Part 3
+  rotate: false
+  xy: 7117, 2701
+  size: 779, 256
+  orig: 779, 256
+  offset: 0, 0
+  index: -1
+Fourth_Part 1
+  rotate: false
+  xy: 793, 1345
+  size: 778, 258
+  orig: 778, 258
+  offset: 0, 0
+  index: -1
+Third_Part 2
+  rotate: false
+  xy: 792, 1084
+  size: 776, 259
+  orig: 776, 259
+  offset: 0, 0
+  index: -1
+First_Part 2
+  rotate: false
+  xy: 792, 824
+  size: 776, 258
+  orig: 776, 258
+  offset: 0, 0
+  index: -1
+Second_Part 1
+  rotate: false
+  xy: 792, 565
+  size: 775, 257
+  orig: 775, 257
+  offset: 0, 0
+  index: -1
+Seventh_Part 2
+  rotate: false
+  xy: 792, 308
+  size: 777, 255
+  orig: 777, 255
+  offset: 0, 0
+  index: -1
+Seventh_Part 3
+  rotate: false
+  xy: 792, 51
+  size: 776, 255
+  orig: 776, 255
+  offset: 0, 0
+  index: -1
+Second_Part 2
+  rotate: false
+  xy: 1584, 1357
+  size: 777, 249
+  orig: 777, 249
+  offset: 0, 0
+  index: -1
+Seventh_Part 1
+  rotate: false
+  xy: 4752, 2699
+  size: 777, 251
+  orig: 777, 251
+  offset: 0, 0
+  index: -1
+Fourth_Part 2
+  rotate: false
+  xy: 5544, 2699
+  size: 774, 253
+  orig: 774, 253
+  offset: 0, 0
+  index: -1
+Sixth
+  rotate: false
+  xy: 2377, 2153
+  size: 773, 256
+  orig: 773, 256
+  offset: 0, 0
+  index: -1
