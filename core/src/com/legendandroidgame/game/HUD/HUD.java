@@ -412,13 +412,17 @@ public class HUD {
 
 
         // inputting the data
+        if(gameData.getInteger(current + " hourTimer") != hourTimer &&
+                gameData.getInteger(current + " minuteTimer") != minuteTimer &&
+                gameData.getFloat(current + " health") != health &&
+                gameData.getInteger(current + " questTime") != questTime){
 
-        gameData.putInteger(current + " hourTimer", hourTimer);
-        gameData.putInteger(current + " minuteTimer", minuteTimer);
-        gameData.putFloat(current + " health", health);
-        gameData.putInteger(current + " questTime", questTime);
-        gameData.flush();
-
+            gameData.putInteger(current + " hourTimer", hourTimer);
+            gameData.putInteger(current + " minuteTimer", minuteTimer);
+            gameData.putFloat(current + " health", health);
+            gameData.putInteger(current + " questTime", questTime);
+            gameData.flush();
+        }
         // end....
     }
 

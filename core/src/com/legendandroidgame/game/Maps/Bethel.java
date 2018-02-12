@@ -318,12 +318,12 @@ public class Bethel extends GameState {
             }
         }
 
-        else if(bethelWorld.goToJordan){
-            warning.isJordan = true;
+        else if(bethelWorld.goToMoriah){
+            warning.isMoriah = true;
             if(warning.yesBtn.isPressed()) {
                 gameData.putInteger(current + " from", 3);
                 gameData.flush();
-                gsm.set(new LoadScreen(gsm, 9));
+                gsm.set(new LoadScreen(gsm, 8));
                 dispose();
             }
         }
@@ -331,7 +331,7 @@ public class Bethel extends GameState {
             warning.isNorthEgypt = false;
             warning.isShechem = false;
             warning.isHaran = false;
-            warning.isJordan = false;
+            warning.isMoriah = false;
         }
 
 //

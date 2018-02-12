@@ -41,6 +41,7 @@ public class BethelWorld {
     private Entity map;
     private PlayerSystem playerSystem;
     private IsraelitesSystem israelitesSystem;
+    private KidIsaacSystem kidIsaacSystem;
     private AnimationComponent characterAnimation;
     private AnimationComponent altarAnimation;
     private AnimationComponent arrowAnimation;
@@ -61,7 +62,7 @@ public class BethelWorld {
     public boolean goLight = false;
     public boolean gotoEgypt = false;
     public boolean gotoHaran = false;
-    public boolean goToJordan = false;
+    public boolean goToMoriah = false;
     public boolean isMissionFinish = false;
 
 
@@ -107,7 +108,7 @@ public class BethelWorld {
 
         if(gameData.getInteger(current + " from") == 8){
             posX = 91;
-            posZ = 102;
+            posZ = 88;
 //            (-18.581291,3.907349,-103.72422)
 //            this is z(-1708.3252,1500.0,-1693.5457)
         }
@@ -149,7 +150,7 @@ public class BethelWorld {
 
         if(gameData.getInteger(current + " from") == 8){
             worldCam.worldCam.position.x = -1597;
-            worldCam.worldCam.position.z = -1487f;
+            worldCam.worldCam.position.z = -1500f;
 //            (-18.581291,3.907349,-103.72422)
 //            this is z(-1708.3252,1500.0,-1693.5457)
         }
@@ -239,6 +240,7 @@ public class BethelWorld {
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
+        engine.addSystem(kidIsaacSystem = new KidIsaacSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -306,13 +308,13 @@ public class BethelWorld {
 
         else if((playerPos.x - portal3Pos.x) <= 10 && (playerPos.x - portal3Pos.x) >= -10
                 && (playerPos.z - portal3Pos.z) <= 10 && (playerPos.z - portal3Pos.z) >= -10){
-                goToJordan = true;
+            goToMoriah = true;
         }
 
         else {
             gotoEgypt = false;
             gotoHaran = false;
-            goToJordan = false;
+            goToMoriah = false;
         }
 
 

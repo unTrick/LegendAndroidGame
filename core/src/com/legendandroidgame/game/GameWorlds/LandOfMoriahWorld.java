@@ -31,13 +31,15 @@ public class LandOfMoriahWorld {
     private Engine engine;
     private BulletSystem bulletSystem;
     private Entity character;
-    private Entity portalEntity1, portalEntity2, portalEntity3, landOfMoriah, wood1, wood2,
+    private Entity portalEntity1, portalEntity2, portalEntity3, landOfMoriah, wood1, wood2, arrow,
             wood3, wood4, wood5, knife;
     private PlayerSystem playerSystem;
+    private KidIsaacSystem kidIsaacSystem;
     private AnimalSystem animalSystem;
     private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
+    private AnimationComponent arrowAnimation;
 
     public WorldCamera worldCamera;
     //    public CameraInputController cameraInputController;
@@ -48,13 +50,13 @@ public class LandOfMoriahWorld {
 
     private String current = gameData.getString("current");
 
-    public boolean gotoBethel = false, goToJordan = false, goToHaran;
+    public boolean gotoBethel = false, goToJordan = false, goToHaran = false, isBringIsaac = false;
 
     private float posX , posZ ;
     public float moverX, moverY;
 
     private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos, wood1Pos,
-            wood2Pos, wood3Pos, wood4Pos, wood5Pos, knifePos, ramPos;
+            wood2Pos, wood3Pos, wood4Pos, wood5Pos, knifePos, ramPos, arrowPos;
 
 
 
@@ -131,6 +133,7 @@ public class LandOfMoriahWorld {
         loadPortal3();
         loadWood();
         loadKnife();
+        loadArrow();
     }
 
     private void setDebug(){
@@ -165,6 +168,15 @@ public class LandOfMoriahWorld {
     private void loadPortal3(){
         portalEntity3 = ObjectEntityFactory.loadPortalTop(180f,5f,18f);
         engine.addEntity(portalEntity3);
+    }
+
+    private void loadArrow(){
+        if(!gameData.getString(current + " bringIsaac").equals("Done")) {
+            arrow = ObjectEntityFactory.loadArrow(143,7,-74);
+            engine.addEntity(arrow);
+            arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
+            arrowAnimation.animate("Cube|CubeAction", -1, 1);
+        }
     }
 
     private void loadWood(){
@@ -202,6 +214,7 @@ public class LandOfMoriahWorld {
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, new Vector2()));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
+        engine.addSystem(kidIsaacSystem = new KidIsaacSystem(bulletSystem));
         engine.addSystem(animalSystem = new AnimalSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
@@ -251,7 +264,6 @@ public class LandOfMoriahWorld {
 
         }
 
-
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
@@ -263,6 +275,18 @@ public class LandOfMoriahWorld {
         portal3Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
         knifePos = ObjectEntityFactory.flintKnifeComponent.instance.transform.getTranslation(new Vector3());
         ramPos = animalSystem.ram.getComponent(AnimalsComponent.class).ramObject.getWorldTransform().getTranslation(new Vector3());
+        if(!gameData.getString(current + " bringIsaac").equals("Done")) {
+            arrowPos = ObjectEntityFactory.arrowPointerComponent.instance.transform.getTranslation(new Vector3());
+
+
+            if ((playerPos.x - arrowPos.x) <= 3 && (playerPos.x - arrowPos.x) >= -3
+                    && (playerPos.z - arrowPos.z) <= 3 && (playerPos.z - arrowPos.z) >= -3) {
+                isBringIsaac = true;
+            }
+            if(isBringIsaac){
+                engine.removeEntity(arrow);
+            }
+        }
 
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
@@ -321,6 +345,9 @@ public class LandOfMoriahWorld {
         worldCamera.worldCam.update();
 //        worldCamera.update();
 //        cameraInputController.update();
+        if(!gameData.getString(current + " bringIsaac").equals("Done")) {
+            arrowAnimation.update(dt);
+        }
         characterAnimation.update(dt);
         renderWorld(dt);
 
@@ -359,6 +386,13 @@ public class LandOfMoriahWorld {
         character.getComponent(CharacterComponent.class).ghostShape.dispose();
 
         environment.dispose();
+
+        if(!gameData.getString(current + " bringIsaac").equals("Done") && isBringIsaac){
+            if(gameData.getInteger(current + " missionId") == 2){
+                gameData.putString(current + " bringIsaac", "Done");
+                gameData.flush();
+            }
+        }
     }
 
     public void remove(Entity entity) {

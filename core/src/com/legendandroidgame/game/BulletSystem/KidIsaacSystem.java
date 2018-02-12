@@ -28,7 +28,6 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
     private ModelComponent modelComponent;
     private final Vector3 tmp = new Vector3();
     private float transX, transY, transZ, rotateX, rotateY, rotateZ, angle;
-    private Quaternion quat = new Quaternion();
     public AnimationComponent playerAnimation;
     private String current = gameData.getString("current");
     private BulletSystem bulletSystem;
@@ -40,10 +39,44 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
     ComponentMapper<KidIsaacCharacterComponent> cm = ComponentMapper.getFor(KidIsaacCharacterComponent.class);
 
     private boolean timerIsOn = false;
+    private int animationtime = 0;
 
     public KidIsaacSystem(BulletSystem bulletSystem) {
         this.bulletSystem = bulletSystem;
-        kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,39, 10, -73);
+
+        if(gameData.getInteger(current + " currentLocation") == 2){
+            if(gameData.getInteger(current + " from") == 1){
+                kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,39, 10, -73);
+            }
+            if(gameData.getInteger(current + " from") == 3){
+                kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,30,7,-113);
+            }
+            if(gameData.getInteger(current + " from") == 8){
+                kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,-84,7,68);
+            }
+        }
+        if(gameData.getInteger(current + " currentLocation") == 3){
+            if(gameData.getInteger(current + " from") == 2){
+                kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,116,6,27);
+            }
+            if(gameData.getInteger(current + " from") == 8){
+                kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,90,6,102);
+            }
+        }
+        if(gameData.getInteger(current + " currentLocation") == 8){
+            if(gameData.getString(current + " bringIsaac").equals("Done")){
+                kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,143,7,-74);
+            }
+            else {
+                if(gameData.getInteger(current + " from") == 2){
+                    kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,177,7,16);
+                }
+                if(gameData.getInteger(current + " from") == 3){
+                    kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,98,7,-169);
+                }
+            }
+        }
+
         playerAnimation = new AnimationComponent(CharacterEntityFactory.kidIsaacComponent.instance);
         modelComponent = CharacterEntityFactory.kidIsaacComponent;
         kidIsaacCharacterComponent = kidIsaac.getComponent(KidIsaacCharacterComponent.class);
@@ -60,12 +93,19 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
     public void update(float delta) {
 
         if(entities.size() < 1){
-            engine.addEntity(kidIsaac);
+            if(gameData.getInteger(current + " missionId") == 2){
+                if(!gameData.getString(current + " bringIsaac").equals("Done")){
+                    engine.addEntity(kidIsaac);
+                }
+                else if(gameData.getInteger(current + " currentLocation") == 8) {
+                    engine.addEntity(kidIsaac);
+                }
+            }
         }
         updateMovement(delta);
+        decideToWalk(delta);
         playerAnimation.update(delta);
 
-        decideToWalk(delta);
     }
     private void updateMovement(float delta) {
 
@@ -92,12 +132,14 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
                             playerAnimation.animate("Armature|Bow.003",1,1);
                         }
                         timerIsOn = false;
+                        animationtime = 2;
                     }
-                }, 2);
+                }, animationtime);
             }
         }
         if(kidIsaac.getComponent(KidIsaacComponent.class).state.equals(KidIsaacComponent.STATE.WALKING)){
             playerAnimation.animate("Armature|Walk",-1,1);
+            animationtime = 0;
         }
 
         if(up){ // up
@@ -183,42 +225,46 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
 
 //        System.out.println(kidPosition.x - playerPosition.x);
 
-        if(gameData.getString(current + " doneTalkToIsaac").equals("done")){}
-
-        if((playerPosition.x - kidPosition.x) <= 10 && (playerPosition.x - kidPosition.x) >= -10
-                && (playerPosition.z - kidPosition.z) <= 10 && (playerPosition.z - kidPosition.z) >= -10){
+        if(gameData.getString(current + " bringIsaac").equals("Done")) {
+            rotateX = 0;
+            rotateY = -45;
+            rotateZ = 0;
+            angle = 90;
             down = false;
             up = false;
             left = false;
             right = false;
         }
         else {
-            if((kidPosition.x - playerPosition.x) > 1){
-                down = true;
-                up = false;
-            }
-            else if ((kidPosition.x - playerPosition.x) < 0){
-                up = true;
+            if ((playerPosition.x - kidPosition.x) <= 5 && (playerPosition.x - kidPosition.x) >= -5
+                    && (playerPosition.z - kidPosition.z) <= 5 && (playerPosition.z - kidPosition.z) >= -5) {
                 down = false;
-            }
-            else {
                 up = false;
-                down = false;
-            }
-            if ((kidPosition.z - playerPosition.z) > 1){
-                left = true;
-                right = false;
-            }
-            else if((kidPosition.z - playerPosition.z) < 0){
-                right = true;
-                left = false;
-            }
-            else {
                 left = false;
                 right = false;
+            } else {
+                if ((kidPosition.x - playerPosition.x) > 1) {
+                    down = true;
+                    up = false;
+                } else if ((kidPosition.x - playerPosition.x) < 0) {
+                    up = true;
+                    down = false;
+                } else {
+                    up = false;
+                    down = false;
+                }
+                if ((kidPosition.z - playerPosition.z) > 1) {
+                    left = true;
+                    right = false;
+                } else if ((kidPosition.z - playerPosition.z) < 0) {
+                    right = true;
+                    left = false;
+                } else {
+                    left = false;
+                    right = false;
+                }
             }
         }
-
     }
 
     @Override
