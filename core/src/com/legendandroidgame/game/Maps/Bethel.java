@@ -39,6 +39,7 @@ public class Bethel extends GameState {
     private Warning warning;
     String current = gameData.getString("current");
 
+    private Conversation conversation;
     public Boolean startTrivia = false;
     private boolean timerIsOn = false;
 
@@ -59,6 +60,7 @@ public class Bethel extends GameState {
         missionQuest = new MissionQuest(stage);
         trivia = new Trivia(stage);
         warning = new Warning(stage);
+        conversation = new Conversation(stage);
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setInputProcessor(new InputMultiplexer(stage, bethelWorld.cameraInputController));
@@ -106,6 +108,104 @@ public class Bethel extends GameState {
         });
 
 
+        actualGameButtons.getBtnTalk().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                //NPC01
+                if(bethelWorld.bethelNPC01){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(bethelWorld.bethelNPC02){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(bethelWorld.bethelNPC03){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(bethelWorld.bethelNPC04){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(bethelWorld.bethelNPC05){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(bethelWorld.bethelNPC06){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(bethelWorld.bethelNPC07){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(bethelWorld.bethelNPC08){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(bethelWorld.bethelNPC09){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(bethelWorld.bethelNPC10){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                return false;
+            }
+
+
+        });
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount >=1 ){
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
+        });
 
 // TODO Mission Buttons
 
@@ -243,6 +343,8 @@ public class Bethel extends GameState {
             }
 
         });
+
+
 
         actualGameButtons.btnGrab.addListener(new InputListener(){
 

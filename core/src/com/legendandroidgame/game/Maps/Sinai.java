@@ -118,6 +118,107 @@ public class Sinai extends GameState {
 
         });
 
+        actualGameButtons.getBtnTalk().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                //NPC01
+                if(sinaiWorld.SinaiNPC01){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(sinaiWorld.SinaiNPC02){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(sinaiWorld.SinaiNPC03){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(sinaiWorld.SinaiNPC04){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(sinaiWorld.SinaiNPC05){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(sinaiWorld.SinaiNPC06){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(sinaiWorld.SinaiNPC07){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(sinaiWorld.SinaiNPC08){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(sinaiWorld.SinaiNPC09){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(sinaiWorld.SinaiNPC10){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                return false;
+            }
+
+
+        });
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount >=1 ){
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
+        });
+
+
+
         // TODO Mission Buttons
 
         actualGameButtons.getBtnMission().addListener(new ClickListener(){

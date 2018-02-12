@@ -50,6 +50,27 @@ public class BethelWorld {
 
     private String current = gameData.getString("current");
 
+    public Boolean bethelNPC01 = false;
+    public Boolean bethelNPC02 = false;
+    public Boolean bethelNPC03 = false;
+    public Boolean bethelNPC04 = false;
+    public Boolean bethelNPC05 = false;
+    public Boolean bethelNPC06 = false;
+    public Boolean bethelNPC07 = false;
+    public Boolean bethelNPC08 = false;
+    public Boolean bethelNPC09 = false;
+    public Boolean bethelNPC10 = false;
+
+    private Vector3 bethelNPC01position;
+    private Vector3 bethelNPC02position;
+    private Vector3 bethelNPC03position;
+    private Vector3 bethelNPC04position;
+    private Vector3 bethelNPC05position;
+    private Vector3 bethelNPC06position;
+    private Vector3 bethelNPC07position;
+    private Vector3 bethelNPC08position;
+    private Vector3 bethelNPC09position;
+    private Vector3 bethelNPC10position;
 
     private DebugDrawer debugDrawer;
 //    private boolean debug = false;
@@ -289,6 +310,17 @@ public class BethelWorld {
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
 
+        bethelNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
+        bethelNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
+        bethelNPC03position = CharacterEntityFactory.israelitesComponent3.instance.transform.getTranslation(new Vector3());
+        bethelNPC04position = CharacterEntityFactory.israelitesComponent4.instance.transform.getTranslation(new Vector3());
+        bethelNPC05position = CharacterEntityFactory.israelitesComponent5.instance.transform.getTranslation(new Vector3());
+        bethelNPC06position = CharacterEntityFactory.israelitesComponent6.instance.transform.getTranslation(new Vector3());
+        bethelNPC07position = CharacterEntityFactory.israelitesComponent7.instance.transform.getTranslation(new Vector3());
+        bethelNPC08position = CharacterEntityFactory.israelitesComponent8.instance.transform.getTranslation(new Vector3());
+        bethelNPC09position = CharacterEntityFactory.israelitesComponent9.instance.transform.getTranslation(new Vector3());
+        bethelNPC10position = CharacterEntityFactory.israelitesComponent10.instance.transform.getTranslation(new Vector3());
+
         if(gameData.getInteger(current + " missionId") == 1) {
             stone1Pos = stoneEntity1.getComponent(FirstRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
             stone2Pos = stoneEntity2.getComponent(SecondRedStone.class).stoneObject.getWorldTransform().getTranslation(new Vector3());
@@ -315,6 +347,68 @@ public class BethelWorld {
             gotoEgypt = false;
             gotoHaran = false;
             goToMoriah = false;
+        }
+
+        if((playerPos.x - bethelNPC01position.x) <= 10 && (playerPos.x - bethelNPC01position.x) >= -10
+                && (playerPos.z - bethelNPC01position.z) <= 10 && (playerPos.z - bethelNPC01position.z) >= -10){
+            bethelNPC01 = true;
+        }
+        else if((playerPos.x - bethelNPC02position.x) <= 10 && (playerPos.x - bethelNPC02position.x) >= -10
+                && (playerPos.z - bethelNPC02position.z) <= 10 && (playerPos.z - bethelNPC02position.z) >= -10){
+
+            bethelNPC02 =  true;
+        }
+        else if((playerPos.x - bethelNPC03position.x) <= 10 && (playerPos.x - bethelNPC03position.x) >= -10
+                && (playerPos.z - bethelNPC03position.z) <= 10 && (playerPos.z - bethelNPC03position.z) >= -10){
+
+            bethelNPC03 =  true;
+        }
+        else if((playerPos.x - bethelNPC04position.x) <= 10 && (playerPos.x - bethelNPC04position.x) >= -10
+                && (playerPos.z - bethelNPC04position.z) <= 10 && (playerPos.z - bethelNPC04position.z) >= -10){
+
+            bethelNPC04 =  true;
+        }
+        else if((playerPos.x - bethelNPC05position.x) <= 10 && (playerPos.x - bethelNPC05position.x) >= -10
+                && (playerPos.z - bethelNPC05position.z) <= 10 && (playerPos.z - bethelNPC05position.z) >= -10){
+
+            bethelNPC05 =  true;
+        }
+        else if((playerPos.x - bethelNPC06position.x) <= 10 && (playerPos.x - bethelNPC06position.x) >= -10
+                && (playerPos.z - bethelNPC06position.z) <= 10 && (playerPos.z - bethelNPC06position.z) >= -10){
+
+            bethelNPC06 =  true;
+        }
+        else if((playerPos.x - bethelNPC07position.x) <= 10 && (playerPos.x - bethelNPC07position.x) >= -10
+                && (playerPos.z - bethelNPC07position.z) <= 10 && (playerPos.z - bethelNPC07position.z) >= -10){
+
+            bethelNPC07 =  true;
+        }
+        else if((playerPos.x - bethelNPC08position.x) <= 10 && (playerPos.x - bethelNPC08position.x) >= -10
+                && (playerPos.z - bethelNPC08position.z) <= 10 && (playerPos.z - bethelNPC08position.z) >= -10){
+
+            bethelNPC08 =  true;
+        }
+        else if((playerPos.x - bethelNPC09position.x) <= 10 && (playerPos.x - bethelNPC09position.x) >= -10
+                && (playerPos.z - bethelNPC09position.z) <= 10 && (playerPos.z - bethelNPC09position.z) >= -10){
+
+            bethelNPC09 =  true;
+        }
+        else if((playerPos.x - bethelNPC10position.x) <= 10 && (playerPos.x - bethelNPC10position.x) >= -10
+                && (playerPos.z - bethelNPC10position.z) <= 10 && (playerPos.z - bethelNPC10position.z) >= -10){
+
+            bethelNPC10 =  true;
+        }
+        else {
+            bethelNPC01 = false;
+            bethelNPC02 = false;
+            bethelNPC03 = false;
+            bethelNPC04 = false;
+            bethelNPC05 = false;
+            bethelNPC06 = false;
+            bethelNPC07 = false;
+            bethelNPC08 = false;
+            bethelNPC09 = false;
+            bethelNPC10 = false;
         }
 
 

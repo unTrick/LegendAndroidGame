@@ -53,6 +53,29 @@ public class SinaiWorld {
 
     private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos;
 
+    public Boolean SinaiNPC01 = false;
+    public Boolean SinaiNPC02 = false;
+    public Boolean SinaiNPC03 = false;
+    public Boolean SinaiNPC04 = false;
+    public Boolean SinaiNPC05 = false;
+    public Boolean SinaiNPC06 = false;
+    public Boolean SinaiNPC07 = false;
+    public Boolean SinaiNPC08 = false;
+    public Boolean SinaiNPC09 = false;
+    public Boolean SinaiNPC10 = false;
+
+
+    private Vector3 SinaiNPC01position;
+    private Vector3 SinaiNPC02position;
+    private Vector3 SinaiNPC03position;
+    private Vector3 SinaiNPC04position;
+    private Vector3 SinaiNPC05position;
+    private Vector3 SinaiNPC06position;
+    private Vector3 SinaiNPC07position;
+    private Vector3 SinaiNPC08position;
+    private Vector3 SinaiNPC09position;
+    private Vector3 SinaiNPC10position;
+
     public SinaiWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
 
@@ -216,6 +239,17 @@ public class SinaiWorld {
         portal2Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
 
+        SinaiNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
+        SinaiNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
+        SinaiNPC03position = CharacterEntityFactory.israelitesComponent3.instance.transform.getTranslation(new Vector3());
+        SinaiNPC04position = CharacterEntityFactory.israelitesComponent4.instance.transform.getTranslation(new Vector3());
+        SinaiNPC05position = CharacterEntityFactory.israelitesComponent5.instance.transform.getTranslation(new Vector3());
+        SinaiNPC06position = CharacterEntityFactory.israelitesComponent6.instance.transform.getTranslation(new Vector3());
+        SinaiNPC07position = CharacterEntityFactory.israelitesComponent7.instance.transform.getTranslation(new Vector3());
+        SinaiNPC08position = CharacterEntityFactory.israelitesComponent8.instance.transform.getTranslation(new Vector3());
+        SinaiNPC09position = CharacterEntityFactory.israelitesComponent9.instance.transform.getTranslation(new Vector3());
+        SinaiNPC10position = CharacterEntityFactory.israelitesComponent10.instance.transform.getTranslation(new Vector3());
+
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
 //            System.out.println("do you wat to go inside?");
@@ -269,6 +303,69 @@ public class SinaiWorld {
             lotAnimation.animate("Armature|Stand",-1,1);
         }
         */
+
+        if((playerPos.x - SinaiNPC01position.x) <= 10 && (playerPos.x - SinaiNPC01position.x) >= -10
+                && (playerPos.z - SinaiNPC01position.z) <= 10 && (playerPos.z - SinaiNPC01position.z) >= -10){
+            SinaiNPC01 = true;
+        }
+        else if((playerPos.x - SinaiNPC02position.x) <= 10 && (playerPos.x - SinaiNPC02position.x) >= -10
+                && (playerPos.z - SinaiNPC02position.z) <= 10 && (playerPos.z - SinaiNPC02position.z) >= -10){
+
+            SinaiNPC02 =  true;
+        }
+        else if((playerPos.x - SinaiNPC03position.x) <= 10 && (playerPos.x - SinaiNPC03position.x) >= -10
+                && (playerPos.z - SinaiNPC03position.z) <= 10 && (playerPos.z - SinaiNPC03position.z) >= -10){
+
+            SinaiNPC03 =  true;
+        }
+        else if((playerPos.x - SinaiNPC04position.x) <= 10 && (playerPos.x - SinaiNPC04position.x) >= -10
+                && (playerPos.z - SinaiNPC04position.z) <= 10 && (playerPos.z - SinaiNPC04position.z) >= -10){
+
+            SinaiNPC04 =  true;
+        }
+        else if((playerPos.x - SinaiNPC05position.x) <= 10 && (playerPos.x - SinaiNPC05position.x) >= -10
+                && (playerPos.z - SinaiNPC05position.z) <= 10 && (playerPos.z - SinaiNPC05position.z) >= -10){
+
+            SinaiNPC05 =  true;
+        }
+        else if((playerPos.x - SinaiNPC06position.x) <= 10 && (playerPos.x - SinaiNPC06position.x) >= -10
+                && (playerPos.z - SinaiNPC06position.z) <= 10 && (playerPos.z - SinaiNPC06position.z) >= -10){
+
+            SinaiNPC06 =  true;
+        }
+        else if((playerPos.x - SinaiNPC07position.x) <= 10 && (playerPos.x - SinaiNPC07position.x) >= -10
+                && (playerPos.z - SinaiNPC07position.z) <= 10 && (playerPos.z - SinaiNPC07position.z) >= -10){
+
+            SinaiNPC07 =  true;
+        }
+        else if((playerPos.x - SinaiNPC08position.x) <= 10 && (playerPos.x - SinaiNPC08position.x) >= -10
+                && (playerPos.z - SinaiNPC08position.z) <= 10 && (playerPos.z - SinaiNPC08position.z) >= -10){
+
+            SinaiNPC08 =  true;
+        }
+        else if((playerPos.x - SinaiNPC09position.x) <= 10 && (playerPos.x - SinaiNPC09position.x) >= -10
+                && (playerPos.z - SinaiNPC09position.z) <= 10 && (playerPos.z - SinaiNPC09position.z) >= -10){
+
+            SinaiNPC09 =  true;
+        }
+        else if((playerPos.x - SinaiNPC10position.x) <= 10 && (playerPos.x - SinaiNPC10position.x) >= -10
+                && (playerPos.z - SinaiNPC10position.z) <= 10 && (playerPos.z - SinaiNPC10position.z) >= -10){
+
+            SinaiNPC10 =  true;
+        }
+        else {
+            SinaiNPC01 = false;
+            SinaiNPC02 = false;
+            SinaiNPC03 = false;
+            SinaiNPC04 = false;
+            SinaiNPC05 = false;
+            SinaiNPC06 = false;
+            SinaiNPC07 = false;
+            SinaiNPC08 = false;
+            SinaiNPC09 = false;
+            SinaiNPC10 = false;
+        }
+
 
         worldCamera.worldCam.update();
         characterAnimation.update(dt);

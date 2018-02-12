@@ -35,6 +35,7 @@ public class HaranWorld {
     private PlayerSystem playerSystem;
     private SaraiSystem saraiSystem;
     private LotSystem lotSystem;
+    private IsraelitesSystem israelitesSystem;
     private KidIsaacSystem kidIsaacSystem;
     private InstructorCharSystem instructorCharSystem;
     private AnimationComponent characterAnimation;
@@ -63,6 +64,27 @@ public class HaranWorld {
 
     private Vector3 portal1Pos, portal2Pos, playerPos, wellPos, wellInstructorPos, houseDoorPos;
 
+    public Boolean haranNPC01 = false;
+    public Boolean haranNPC02 = false;
+    public Boolean haranNPC03 = false;
+    public Boolean haranNPC04 = false;
+    public Boolean haranNPC05 = false;
+    public Boolean haranNPC06 = false;
+    public Boolean haranNPC07 = false;
+    public Boolean haranNPC08 = false;
+    public Boolean haranNPC09 = false;
+    public Boolean haranNPC10 = false;
+
+    private Vector3 haranNPC01position;
+    private Vector3 haranNPC02position;
+    private Vector3 haranNPC03position;
+    private Vector3 haranNPC04position;
+    private Vector3 haranNPC05position;
+    private Vector3 haranNPC06position;
+    private Vector3 haranNPC07position;
+    private Vector3 haranNPC08position;
+    private Vector3 haranNPC09position;
+    private Vector3 haranNPC10position;
 
 
     public HaranWorld(Controller controller, ActualGameButtons actualGameButtons) {
@@ -221,6 +243,7 @@ public class HaranWorld {
         engine.addSystem(lotSystem = new LotSystem(bulletSystem));
         engine.addSystem(instructorCharSystem = new InstructorCharSystem(bulletSystem));
         engine.addSystem(kidIsaacSystem = new KidIsaacSystem(bulletSystem));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -278,6 +301,16 @@ public class HaranWorld {
         houseDoorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
         wellPos = well.getComponent(WellComponent.class).wellObject.getWorldTransform().getTranslation(new Vector3());
 
+        haranNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
+        haranNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
+        haranNPC03position = CharacterEntityFactory.israelitesComponent3.instance.transform.getTranslation(new Vector3());
+        haranNPC04position = CharacterEntityFactory.israelitesComponent4.instance.transform.getTranslation(new Vector3());
+        haranNPC05position = CharacterEntityFactory.israelitesComponent5.instance.transform.getTranslation(new Vector3());
+        haranNPC06position = CharacterEntityFactory.israelitesComponent6.instance.transform.getTranslation(new Vector3());
+        haranNPC07position = CharacterEntityFactory.israelitesComponent7.instance.transform.getTranslation(new Vector3());
+        haranNPC08position = CharacterEntityFactory.israelitesComponent8.instance.transform.getTranslation(new Vector3());
+        haranNPC09position = CharacterEntityFactory.israelitesComponent9.instance.transform.getTranslation(new Vector3());
+        haranNPC10position = CharacterEntityFactory.israelitesComponent10.instance.transform.getTranslation(new Vector3());
 
 
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
@@ -351,6 +384,68 @@ public class HaranWorld {
             lotAnimation.animate("Armature|Stand",-1,1);
         }
         */
+
+        if((playerPos.x - haranNPC01position.x) <= 10 && (playerPos.x - haranNPC01position.x) >= -10
+                && (playerPos.z - haranNPC01position.z) <= 10 && (playerPos.z - haranNPC01position.z) >= -10){
+            haranNPC01 = true;
+        }
+        else if((playerPos.x - haranNPC02position.x) <= 10 && (playerPos.x - haranNPC02position.x) >= -10
+                && (playerPos.z - haranNPC02position.z) <= 10 && (playerPos.z - haranNPC02position.z) >= -10){
+
+            haranNPC02 =  true;
+        }
+        else if((playerPos.x - haranNPC03position.x) <= 10 && (playerPos.x - haranNPC03position.x) >= -10
+                && (playerPos.z - haranNPC03position.z) <= 10 && (playerPos.z - haranNPC03position.z) >= -10){
+
+            haranNPC03 =  true;
+        }
+        else if((playerPos.x - haranNPC04position.x) <= 10 && (playerPos.x - haranNPC04position.x) >= -10
+                && (playerPos.z - haranNPC04position.z) <= 10 && (playerPos.z - haranNPC04position.z) >= -10){
+
+            haranNPC04 =  true;
+        }
+        else if((playerPos.x - haranNPC05position.x) <= 10 && (playerPos.x - haranNPC05position.x) >= -10
+                && (playerPos.z - haranNPC05position.z) <= 10 && (playerPos.z - haranNPC05position.z) >= -10){
+
+            haranNPC05 =  true;
+        }
+        else if((playerPos.x - haranNPC06position.x) <= 10 && (playerPos.x - haranNPC06position.x) >= -10
+                && (playerPos.z - haranNPC06position.z) <= 10 && (playerPos.z - haranNPC06position.z) >= -10){
+
+            haranNPC06 =  true;
+        }
+        else if((playerPos.x - haranNPC07position.x) <= 10 && (playerPos.x - haranNPC07position.x) >= -10
+                && (playerPos.z - haranNPC07position.z) <= 10 && (playerPos.z - haranNPC07position.z) >= -10){
+
+            haranNPC07 =  true;
+        }
+        else if((playerPos.x - haranNPC08position.x) <= 10 && (playerPos.x - haranNPC08position.x) >= -10
+                && (playerPos.z - haranNPC08position.z) <= 10 && (playerPos.z - haranNPC08position.z) >= -10){
+
+            haranNPC08 =  true;
+        }
+        else if((playerPos.x - haranNPC09position.x) <= 10 && (playerPos.x - haranNPC09position.x) >= -10
+                && (playerPos.z - haranNPC09position.z) <= 10 && (playerPos.z - haranNPC09position.z) >= -10){
+
+            haranNPC09 =  true;
+        }
+        else if((playerPos.x - haranNPC10position.x) <= 10 && (playerPos.x - haranNPC10position.x) >= -10
+                && (playerPos.z - haranNPC10position.z) <= 10 && (playerPos.z - haranNPC10position.z) >= -10){
+
+            haranNPC10 =  true;
+        }
+        else {
+            haranNPC01 = false;
+            haranNPC02 = false;
+            haranNPC03 = false;
+            haranNPC04 = false;
+            haranNPC05 = false;
+            haranNPC06 = false;
+            haranNPC07 = false;
+            haranNPC08 = false;
+            haranNPC09 = false;
+            haranNPC10 = false;
+        }
 
         worldCamera.worldCam.update();
 //        worldCamera.update();
