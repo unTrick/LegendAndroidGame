@@ -404,7 +404,7 @@ public class EgyptNorth extends GameState{
             if(warning.yesBtn.isPressed()) {
                 gameData.putInteger(current + " from", 5);
                 gameData.flush();
-                gsm.set(new LoadScreen(gsm, 13));
+                gsm.set(new LoadScreen(gsm, 15));
                 dispose();
             }
         }

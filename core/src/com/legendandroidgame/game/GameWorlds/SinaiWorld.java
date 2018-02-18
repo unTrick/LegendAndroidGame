@@ -147,6 +147,7 @@ public class SinaiWorld {
         loadPortal1();
         loadPortal2();
         loadPortal3();
+        objects();
     }
 
     private void setDebug(){
@@ -184,7 +185,7 @@ public class SinaiWorld {
     }
 
     private void objects(){
-//        gold;
+//        gold = ObjectEntityFactory;
 //        silver;
 //        bronze;
 //        scarletYarn;

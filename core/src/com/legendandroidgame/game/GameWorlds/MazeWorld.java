@@ -23,9 +23,9 @@ import com.legendandroidgame.game.Buttons.Controller;
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
 /**
- * Created by Patrick on 10/23/2017.
+ * Created by Patrick on 2/19/2018.
  */
-public class PharaohsHouseWorld {
+public class MazeWorld {
     private ModelBatch batch;
     private Environment environment;
     private WorldCamera worldCam;
@@ -34,14 +34,10 @@ public class PharaohsHouseWorld {
     private Entity character;
     private Entity map;
     private Entity houseDoor;
-    private Entity pharaoh;
     private PlayerSystem playerSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
     private ActualGameButtons actualGameButtons;
-    private PharaohSystem pharaohSystem;
-
-    public Boolean canTalkToPharaoh = false;
 
     private DebugDrawer debugDrawer;
     private static final boolean debug = false;
@@ -54,14 +50,14 @@ public class PharaohsHouseWorld {
 
     private Vector3 doorPos, playerPos;
 
-    public PharaohsHouseWorld(Controller controller, ActualGameButtons actualGameButtons) {
+    public MazeWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
         this.actualGameButtons = actualGameButtons;
         initCamera();
         initModelBatch();
         initEnvironment();
         setDebug();
-        map = MapEntityFactory.loadPharaohHouse();
+        map = MapEntityFactory.loadMaze();
         modelComponent = map.getComponent(ModelComponent.class);
         addSystems(controller, actualGameButtons, modelComponent);
         addEntities();
@@ -87,8 +83,7 @@ public class PharaohsHouseWorld {
     private void addEntities() {
         loadHouse();
         createPlayer(posX,10,posZ);
-        createPharaoh(33.526432f,4.2198544f,0.4309519f);
-        loadDoor(-53f,7f,-2.6504772f);
+        loadDoor(-178f,7.8820763f,10.581459f);
     }
 
     private void setDebug(){
@@ -114,17 +109,12 @@ public class PharaohsHouseWorld {
         engine.addEntity(houseDoor);
     }
 
-    private void createPharaoh(float x, float y, float z){
-        pharaoh = CharacterEntityFactory.createPharaohCharacter(bulletSystem, x, y, z);
-        engine.addEntity(pharaoh);
-    }
 
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
-        engine.addSystem(pharaohSystem = new PharaohSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -171,13 +161,6 @@ public class PharaohsHouseWorld {
             goOutside = false;
         }
 
-        if(pharaohSystem.canTalk){
-            canTalkToPharaoh = true;
-        }
-        else {
-            canTalkToPharaoh = false;
-        }
-
         worldCam.worldCam.update();
         worldCam.update();
         characterAnimation.update(dt);
@@ -206,9 +189,6 @@ public class PharaohsHouseWorld {
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
 
-        bulletSystem.collisionWorld.removeAction(pharaoh.getComponent(PharaohCharacterComponent.class).characterController);
-        bulletSystem.collisionWorld.removeCollisionObject(pharaoh.getComponent(PharaohCharacterComponent.class).ghostObject);
-
         bulletSystem.dispose();
 
         bulletSystem = null;
@@ -220,9 +200,6 @@ public class PharaohsHouseWorld {
         character.getComponent(CharacterComponent.class).ghostObject.dispose();
         character.getComponent(CharacterComponent.class).ghostShape.dispose();
 
-        pharaoh.getComponent(PharaohCharacterComponent.class).characterController.dispose();
-        pharaoh.getComponent(PharaohCharacterComponent.class).ghostObject.dispose();
-        pharaoh.getComponent(PharaohCharacterComponent.class).ghostShape.dispose();
 
         environment.dispose();
     }
