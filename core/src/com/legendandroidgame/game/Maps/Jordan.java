@@ -101,7 +101,214 @@ public class Jordan extends GameState {
 
         });
 
+        actualGameButtons.getBtnTalk().addListener(new ClickListener(){
 
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                //NPC01
+                if(jordanWorld.jordanNPC01 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(jordanWorld.jordanNPC02 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(jordanWorld.jordanNPC03 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(jordanWorld.jordanNPC04 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(jordanWorld.jordanNPC05 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(jordanWorld.jordanNPC06 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(jordanWorld.jordanNPC07 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(jordanWorld.jordanNPC08 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(jordanWorld.jordanNPC09 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(jordanWorld.jordanNPC10 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 65);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+//MISSION 8
+                //NPC01
+                if(jordanWorld.jordanNPC01 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(jordanWorld.jordanNPC02 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(jordanWorld.jordanNPC03 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(jordanWorld.jordanNPC04 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(jordanWorld.jordanNPC05 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(jordanWorld.jordanNPC06 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(jordanWorld.jordanNPC07 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(jordanWorld.jordanNPC08 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(jordanWorld.jordanNPC09 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(jordanWorld.jordanNPC10 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 67);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                return false;
+            }
+
+
+        });
+
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+
+//                conversation.clickCount += 1;
+//
+//                if(conversation.clickCount >=1 ){
+//                    conversation.clickCount = 0;
+//                    conversation.closeConversation();
+//                }
+
+                conversation.clickCount += 1;
+
+
+
+
+                if(gameData.getInteger(current + " convoId") == 65
+                        && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+//MISSION 8
+
+                if(jordanWorld.jordanNPC04
+                        && gameData.getInteger(current + " convoId") == 67
+                        && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 68);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                }
+                else if(jordanWorld.jordanNPC04
+                        && gameData.getInteger(current + " convoId") == 68
+                        && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 37);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+                else if(gameData.getInteger(current + " convoId") == 68
+                        && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 33);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                return false;
+            }
+
+        });
 
 // TODO Mission Buttons
 

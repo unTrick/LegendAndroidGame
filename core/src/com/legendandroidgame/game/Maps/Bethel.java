@@ -113,76 +113,149 @@ public class Bethel extends GameState {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
+
                 //NPC01
-                if(bethelWorld.bethelNPC01){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC01 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC02
-                if(bethelWorld.bethelNPC02){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC02 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC03
-                if(bethelWorld.bethelNPC03){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC03 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC04
-                if(bethelWorld.bethelNPC04){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC04 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC05
-                if(bethelWorld.bethelNPC05){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC05 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC06
-                if(bethelWorld.bethelNPC06){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC06 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC07
-                if(bethelWorld.bethelNPC07){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC07 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC08
-                if(bethelWorld.bethelNPC08){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC08 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC09
-                if(bethelWorld.bethelNPC09){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC09 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC10
-                if(bethelWorld.bethelNPC10){
-                    gameData.putInteger(current + " convoId", 43);
+                if(bethelWorld.bethelNPC10 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 35);
                     gameData.flush();
                     conversation.conversation();
                 }
 
+
+ //MISSION TWO
+
+                //NPC01
+                if(bethelWorld.bethelNPC01 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(bethelWorld.bethelNPC02 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(bethelWorld.bethelNPC03 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(bethelWorld.bethelNPC04 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(bethelWorld.bethelNPC05 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(bethelWorld.bethelNPC06 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(bethelWorld.bethelNPC07 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(bethelWorld.bethelNPC08 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(bethelWorld.bethelNPC09 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(bethelWorld.bethelNPC10 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
 
                 return false;
             }
@@ -198,10 +271,42 @@ public class Bethel extends GameState {
 
                 conversation.clickCount += 1;
 
-                if(conversation.clickCount >=1 ){
+
+
+                if(gameData.getInteger(current + " convoId") == 35
+                        && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 36);
+                    gameData.flush();
                     conversation.clickCount = 0;
                     conversation.closeConversation();
                 }
+
+
+//MISSION TWO
+
+                if(bethelWorld.bethelNPC10
+                        && gameData.getInteger(current + " convoId") == 38
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 39);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                }
+                else if(bethelWorld.bethelNPC10
+                        && gameData.getInteger(current + " convoId") == 39
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 37);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+                else if(gameData.getInteger(current + " convoId") == 38
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 33);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
 
                 return false;
             }

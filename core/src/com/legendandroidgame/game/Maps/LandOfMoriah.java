@@ -237,6 +237,286 @@ public class LandOfMoriah extends GameState {
 
         });
 
+
+        actualGameButtons.getBtnTalk().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+//MISSIONA TWO
+                //NPC01
+                if(landOfMoriahWorld.moriahNPC01 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(landOfMoriahWorld.moriahNPC02 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(landOfMoriahWorld.moriahNPC03 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(landOfMoriahWorld.moriahNPC04 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(landOfMoriahWorld.moriahNPC05 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(landOfMoriahWorld.moriahNPC06 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(landOfMoriahWorld.moriahNPC07 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(landOfMoriahWorld.moriahNPC08 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(landOfMoriahWorld.moriahNPC09 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(landOfMoriahWorld.moriahNPC10 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 41);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+//MISSION THREE
+                //NPC01
+                if(landOfMoriahWorld.moriahNPC01 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(landOfMoriahWorld.moriahNPC02 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(landOfMoriahWorld.moriahNPC03 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(landOfMoriahWorld.moriahNPC04 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(landOfMoriahWorld.moriahNPC05 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(landOfMoriahWorld.moriahNPC06 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(landOfMoriahWorld.moriahNPC07 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(landOfMoriahWorld.moriahNPC08 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(landOfMoriahWorld.moriahNPC09 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(landOfMoriahWorld.moriahNPC10 && gameData.getInteger(current + " missionId") == 3){
+                    gameData.putInteger(current + " convoId", 45);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+ //MISSION SIX
+
+                //NPC01
+                if(landOfMoriahWorld.moriahNPC01 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(landOfMoriahWorld.moriahNPC02 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(landOfMoriahWorld.moriahNPC03 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(landOfMoriahWorld.moriahNPC04 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(landOfMoriahWorld.moriahNPC05 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(landOfMoriahWorld.moriahNPC06 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(landOfMoriahWorld.moriahNPC07 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(landOfMoriahWorld.moriahNPC08 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(landOfMoriahWorld.moriahNPC09 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(landOfMoriahWorld.moriahNPC10 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 57);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                return false;
+            }
+
+
+        });
+
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                conversation.clickCount += 1;
+//MISSION TWO
+
+                if(gameData.getInteger(current + " convoId") == 41
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 44);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+//MISSION THREE
+                if(gameData.getInteger(current + " convoId") == 45
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                }
+//MISSION SIX
+                if(landOfMoriahWorld.moriahNPC02
+                        && gameData.getInteger(current + " convoId") == 57
+                        && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 58);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                }
+                else if(landOfMoriahWorld.moriahNPC02
+                        && gameData.getInteger(current + " convoId") == 58
+                        && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 37);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+                else if(gameData.getInteger(current + " convoId") == 58
+                        && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 33);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+                return false;
+            }
+        });
+
+
         // TODO Mission Buttons
 
         actualGameButtons.getBtnMission().addListener(new ClickListener(){

@@ -46,6 +46,28 @@ public class JordanWorld {
 
     private String current = gameData.getString("current");
 
+    public Boolean jordanNPC01 = false;
+    public Boolean jordanNPC02 = false;
+    public Boolean jordanNPC03 = false;
+    public Boolean jordanNPC04 = false;
+    public Boolean jordanNPC05 = false;
+    public Boolean jordanNPC06 = false;
+    public Boolean jordanNPC07 = false;
+    public Boolean jordanNPC08 = false;
+    public Boolean jordanNPC09 = false;
+    public Boolean jordanNPC10 = false;
+
+    private Vector3 jordanNPC01position;
+    private Vector3 jordanNPC02position;
+    private Vector3 jordanNPC03position;
+    private Vector3 jordanNPC04position;
+    private Vector3 jordanNPC05position;
+    private Vector3 jordanNPC06position;
+    private Vector3 jordanNPC07position;
+    private Vector3 jordanNPC08position;
+    private Vector3 jordanNPC09position;
+    private Vector3 jordanNPC10position;
+
 
     private DebugDrawer debugDrawer;
     private static final boolean debug = false;
@@ -201,6 +223,17 @@ public class JordanWorld {
         portal2Pos = portal2Entity.getComponent(ModelComponent.class).instance.transform.getTranslation(new Vector3());
         playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
 
+        jordanNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
+        jordanNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
+        jordanNPC03position = CharacterEntityFactory.israelitesComponent3.instance.transform.getTranslation(new Vector3());
+        jordanNPC04position = CharacterEntityFactory.israelitesComponent4.instance.transform.getTranslation(new Vector3());
+        jordanNPC05position = CharacterEntityFactory.israelitesComponent5.instance.transform.getTranslation(new Vector3());
+        jordanNPC06position = CharacterEntityFactory.israelitesComponent6.instance.transform.getTranslation(new Vector3());
+        jordanNPC07position = CharacterEntityFactory.israelitesComponent7.instance.transform.getTranslation(new Vector3());
+        jordanNPC08position = CharacterEntityFactory.israelitesComponent8.instance.transform.getTranslation(new Vector3());
+        jordanNPC09position = CharacterEntityFactory.israelitesComponent9.instance.transform.getTranslation(new Vector3());
+        jordanNPC10position = CharacterEntityFactory.israelitesComponent10.instance.transform.getTranslation(new Vector3());
+
         if((playerPos.x - portal1Pos.x) <= 10 && (playerPos.x - portal1Pos.x) >= -10
                 && (playerPos.z - portal1Pos.z) <= 10 && (playerPos.z - portal1Pos.z) >= -10){
             goToMoriah = true;
@@ -212,6 +245,69 @@ public class JordanWorld {
         else {
             goToMoriah = false;
             goToSinai = false;
+        }
+
+
+        if((playerPos.x - jordanNPC01position.x) <= 10 && (playerPos.x - jordanNPC01position.x) >= -10
+                && (playerPos.z - jordanNPC01position.z) <= 10 && (playerPos.z - jordanNPC01position.z) >= -10){
+            jordanNPC01 = true;
+        }
+        else if((playerPos.x - jordanNPC02position.x) <= 10 && (playerPos.x - jordanNPC02position.x) >= -10
+                && (playerPos.z - jordanNPC02position.z) <= 10 && (playerPos.z - jordanNPC02position.z) >= -10){
+
+            jordanNPC02 =  true;
+        }
+        else if((playerPos.x - jordanNPC03position.x) <= 10 && (playerPos.x - jordanNPC03position.x) >= -10
+                && (playerPos.z - jordanNPC03position.z) <= 10 && (playerPos.z - jordanNPC03position.z) >= -10){
+
+            jordanNPC03 =  true;
+        }
+        else if((playerPos.x - jordanNPC04position.x) <= 10 && (playerPos.x - jordanNPC04position.x) >= -10
+                && (playerPos.z - jordanNPC04position.z) <= 10 && (playerPos.z - jordanNPC04position.z) >= -10){
+
+            jordanNPC04 =  true;
+        }
+        else if((playerPos.x - jordanNPC05position.x) <= 10 && (playerPos.x - jordanNPC05position.x) >= -10
+                && (playerPos.z - jordanNPC05position.z) <= 10 && (playerPos.z - jordanNPC05position.z) >= -10){
+
+            jordanNPC05 =  true;
+        }
+        else if((playerPos.x - jordanNPC06position.x) <= 10 && (playerPos.x - jordanNPC06position.x) >= -10
+                && (playerPos.z - jordanNPC06position.z) <= 10 && (playerPos.z - jordanNPC06position.z) >= -10){
+
+            jordanNPC06 =  true;
+        }
+        else if((playerPos.x - jordanNPC07position.x) <= 10 && (playerPos.x - jordanNPC07position.x) >= -10
+                && (playerPos.z - jordanNPC07position.z) <= 10 && (playerPos.z - jordanNPC07position.z) >= -10){
+
+            jordanNPC07 =  true;
+        }
+        else if((playerPos.x - jordanNPC08position.x) <= 10 && (playerPos.x - jordanNPC08position.x) >= -10
+                && (playerPos.z - jordanNPC08position.z) <= 10 && (playerPos.z - jordanNPC08position.z) >= -10){
+
+            jordanNPC08 =  true;
+        }
+        else if((playerPos.x - jordanNPC09position.x) <= 10 && (playerPos.x - jordanNPC09position.x) >= -10
+                && (playerPos.z - jordanNPC09position.z) <= 10 && (playerPos.z - jordanNPC09position.z) >= -10){
+
+            jordanNPC09 =  true;
+        }
+        else if((playerPos.x - jordanNPC10position.x) <= 10 && (playerPos.x - jordanNPC10position.x) >= -10
+                && (playerPos.z - jordanNPC10position.z) <= 10 && (playerPos.z - jordanNPC10position.z) >= -10){
+
+            jordanNPC10 =  true;
+        }
+        else {
+            jordanNPC01 = false;
+            jordanNPC02 = false;
+            jordanNPC03 = false;
+            jordanNPC04 = false;
+            jordanNPC05 = false;
+            jordanNPC06 = false;
+            jordanNPC07 = false;
+            jordanNPC08 = false;
+            jordanNPC09 = false;
+            jordanNPC10 = false;
         }
 
 

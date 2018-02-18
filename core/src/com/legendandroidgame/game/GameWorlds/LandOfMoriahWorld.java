@@ -57,6 +57,28 @@ public class LandOfMoriahWorld {
     public boolean ramPickUp = false, ramReady = false;
 
 
+    public Boolean moriahNPC01 = false;
+    public Boolean moriahNPC02 = false;
+    public Boolean moriahNPC03 = false;
+    public Boolean moriahNPC04 = false;
+    public Boolean moriahNPC05 = false;
+    public Boolean moriahNPC06 = false;
+    public Boolean moriahNPC07 = false;
+    public Boolean moriahNPC08 = false;
+    public Boolean moriahNPC09 = false;
+    public Boolean moriahNPC10 = false;
+
+    private Vector3 moriahNPC01position;
+    private Vector3 moriahNPC02position;
+    private Vector3 moriahNPC03position;
+    private Vector3 moriahNPC04position;
+    private Vector3 moriahNPC05position;
+    private Vector3 moriahNPC06position;
+    private Vector3 moriahNPC07position;
+    private Vector3 moriahNPC08position;
+    private Vector3 moriahNPC09position;
+    private Vector3 moriahNPC10position;
+
     private float posX , posZ ;
     public Vector2 moverx;
 
@@ -289,6 +311,18 @@ public class LandOfMoriahWorld {
         portal1Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
+
+        moriahNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
+        moriahNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
+        moriahNPC03position = CharacterEntityFactory.israelitesComponent3.instance.transform.getTranslation(new Vector3());
+        moriahNPC04position = CharacterEntityFactory.israelitesComponent4.instance.transform.getTranslation(new Vector3());
+        moriahNPC06position = CharacterEntityFactory.israelitesComponent5.instance.transform.getTranslation(new Vector3());
+        moriahNPC06position = CharacterEntityFactory.israelitesComponent6.instance.transform.getTranslation(new Vector3());
+        moriahNPC07position = CharacterEntityFactory.israelitesComponent7.instance.transform.getTranslation(new Vector3());
+        moriahNPC08position = CharacterEntityFactory.israelitesComponent8.instance.transform.getTranslation(new Vector3());
+        moriahNPC09position = CharacterEntityFactory.israelitesComponent9.instance.transform.getTranslation(new Vector3());
+        moriahNPC10position = CharacterEntityFactory.israelitesComponent10.instance.transform.getTranslation(new Vector3());
+
         ramPos = animalSystem.ram.getComponent(AnimalsComponent.class).ramObject.getWorldTransform().getTranslation(new Vector3());
 
         if(gameData.getInteger(current + " missionId") == 2) {
@@ -381,6 +415,69 @@ public class LandOfMoriahWorld {
             engine.removeEntity(knife);
             bulletSystem.collisionWorld.removeCollisionObject(knife.getComponent(ObjectComponents.class).flintKnifeObject);
             knife = null;
+        }
+
+
+        if((playerPos.x -moriahNPC01position.x) <= 10 && (playerPos.x - moriahNPC01position.x) >= -10
+                && (playerPos.z - moriahNPC01position.z) <= 10 && (playerPos.z - moriahNPC01position.z) >= -10){
+            moriahNPC01 = true;
+        }
+        else if((playerPos.x - moriahNPC02position.x) <= 10 && (playerPos.x - moriahNPC02position.x) >= -10
+                && (playerPos.z - moriahNPC02position.z) <= 10 && (playerPos.z - moriahNPC02position.z) >= -10){
+
+            moriahNPC02 =  true;
+        }
+        else if((playerPos.x - moriahNPC03position.x) <= 10 && (playerPos.x - moriahNPC03position.x) >= -10
+                && (playerPos.z - moriahNPC03position.z) <= 10 && (playerPos.z - moriahNPC03position.z) >= -10){
+
+            moriahNPC03 =  true;
+        }
+        else if((playerPos.x - moriahNPC04position.x) <= 10 && (playerPos.x - moriahNPC04position.x) >= -10
+                && (playerPos.z - moriahNPC04position.z) <= 10 && (playerPos.z - moriahNPC04position.z) >= -10){
+
+            moriahNPC04 =  true;
+        }
+        else if((playerPos.x - moriahNPC05position.x) <= 10 && (playerPos.x - moriahNPC05position.x) >= -10
+                && (playerPos.z - moriahNPC05position.z) <= 10 && (playerPos.z - moriahNPC05position.z) >= -10){
+
+            moriahNPC05 =  true;
+        }
+        else if((playerPos.x - moriahNPC06position.x) <= 10 && (playerPos.x - moriahNPC06position.x) >= -10
+                && (playerPos.z - moriahNPC06position.z) <= 10 && (playerPos.z - moriahNPC06position.z) >= -10){
+
+            moriahNPC06 =  true;
+        }
+        else if((playerPos.x - moriahNPC07position.x) <= 10 && (playerPos.x - moriahNPC07position.x) >= -10
+                && (playerPos.z - moriahNPC07position.z) <= 10 && (playerPos.z - moriahNPC07position.z) >= -10){
+
+            moriahNPC07 =  true;
+        }
+        else if((playerPos.x - moriahNPC08position.x) <= 10 && (playerPos.x - moriahNPC08position.x) >= -10
+                && (playerPos.z - moriahNPC08position.z) <= 10 && (playerPos.z - moriahNPC08position.z) >= -10){
+
+            moriahNPC08 =  true;
+        }
+        else if((playerPos.x - moriahNPC09position.x) <= 10 && (playerPos.x - moriahNPC09position.x) >= -10
+                && (playerPos.z - moriahNPC09position.z) <= 10 && (playerPos.z - moriahNPC09position.z) >= -10){
+
+            moriahNPC09 =  true;
+        }
+        else if((playerPos.x - moriahNPC10position.x) <= 10 && (playerPos.x - moriahNPC10position.x) >= -10
+                && (playerPos.z - moriahNPC10position.z) <= 10 && (playerPos.z - moriahNPC10position.z) >= -10){
+
+            moriahNPC10 =  true;
+        }
+        else {
+            moriahNPC01 = false;
+            moriahNPC02 = false;
+            moriahNPC03 = false;
+            moriahNPC04 = false;
+            moriahNPC05 = false;
+            moriahNPC06 = false;
+            moriahNPC07 = false;
+            moriahNPC08 = false;
+            moriahNPC09 = false;
+            moriahNPC10 = false;
         }
 
 

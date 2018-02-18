@@ -123,76 +123,149 @@ public class Sinai extends GameState {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
+
+ //MISSION SIX
                 //NPC01
-                if(sinaiWorld.SinaiNPC01){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC01 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC02
-                if(sinaiWorld.SinaiNPC02){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC02 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC03
-                if(sinaiWorld.SinaiNPC03){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC03 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC04
-                if(sinaiWorld.SinaiNPC04){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC04 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC05
-                if(sinaiWorld.SinaiNPC05){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC05 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC06
-                if(sinaiWorld.SinaiNPC06){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC06 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC07
-                if(sinaiWorld.SinaiNPC07){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC07 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC08
-                if(sinaiWorld.SinaiNPC08){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC08 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC09
-                if(sinaiWorld.SinaiNPC09){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC09 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC10
-                if(sinaiWorld.SinaiNPC10){
-                    gameData.putInteger(current + " convoId", 43);
+                if(sinaiWorld.SinaiNPC10 && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 60);
                     gameData.flush();
                     conversation.conversation();
                 }
 
+
+//MISSION SEVEN
+                //NPC01
+                if(sinaiWorld.SinaiNPC01 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(sinaiWorld.SinaiNPC02 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(sinaiWorld.SinaiNPC03 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(sinaiWorld.SinaiNPC04 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(sinaiWorld.SinaiNPC05 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(sinaiWorld.SinaiNPC06 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(sinaiWorld.SinaiNPC07 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(sinaiWorld.SinaiNPC08 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(sinaiWorld.SinaiNPC09 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(sinaiWorld.SinaiNPC10 && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 63);
+                    gameData.flush();
+                    conversation.conversation();
+                }
 
                 return false;
             }
@@ -208,7 +281,36 @@ public class Sinai extends GameState {
 
                 conversation.clickCount += 1;
 
-                if(conversation.clickCount >=1 ){
+
+                if(gameData.getInteger(current + " convoId") == 60
+                        && gameData.getInteger(current + " missionId") == 6){
+                    gameData.putInteger(current + " convoId", 36);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+ //MISSION SEVEN
+
+                if(sinaiWorld.SinaiNPC08
+                        && gameData.getInteger(current + " convoId") == 63
+                        && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 64);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                }
+                else if(sinaiWorld.SinaiNPC08
+                        && gameData.getInteger(current + " convoId") == 64
+                        && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 37);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+                else if(gameData.getInteger(current + " convoId") == 63
+                        && gameData.getInteger(current + " missionId") == 7){
+                    gameData.putInteger(current + " convoId", 36);
+                    gameData.flush();
                     conversation.clickCount = 0;
                     conversation.closeConversation();
                 }

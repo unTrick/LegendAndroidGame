@@ -108,71 +108,71 @@ public class Shechem extends GameState{
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
                 //NPC01
-                if(shechemWorld.shechemNPC01){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC01 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC02
-                if(shechemWorld.shechemNPC02){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC02 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC03
-                if(shechemWorld.shechemNPC03){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC03 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC04
-                if(shechemWorld.shechemNPC04){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC04 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC05
-                if(shechemWorld.shechemNPC05){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC05 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC06
-                if(shechemWorld.shechemNPC06){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC06 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC07
-                if(shechemWorld.shechemNPC07){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC07 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC08
-                if(shechemWorld.shechemNPC08){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC08 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC09
-                if(shechemWorld.shechemNPC09){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC09 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC10
-                if(shechemWorld.shechemNPC10){
-                    gameData.putInteger(current + " convoId", 43);
+                if(shechemWorld.shechemNPC10 && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 69);
                     gameData.flush();
                     conversation.conversation();
                 }
@@ -193,11 +193,13 @@ public class Shechem extends GameState{
 
                 conversation.clickCount += 1;
 
-                if(conversation.clickCount >=1 ){
+                if(gameData.getInteger(current + " convoId") == 69
+                        && gameData.getInteger(current + " missionId") == 8){
+                    gameData.putInteger(current + " convoId", 43);
+                    gameData.flush();
                     conversation.clickCount = 0;
                     conversation.closeConversation();
                 }
-
                 return false;
             }
         });

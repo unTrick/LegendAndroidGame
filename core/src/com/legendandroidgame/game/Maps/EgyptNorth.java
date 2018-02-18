@@ -126,72 +126,73 @@ public class EgyptNorth extends GameState{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
+//MISSION FIVE
                 //NPC01
-                if(egyptNorthWorld.israelitesNPC01){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC01 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC02
-                if(egyptNorthWorld.israelitesNPC02){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC02 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC03
-                if(egyptNorthWorld.israelitesNPC03){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC03 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC04
-                if(egyptNorthWorld.israelitesNPC04){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC04 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC05
-                if(egyptNorthWorld.israelitesNPC05){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC05 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC06
-                if(egyptNorthWorld.israelitesNPC06){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC06 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC07
-                if(egyptNorthWorld.israelitesNPC07){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC07 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC08
-                if(egyptNorthWorld.israelitesNPC08){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC08 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC09
-                if(egyptNorthWorld.israelitesNPC09){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC09 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC10
-                if(egyptNorthWorld.israelitesNPC10){
-                    gameData.putInteger(current + " convoId", 43);
+                if(egyptNorthWorld.israelitesNPC10 && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 54);
                     gameData.flush();
                     conversation.conversation();
                 }
@@ -213,11 +214,12 @@ public class EgyptNorth extends GameState{
 
                 conversation.clickCount += 1;
 
-                if(conversation.clickCount >=1 ){
+                if(gameData.getInteger(current + " convoId") == 54
+                        && gameData.getInteger(current + " missionId") == 5){
+                    gameData.putInteger(current + " convoId", 44);
+                    gameData.flush();
                     conversation.clickCount = 0;
-                    conversation.closeConversation();
                 }
-
                 return false;
             }
         });

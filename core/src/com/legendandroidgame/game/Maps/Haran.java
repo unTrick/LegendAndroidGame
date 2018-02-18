@@ -19,6 +19,7 @@ import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
 import com.legendandroidgame.game.States.Sleep;
 
+import static com.legendandroidgame.game.LegendAndroidGame.gameCam;
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
 /**
@@ -179,71 +180,144 @@ public class Haran extends GameState {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
                 //NPC01
-                if(haranWorld.haranNPC01){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC01 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC02
-                if(haranWorld.haranNPC02){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC02 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC03
-                if(haranWorld.haranNPC03){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC03 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC04
-                if(haranWorld.haranNPC04){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC04 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC05
-                if(haranWorld.haranNPC05){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC05 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC06
-                if(haranWorld.haranNPC06){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC06 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC07
-                if(haranWorld.haranNPC07){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC07 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC08
-                if(haranWorld.haranNPC08){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC08 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC09
-                if(haranWorld.haranNPC09){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC09 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
                     gameData.flush();
                     conversation.conversation();
                 }
 
                 //NPC10
-                if(haranWorld.haranNPC10){
-                    gameData.putInteger(current + " convoId", 43);
+                if(haranWorld.haranNPC10 && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 31);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+
+                //MISSION TWO
+
+                //NPC01
+                if(haranWorld.haranNPC01 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC02
+                if(haranWorld.haranNPC02 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC03
+                if(haranWorld.haranNPC03 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC04
+                if(haranWorld.haranNPC04 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC05
+                if(haranWorld.haranNPC05 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC06
+                if(haranWorld.haranNPC06 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC07
+                if(haranWorld.haranNPC07 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC08
+                if(haranWorld.haranNPC08 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC09
+                if(haranWorld.haranNPC09 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
+                    gameData.flush();
+                    conversation.conversation();
+                }
+
+                //NPC10
+                if(haranWorld.haranNPC10 && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 38);
                     gameData.flush();
                     conversation.conversation();
                 }
@@ -252,6 +326,123 @@ public class Haran extends GameState {
                 return false;
             }
 
+
+        });
+
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+
+//                conversation.clickCount += 1;
+//
+//                if(conversation.clickCount >=1 ){
+//                    conversation.clickCount = 0;
+//                    conversation.closeConversation();
+//                }
+
+                conversation.clickCount += 1;
+
+
+
+                if(haranWorld.haranNPC04
+                        && gameData.getInteger(current + " convoId") == 31
+                        && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 32);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                }
+                else if(haranWorld.haranNPC01
+                        && gameData.getInteger(current + " convoId") == 32
+                        && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 37);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+                else if(gameData.getInteger(current + " convoId") == 31
+                        && gameData.getInteger(current + " missionId") == 1){
+                    gameData.putInteger(current + " convoId", 33);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+                //MISSION TWO
+                if(haranWorld.haranNPC01
+                        && gameData.getInteger(current + " convoId") == 38
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 39);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                }
+                else if(haranWorld.haranNPC01
+                        && gameData.getInteger(current + " convoId") == 39
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 37);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+                else if(gameData.getInteger(current + " convoId") == 38
+                        && gameData.getInteger(current + " missionId") == 2){
+                    gameData.putInteger(current + " convoId", 33);
+                    gameData.flush();
+                    conversation.clickCount = 0;
+                    conversation.closeConversation();
+                }
+
+
+
+                if (gameData.getInteger(current + " convoId") == 71){
+                    gameData.putInteger(current + " convoId", 72);
+                    gameData.flush();
+                }
+                else if(gameData.getInteger(current + " convoId") == 72){
+                    gameData.putInteger(current + " convoId", 73);
+                    gameData.putString(current + " isHaranConvoInsDone", "done");
+                    gameData.flush();
+                    conversation.closeConversation();
+                }
+
+                else if(gameData.getInteger(current + " convoId") == 73){
+                    gameData.putInteger(current + " convoId", 74);
+                    gameData.flush();
+                }
+                else if(gameData.getInteger(current + " convoId") == 74){
+                    gameData.putInteger(current + " convoId", 75);
+                    gameData.putString(current + " isWellInstructDone", "done");
+                    gameData.flush();
+
+                }
+                else if (gameData.getInteger(current + " convoId") == 75){
+                    conversation.closeConversation();
+                }
+
+
+                if(gameData.getInteger(current + " convoId") == 1){
+                    gameData.putString(current + " firstTalktoGod", "done");
+                    gameData.putInteger(current + " convoId", 2);
+                    gameData.flush();
+                }
+                else if (gameData.getInteger(current + " convoId") == 2){
+                    gameData.putInteger(current + " convoId", 3);
+                    gameData.flush();
+                }
+                else if (gameData.getInteger(current + " convoId") == 3){
+                    conversation.closeConversation();
+                    missionQuest.missionOverview();
+                    hud.questTime = 300;
+                    hud.currentQuestTime = 600;
+                    gameData.putInteger(current + " currentQuestTime", 600);
+                    gameData.putInteger(current + " questTime", 300);
+                    gameData.putInteger(current + " missionId", 1);
+                    gameData.flush();
+                }
+
+                return false;
+            }
 
         });
 
@@ -379,68 +570,7 @@ public class Haran extends GameState {
             }
         });
 
-        conversation.nextBtn.addListener(new ClickListener(){
 
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-//                conversation.clickCount += 1;
-//
-//                if(conversation.clickCount >=1 ){
-//                    conversation.clickCount = 0;
-//                    conversation.closeConversation();
-//                }
-                conversation.clickCount += 1;
-                if (gameData.getInteger(current + " convoId") == 71){   
-                    gameData.putInteger(current + " convoId", 72);
-                    gameData.flush();
-                }
-                else if(gameData.getInteger(current + " convoId") == 72){
-                    gameData.putInteger(current + " convoId", 73);
-                    gameData.putString(current + " isHaranConvoInsDone", "done");
-                    gameData.flush();
-                    conversation.closeConversation();
-                }
-
-                else if(gameData.getInteger(current + " convoId") == 73){
-                    gameData.putInteger(current + " convoId", 74);
-                    gameData.flush();
-                }
-                else if(gameData.getInteger(current + " convoId") == 74){
-                    gameData.putInteger(current + " convoId", 75);
-                    gameData.putString(current + " isWellInstructDone", "done");
-                    gameData.flush();
-
-                }
-                else if (gameData.getInteger(current + " convoId") == 75){
-                    conversation.closeConversation();
-                }
-
-
-                if(gameData.getInteger(current + " convoId") == 1){
-                    gameData.putString(current + " firstTalktoGod", "done");
-                    gameData.putInteger(current + " convoId", 2);
-                    gameData.flush();
-                }
-                else if (gameData.getInteger(current + " convoId") == 2){
-                    gameData.putInteger(current + " convoId", 3);
-                    gameData.flush();
-                }
-                else if (gameData.getInteger(current + " convoId") == 3){
-                    conversation.closeConversation();
-                    missionQuest.missionOverview();
-                    hud.questTime = 300;
-                    hud.currentQuestTime = 600;
-                    gameData.putInteger(current + " currentQuestTime", 600);
-                    gameData.putInteger(current + " questTime", 300);
-                    gameData.putInteger(current + " missionId", 1);
-                    gameData.flush();
-                }
-
-                return false;
-            }
-
-        });
 
     }
 
