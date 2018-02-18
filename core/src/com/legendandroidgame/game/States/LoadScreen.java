@@ -99,6 +99,9 @@ public class LoadScreen extends GameState {
                         case 14: gsm.set(new Sinai(gsm));
                             dispose();
                             break; // emergency add
+                        case 15: gsm.set(new Maze(gsm));
+                            dispose();
+                            break;
 
                         case 20: gsm.set(new GenesisIntroCS(gsm));
                             dispose();

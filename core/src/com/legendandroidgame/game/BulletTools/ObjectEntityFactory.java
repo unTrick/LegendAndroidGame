@@ -36,6 +36,20 @@ public class ObjectEntityFactory {
     public static ModelComponent tilesComponent;
     public static ModelComponent arrowPointerComponent;
 
+    public static ModelComponent goldComponent;
+    public static ModelComponent silverComponent;
+    public static ModelComponent bronzeComponent;
+    public static ModelComponent scarletYarnComponent;
+    public static ModelComponent twinedLinenComponent;
+    public static ModelComponent oilComponent;
+    public static ModelComponent spicesComponent;
+    public static ModelComponent incenseComponent;
+    public static ModelComponent onyxStoneComponent;
+    public static ModelComponent stoneComponent;
+//    public static ModelComponent goatHair;
+public static ModelComponent acaciaWoodComponent;
+
+
     public static Entity loadFirstRedStone(BulletSystem bulletSystem, float x, float y, float z){
 
         BoundingBox itemBounds = new BoundingBox();
@@ -699,6 +713,42 @@ public class ObjectEntityFactory {
         knifeComponent.flintKnifeObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
         knifeComponent.flintKnifeObject.userData = entity;
         entity.add(knifeComponent);
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(ObjectComponents.class).flintKnifeObject,
+                (short)
+                        btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short)
+                        (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        return entity;
+    }
+
+
+
+
+
+
+
+
+
+    public static Entity loadGold(BulletSystem bulletSystem, float x, float y, float z){
+
+        BoundingBox itemBounds = new BoundingBox();
+        Entity entity = new Entity();
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/flint_knives.g3dj"));
+        Model itemModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+        itemModel.calculateTransforms();
+        goldComponent = new ModelComponent(itemModel, x, y, z);
+        entity.add(goldComponent);
+        itemModel.calculateBoundingBox(itemBounds);
+
+        ObjectComponents objectComponents = new ObjectComponents();
+        objectComponents.flintKnifeObject = new btPairCachingGhostObject();
+        objectComponents.flintKnifeObject.setWorldTransform(goldComponent.instance.transform);
+        objectComponents.flintKnifeShape = new btCapsuleShape(itemBounds.getWidth() / 2, itemBounds.getHeight() / 2);
+        objectComponents.flintKnifeObject.setCollisionShape(objectComponents.flintKnifeShape);
+        objectComponents.flintKnifeObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        objectComponents.flintKnifeObject.userData = entity;
+        entity.add(objectComponents);
         bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(ObjectComponents.class).flintKnifeObject,
                 (short)
                         btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,

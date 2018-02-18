@@ -24,6 +24,7 @@ public class MapEntityFactory {
     public static ModelComponent abrahamHouse;
     public static ModelComponent mosesHouse;
     public static ModelComponent pharaohHouse;
+    public static ModelComponent maze;
 
     public static ModelComponent haran;
     public static ModelComponent bethel;
@@ -118,6 +119,32 @@ public class MapEntityFactory {
         bulletComponent.body = new btRigidBody(bulletComponent.bodyInfo);
         bulletComponent.body.userData = entity;
         bulletComponent.motionState = new MotionState(pharaohHouse.instance.transform);
+        ((btRigidBody) bulletComponent.body).setMotionState(bulletComponent.motionState);
+        entity.add(bulletComponent);
+        return entity;
+
+    }
+
+    public static Entity loadMaze(){
+
+        Entity entity = new Entity();
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/maze.g3dj"));
+        Model model = new Model(modelData, new TextureProvider.FileTextureProvider());
+        for (Node node : model.nodes) node.rotation.set(new Vector3(0,90,0), 180);
+
+        model.calculateTransforms();
+
+        maze = new ModelComponent(model, 0,0,0);
+        entity.add(maze);
+
+        BulletComponent bulletComponent = new BulletComponent();
+        btCollisionShape shape = Bullet.obtainStaticNodeShape( model.nodes);
+        bulletComponent.bodyInfo = new btRigidBody.btRigidBodyConstructionInfo(0, null, shape, Vector3.Zero);
+
+        bulletComponent.body = new btRigidBody(bulletComponent.bodyInfo);
+        bulletComponent.body.userData = entity;
+        bulletComponent.motionState = new MotionState(maze.instance.transform);
         ((btRigidBody) bulletComponent.body).setMotionState(bulletComponent.motionState);
         entity.add(bulletComponent);
         return entity;
