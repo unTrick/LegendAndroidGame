@@ -39,12 +39,14 @@ public class MissionContent {
 
     private void content(int id){
 
-        findRam = gameData.getString(user + " findRam");
-        talkToPharaoh = gameData.getString(user + " talkToAaron");
+        findRam = gameData.getString(user + " bringRam");
+        talkToPharaoh = gameData.getString(user + " talkToPharaoh");
         findStaff = gameData.getString(user + " findStaff");
         findKnife = gameData.getString(user + " findKnife");
         missionCount = gameData.getInteger(user + " missionCount");
         missionTime = gameData.getInteger(user + " questTime");
+        largeStone = gameData.getString(user + " largeStone");
+
         gold = gameData.getString(user + " gold");
         silver = gameData.getString(user + " silver");
         bronze = gameData.getString(user + " bronze");
@@ -57,7 +59,6 @@ public class MissionContent {
         stone = gameData.getString(user + " stone");
         goatHair = gameData.getString(user + " goatHair");
         acaciaWood = gameData.getString(user + " acaciaWood");
-        largeStone = gameData.getString(user + " largeStone");
 
         switch (id){
             case 0: missionName = "No active Mission";

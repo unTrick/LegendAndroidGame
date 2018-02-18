@@ -74,7 +74,7 @@ public class CharacterEntityFactory {
         if (gameData.getInteger(current + " missionId") >= 7){
             character = modelLoader.loadModelData(Gdx.files.internal("blender/joshua.g3dj"));
         }
-        else if(gameData.getInteger(current + " missionId") >= 3){
+        else if(gameData.getInteger(current + " missionId") >= 4){
             character = modelLoader.loadModelData(Gdx.files.internal("blender/moses.g3dj"));
         }
         else {

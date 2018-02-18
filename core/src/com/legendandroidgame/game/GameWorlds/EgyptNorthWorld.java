@@ -65,8 +65,8 @@ public class EgyptNorthWorld {
 
 
     private float posX, posZ;
-    public float moverX, moverY;
-    private Vector3 portal1Pos, portal2Pos, playerPos, portal3Pos, portal4Pos;
+    public Vector2 mover;
+    private Vector3 portal1Pos, portal2Pos, playerPos, portal3Pos, portal4Pos, doorPos;
 
     private Vector3 israelitesNPC01position;
     private Vector3 israelitesNPC02position;
@@ -90,6 +90,7 @@ public class EgyptNorthWorld {
         setDebug();
         map = MapEntityFactory.loadEgyptNorth();
         modelComponent = map.getComponent(ModelComponent.class);
+        mover = new Vector2();
         if(gameData.getInteger(current + " from") == 3){
             posX = 200;
             posZ = 26;
@@ -171,7 +172,7 @@ public class EgyptNorthWorld {
     private void addEntities() {
         loadEgypt();
         createPlayer(posX,10,posZ);
-        loadDoor(-53,4,45);
+        loadDoor(-52.5f,4,45);
         loadPortal1();
         loadPortal2();
         loadPortal3();
@@ -226,7 +227,7 @@ public class EgyptNorthWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
@@ -266,6 +267,7 @@ public class EgyptNorthWorld {
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
         portal4Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
+        doorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
 
         israelitesNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
         israelitesNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
@@ -295,11 +297,16 @@ public class EgyptNorthWorld {
                 && (playerPos.z - portal4Pos.z) <= 10 && (playerPos.z - portal4Pos.z) >= -10) {
             goToBethel = true;
         }
+        else if ((playerPos.x - doorPos.x) <= 10 && (playerPos.x - doorPos.x) >= -10
+                && (playerPos.z - doorPos.z) <= 10 && (playerPos.z - doorPos.z) >= -10){
+            goInside = true;
+        }
         else {
             goToBethel = false;
             goToEast = false;
             goToSouth = false;
             goToWest = false;
+            goInside = false;
         }
 
         if((playerPos.x - israelitesNPC01position.x) <= 10 && (playerPos.x - israelitesNPC01position.x) >= -10

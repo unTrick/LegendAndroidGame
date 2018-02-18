@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
+import com.legendandroidgame.game.CutScenes.ExodusOne;
 import com.legendandroidgame.game.GameWorlds.LandOfMoriahWorld;
 import com.legendandroidgame.game.HUD.HUD;
 import com.legendandroidgame.game.LegendAndroidGame;
@@ -19,6 +21,7 @@ import com.legendandroidgame.game.States.GameStateManager;
 import com.legendandroidgame.game.States.LoadScreen;
 import com.legendandroidgame.game.States.Sleep;
 
+import static com.legendandroidgame.game.LegendAndroidGame.gameCam;
 import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 
 /**
@@ -37,6 +40,7 @@ public class LandOfMoriah extends GameState {
     private MissionQuest missionQuest;
     private Conversation conversation;
     private Warning warning;
+    private Congrats congrats;
     String current = gameData.getString("current");
 
     /*
@@ -69,6 +73,7 @@ public class LandOfMoriah extends GameState {
         missionQuest = new MissionQuest(stage);
         conversation = new Conversation(stage);
         warning = new Warning(stage);
+        congrats = new Congrats(stage);
 
 //        Gdx.input.setInputProcessor(new InputMultiplexer(stage, haranWorld.cameraInputController));
 
@@ -152,6 +157,71 @@ public class LandOfMoriah extends GameState {
                 maps.open();
 
                 return false;
+            }
+
+        });
+
+        actualGameButtons.btnGrab.addListener(new InputListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                if(landOfMoriahWorld.woodItem1 || landOfMoriahWorld.woodItem2 || landOfMoriahWorld.woodItem3 ||
+                        landOfMoriahWorld.woodItem4 || landOfMoriahWorld.woodItem5) {
+                    switch (gameData.getInteger(current + " missionCount")) {
+                        case 0:
+                            gameData.putInteger(current + " missionCount", 1);
+                            gameData.flush();
+                            break;
+                        case 1:
+                            gameData.putInteger(current + " missionCount", 2);
+                            gameData.flush();
+                            break;
+                        case 2:
+                            gameData.putInteger(current + " missionCount", 3);
+                            gameData.flush();
+                            break;
+                        case 3:
+                            gameData.putInteger(current + " missionCount", 4);
+                            gameData.flush();
+                            break;
+                        case 4:
+                            gameData.putInteger(current + " missionCount", 5);
+                            gameData.flush();
+                            break;
+                    }
+                }
+
+                if(landOfMoriahWorld.woodItem1){
+                    landOfMoriahWorld.wood1Click = true;
+                }
+                if (landOfMoriahWorld.woodItem2){
+                    landOfMoriahWorld.wood2Click = true;
+                }
+                if (landOfMoriahWorld.woodItem3){
+                    landOfMoriahWorld.wood3Click = true;
+                }
+                if (landOfMoriahWorld.woodItem4){
+                    landOfMoriahWorld.wood4Click = true;
+                }
+                if (landOfMoriahWorld.woodItem5){
+                    landOfMoriahWorld.wood5Click = true;
+                }
+
+                if(landOfMoriahWorld.knifeItem){
+                    if(!gameData.getString(current + " findKnife").equals("Done")){
+                        landOfMoriahWorld.knifeClick = true;
+                        gameData.putString(current + " findKnife", "Done");
+                        gameData.flush();
+                    }
+                }
+
+                if(landOfMoriahWorld.ramReady){
+                    landOfMoriahWorld.ramPickUp = true;
+                }
+
+                return true;
             }
 
         });
@@ -287,10 +357,34 @@ public class LandOfMoriah extends GameState {
             }
         });
 
+        //Congrats
+
+        congrats.getCloseBtn().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                congrats.closePopup();
+                //dapat hindi pa dito natatapos ang lahat
+
+                gsm.set(new ExodusOne(gsm));
+                dispose();
+                gameData.putString(current + " mission3", "Done");
+                gameData.flush();
+
+                return false;
+            }
+        });
+
     }
 
     @Override
     protected void handleInput() {
+
+        if(gameData.getString(current + " bringRam").equals("Done")
+                && !gameData.getString(current + " mission3").equals("Done")){
+            congrats.popup();
+        }
 
         if(hud.health == 0){
             gsm.set(new Sleep(gsm));
@@ -329,6 +423,14 @@ public class LandOfMoriah extends GameState {
             warning.isHaran = false;
             warning.isBethel = false;
             warning.isJordan = false;
+        }
+
+        if(landOfMoriahWorld.wood1Click || landOfMoriahWorld.wood2Click || landOfMoriahWorld.wood3Click ||
+                landOfMoriahWorld.wood4Click || landOfMoriahWorld.wood5Click || landOfMoriahWorld.knifeClick){
+            hud.grab = true;
+        }
+        else {
+            hud.grab = false;
         }
 
     }
@@ -382,6 +484,7 @@ public class LandOfMoriah extends GameState {
         maps.dispose();
         stage.dispose();
         warning.dispose();
+        congrats.dispose();
     }
 
     @Override

@@ -92,7 +92,7 @@ public class ExodusTwo extends GameState{
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
 
                 if (counter >= 14){
-                    gameData.putInteger(current + " missionId", 3);
+                    gameData.putInteger(current + " missionId", 4);
                     gameData.putInteger(current + " from", 22);
                     gameData.flush();
                     gsm.set(new LoadScreen(gsm,6));
@@ -112,8 +112,9 @@ public class ExodusTwo extends GameState{
 
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-                gameData.putInteger(current + " missionId", 3);
+                gameData.putInteger(current + " missionId", 4);
                 gameData.putInteger(current + " from", 22);
+                gameData.flush();
                 gsm.set(new LoadScreen(gsm,6));
                 dispose();
 

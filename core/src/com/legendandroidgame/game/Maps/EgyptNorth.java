@@ -406,7 +406,6 @@ public class EgyptNorth extends GameState{
                 dispose();
             }
         }
-
         else {
             warning.isWestEgypt = false;
             warning.isSouthEgypt = false;

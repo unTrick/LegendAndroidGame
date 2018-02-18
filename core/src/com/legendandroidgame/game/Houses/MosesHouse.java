@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
@@ -86,6 +87,25 @@ public class MosesHouse extends GameState {
                 insideGameMenu.close();
                 return false;
             }
+        });
+
+        actualGameButtons.btnGrab.addListener(new InputListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                if(mosesHouseWorld.staffCollide){
+                    if(!gameData.getString(current + " findStaff").equals("Done")){
+                        mosesHouseWorld.staffClick = true;
+                        gameData.putString(current + " findStaff", "Done");
+                        gameData.flush();
+                    }
+                }
+
+                return true;
+            }
+
         });
 
 //        inventory.getBtnclose().addListener(new ClickListener(){
@@ -243,6 +263,13 @@ public class MosesHouse extends GameState {
         if(hud.health == 0){
             gsm.set(new Sleep(gsm));
             dispose();
+        }
+
+        if(mosesHouseWorld.staffClick){
+            hud.grab = true;
+        }
+        else {
+            hud.grab = false;
         }
     }
 

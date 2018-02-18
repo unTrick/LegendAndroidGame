@@ -70,6 +70,7 @@ public class ExodusOne extends GameState {
 
                 if (counter >= 7){
                     gameData.putInteger(current + " from", 21);
+                    gameData.putInteger(current + " missionId", 4);
                     gameData.flush();
                     gsm.set(new LoadScreen(gsm,6));
                     dispose();
@@ -90,6 +91,8 @@ public class ExodusOne extends GameState {
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
 
                 gameData.putInteger(current + " from", 21);
+                gameData.putInteger(current + " missionId", 4);
+                gameData.flush();
                 gsm.set(new LoadScreen(gsm,6));
                 dispose();
 

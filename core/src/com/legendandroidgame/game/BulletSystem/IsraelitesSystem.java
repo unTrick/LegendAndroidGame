@@ -296,6 +296,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         setIsraelites8Update(delta);
         setIsraelites9Update(delta);
         setIsraelites10Update(delta);
+
+        System.out.println(randomNumber1 + "\n"
+               + randomNumber2 + "\n"
+                + randomNumber3 + "\n"
+                + randomNumber4 + "\n"
+                + randomNumber5 + "\n"
+                + randomNumber6 + "\n"
+                + randomNumber7 + "\n"
+                + randomNumber8 + "\n"
+                + randomNumber9 + "\n"
+                + randomNumber10 + "\n"
+        );
     }
 
 
@@ -340,18 +352,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber1 = rand1.nextInt(100) - 35;
+                        randomNumber1 = rand1.nextInt(100);
                         startWalking1 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip1) {
-                if (randomNumber1 >= 1 && randomNumber1 <= 49) { // up
+                if (randomNumber1 > 50 && randomNumber1 <= 75) { // up
                     up1 = true;
-                } else if (randomNumber1 >= 50) { // down
+                } else if (randomNumber1 > 75) { // down
                     down1 = true;
-                } else if (randomNumber1 <= 0 && randomNumber1 >= -10) {// left
+                } else if (randomNumber1 >= 25 && randomNumber1 <= 50) {// left
                     left1 = true;
                 } else { // right
                     right1 = true;
@@ -436,7 +448,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX1 = transX1 + israelitesCharacterComponent1.walkDirection.x;
 
         if(right1){
-            if(expectZ1 != expectedDistance1.z){
+            if(Math.round(expectZ1) != Math.round(expectedDistance1.z)){
                 expectedDistance1.z = expectZ1;
                 skip1 = true;
                 left1 = true;
@@ -444,7 +456,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left1){
-            if(expectZ1 != expectedDistance1.z){
+            if(Math.round(expectZ1) != Math.round(expectedDistance1.z)){
                 expectedDistance1.x = expectX1;
                 skip1 = true;
                 up1 = true;
@@ -452,7 +464,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up1){
-            if(expectX1 != expectedDistance1.x){
+            if(Math.round(expectX1) != Math.round(expectedDistance1.x)){
                 expectedDistance1.x = expectX1;
                 skip1 = true;
                 down1 = true;
@@ -460,7 +472,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down1){
-            if(expectX1 != expectedDistance1.x){
+            if(Math.round(expectX1) != Math.round(expectedDistance1.x)){
                 expectedDistance1.z = expectZ1;
                 skip1 = true;
                 right1 = true;
@@ -515,18 +527,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber2 = rand2.nextInt(100) - 35;
+                        randomNumber2 = rand2.nextInt(100);
                         startWalking2 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip2) {
-                if (randomNumber2 >= 1 && randomNumber2 <= 49) { // up
+                if (randomNumber2 > 50 && randomNumber2 <= 75) { // up
                     up2 = true;
-                } else if (randomNumber2 >= 50) { // down
+                } else if (randomNumber2 > 75) { // down
                     down2 = true;
-                } else if (randomNumber2 <= 0 && randomNumber2 >= -10) {// left
+                } else if (randomNumber2 >= 25 && randomNumber2 <= 50) {// left
                     left2 = true;
                 } else { // right
                     right2 = true;
@@ -610,7 +622,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX2 = transX2 + israelitesCharacterComponent2.walkDirection.x;
 
         if(right2){
-            if(expectZ2 != expectedDistance2.z){
+            if(Math.round(expectZ2) != Math.round(expectedDistance2.z)){
                 expectedDistance2.z = expectZ2;
                 skip2 = true;
                 left2 = true;
@@ -618,7 +630,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left2){
-            if(expectZ2 != expectedDistance2.z){
+            if(Math.round(expectZ2) != Math.round(expectedDistance2.z)){
                 expectedDistance2.x = expectX2;
                 skip2 = true;
                 up2 = true;
@@ -626,7 +638,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up2){
-            if(expectX2 != expectedDistance2.x){
+            if(Math.round(expectX2) != Math.round(expectedDistance2.x)){
                 expectedDistance2.x = expectX2;
                 skip2 = true;
                 down2 = true;
@@ -634,7 +646,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down2){
-            if(expectX2 != expectedDistance2.x){
+            if(Math.round(expectX2) != Math.round(expectedDistance2.x)){
                 expectedDistance2.z = expectZ2;
                 skip2 = true;
                 right2 = true;
@@ -689,18 +701,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber3 = rand3.nextInt(100) - 35;
+                        randomNumber3 = rand3.nextInt(100);
                         startWalking3 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip3) {
-                if (randomNumber3 >= 1 && randomNumber3 <= 49) { // up
+                if (randomNumber3 > 50 && randomNumber3 <= 75) { // up
                     up3 = true;
-                } else if (randomNumber3 >= 50) { // down
+                } else if (randomNumber3 > 75) { // down
                     down3 = true;
-                } else if (randomNumber3 <= 0 && randomNumber3 >= -10) {// left
+                } else if (randomNumber3 >= 25 && randomNumber3 <= 50) {// left
                     left3 = true;
                 } else { // right
                     right3 = true;
@@ -784,7 +796,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX3 = transX3 + israelitesCharacterComponent3.walkDirection.x;
 
         if(right3){
-            if(expectZ3 != expectedDistance3.z){
+            if(Math.round(expectZ3) != Math.round(expectedDistance3.z)){
                 expectedDistance3.z = expectZ3;
                 skip3 = true;
                 left3 = true;
@@ -792,7 +804,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left3){
-            if(expectZ3 != expectedDistance3.z){
+            if(Math.round(expectZ3) != Math.round(expectedDistance3.z)){
                 expectedDistance3.x = expectX3;
                 skip3 = true;
                 up3 = true;
@@ -800,7 +812,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up3){
-            if(expectX3 != expectedDistance3.x){
+            if(Math.round(expectX3) != Math.round(expectedDistance3.x)){
                 expectedDistance3.x = expectX3;
                 skip3 = true;
                 down3 = true;
@@ -808,7 +820,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down3){
-            if(expectX3 != expectedDistance3.x){
+            if(Math.round(expectX3) != Math.round(expectedDistance3.x)){
                 expectedDistance3.z = expectZ3;
                 skip3 = true;
                 right3 = true;
@@ -863,18 +875,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber4 = rand4.nextInt(100) - 35;
+                        randomNumber4 = rand4.nextInt(100);
                         startWalking4 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip4) {
-                if (randomNumber4 >= 1 && randomNumber4 <= 49) { // up
+                if (randomNumber4 > 50 && randomNumber4 <= 75) { // up
                     up4 = true;
-                } else if (randomNumber4 >= 50) { // down
+                } else if (randomNumber4 > 75) { // down
                     down4 = true;
-                } else if (randomNumber4 <= 0 && randomNumber4 >= -10) {// left
+                } else if (randomNumber4 >= 25 && randomNumber4 <= 50) {// left
                     left4 = true;
                 } else { // right
                     right4 = true;
@@ -958,7 +970,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX4 = transX4 + israelitesCharacterComponent4.walkDirection.x;
 
         if(right4){
-            if(expectZ4 != expectedDistance4.z){
+            if(Math.round(expectZ4) != Math.round(expectedDistance4.z)){
                 expectedDistance4.z = expectZ4;
                 skip4 = true;
                 left4 = true;
@@ -966,7 +978,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left4){
-            if(expectZ4 != expectedDistance4.z){
+            if(Math.round(expectZ4) != Math.round(expectedDistance4.z)){
                 expectedDistance4.x = expectX4;
                 skip4 = true;
                 up4 = true;
@@ -974,7 +986,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up4){
-            if(expectX4 != expectedDistance4.x){
+            if(Math.round(expectX4) != Math.round(expectedDistance4.x)){
                 expectedDistance4.x = expectX4;
                 skip4 = true;
                 down4 = true;
@@ -982,7 +994,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down4){
-            if(expectX4 != expectedDistance4.x){
+            if(Math.round(expectX4) != Math.round(expectedDistance4.x)){
                 expectedDistance4.z = expectZ4;
                 skip4 = true;
                 right4 = true;
@@ -1037,18 +1049,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber5 = rand5.nextInt(100) - 35;
+                        randomNumber5 = rand5.nextInt(100);
                         startWalking5 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip5) {
-                if (randomNumber5 >= 1 && randomNumber5 <= 49) { // up
+                if (randomNumber5 > 50 && randomNumber5 <= 75) { // up
                     up5 = true;
-                } else if (randomNumber5 >= 50) { // down
+                } else if (randomNumber5 > 75) { // down
                     down5 = true;
-                } else if (randomNumber5 <= 0 && randomNumber5 >= -10) {// left
+                } else if (randomNumber5 >= 25 && randomNumber5 <= 50) {// left
                     left5 = true;
                 } else { // right
                     right5 = true;
@@ -1131,7 +1143,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX5 = transX5 + israelitesCharacterComponent5.walkDirection.x;
 
         if(right5){
-            if(expectZ5 != expectedDistance5.z){
+            if(Math.round(expectZ5) != Math.round(expectedDistance5.z)){
                 expectedDistance5.z = expectZ5;
                 skip5 = true;
                 left5 = true;
@@ -1139,7 +1151,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left5){
-            if(expectZ5 != expectedDistance5.z){
+            if(Math.round(expectZ5) != Math.round(expectedDistance5.z)){
                 expectedDistance5.x = expectX5;
                 skip5 = true;
                 up5 = true;
@@ -1147,7 +1159,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up5){
-            if(expectX5 != expectedDistance5.x){
+            if(Math.round(expectX5) != Math.round(expectedDistance5.x)){
                 expectedDistance5.x = expectX5;
                 skip5 = true;
                 down5 = true;
@@ -1155,7 +1167,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down5){
-            if(expectX5 != expectedDistance5.x){
+            if(Math.round(expectX5) != Math.round(expectedDistance5.x)){
                 expectedDistance5.z = expectZ5;
                 skip5 = true;
                 right5 = true;
@@ -1211,18 +1223,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber6 = rand6.nextInt(100) - 35;
+                        randomNumber6 = rand6.nextInt(100);
                         startWalking6 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip6) {
-                if (randomNumber6 >= 1 && randomNumber6 <= 49) { // up
+                if (randomNumber6 > 50 && randomNumber6 <= 75) { // up
                     up6 = true;
-                } else if (randomNumber6 >= 50) { // down
+                } else if (randomNumber6 > 75) { // down
                     down6 = true;
-                } else if (randomNumber6 <= 0 && randomNumber6 >= -10) {// left
+                } else if (randomNumber6 >= 25 && randomNumber6 <= 50) {// left
                     left6 = true;
                 } else { // right
                     right6 = true;
@@ -1306,7 +1318,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX6 = transX6 + israelitesCharacterComponent6.walkDirection.x;
 
         if(right6){
-            if(expectZ6 != expectedDistance6.z){
+            if(Math.round(expectZ6) != Math.round(expectedDistance6.z)){
                 expectedDistance6.z = expectZ6;
                 skip6 = true;
                 left6 = true;
@@ -1314,7 +1326,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left6){
-            if(expectZ6 != expectedDistance6.z){
+            if(Math.round(expectZ6) != Math.round(expectedDistance6.z)){
                 expectedDistance6.x = expectX6;
                 skip6 = true;
                 up6 = true;
@@ -1322,7 +1334,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up6){
-            if(expectX6 != expectedDistance6.x){
+            if(Math.round(expectX6) != Math.round(expectedDistance6.x)){
                 expectedDistance6.x = expectX6;
                 skip6 = true;
                 down6 = true;
@@ -1330,7 +1342,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down6){
-            if(expectX6 != expectedDistance6.x){
+            if(Math.round(expectX6) != Math.round(expectedDistance6.x)){
                 expectedDistance6.z = expectZ6;
                 skip6 = true;
                 right6 = true;
@@ -1386,18 +1398,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber7 = rand7.nextInt(100) - 35;
+                        randomNumber7 = rand7.nextInt(100);
                         startWalking7 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip7) {
-                if (randomNumber7 >= 1 && randomNumber7 <= 49) { // up
+                if (randomNumber7 > 50 && randomNumber7 <= 75) { // up
                     up7 = true;
-                } else if (randomNumber7 >= 50) { // down
+                } else if (randomNumber7 > 75) { // down
                     down7 = true;
-                } else if (randomNumber7 <= 0 && randomNumber7 >= -10) {// left
+                } else if (randomNumber7 >= 25 && randomNumber7 <= 50) {// left
                     left7 = true;
                 } else { // right
                     right7 = true;
@@ -1481,7 +1493,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX7 = transX7 + israelitesCharacterComponent7.walkDirection.x;
 
         if(right7){
-            if(expectZ7 != expectedDistance7.z){
+            if(Math.round(expectZ7) != Math.round(expectedDistance7.z)){
                 expectedDistance7.z = expectZ7;
                 skip7 = true;
                 left7 = true;
@@ -1489,7 +1501,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left7){
-            if(expectZ7 != expectedDistance7.z){
+            if(Math.round(expectZ7) != Math.round(expectedDistance7.z)){
                 expectedDistance7.x = expectX7;
                 skip7 = true;
                 up7 = true;
@@ -1497,7 +1509,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up7){
-            if(expectX7 != expectedDistance7.x){
+            if(Math.round(expectX7) != Math.round(expectedDistance7.x)){
                 expectedDistance7.x = expectX7;
                 skip7 = true;
                 down7 = true;
@@ -1505,7 +1517,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down7){
-            if(expectX7 != expectedDistance7.x){
+            if(Math.round(expectX7) != Math.round(expectedDistance7.x)){
                 expectedDistance7.z = expectZ7;
                 skip7 = true;
                 right7 = true;
@@ -1560,18 +1572,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber8 = rand8.nextInt(100) - 35;
+                        randomNumber8 = rand8.nextInt(100);
                         startWalking8 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip8) {
-                if (randomNumber8 >= 1 && randomNumber8 <= 49) { // up
+                if (randomNumber8 > 50 && randomNumber8 <= 75) { // up
                     up8 = true;
-                } else if (randomNumber8 >= 50) { // down
+                } else if (randomNumber8 > 75) { // down
                     down8 = true;
-                } else if (randomNumber8 <= 0 && randomNumber8 >= -10) {// left
+                } else if (randomNumber8 >= 25 && randomNumber8 <= 50) {// left
                     left8 = true;
                 } else { // right
                     right8 = true;
@@ -1655,7 +1667,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX8 = transX8 + israelitesCharacterComponent8.walkDirection.x;
 
         if(right8){
-            if(expectZ8 != expectedDistance8.z){
+            if(Math.round(expectZ8) != Math.round(expectedDistance8.z)){
                 expectedDistance8.z = expectZ8;
                 skip8 = true;
                 left8 = true;
@@ -1663,7 +1675,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left8){
-            if(expectZ8 != expectedDistance8.z){
+            if(Math.round(expectZ8) != Math.round(expectedDistance8.z)){
                 expectedDistance8.x = expectX8;
                 skip8 = true;
                 up8 = true;
@@ -1671,7 +1683,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up8){
-            if(expectX8 != expectedDistance8.x){
+            if(Math.round(expectX8) != Math.round(expectedDistance8.x)){
                 expectedDistance8.x = expectX8;
                 skip8 = true;
                 down8 = true;
@@ -1679,7 +1691,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down8){
-            if(expectX8 != expectedDistance8.x){
+            if(Math.round(expectX8) != Math.round(expectedDistance8.x)){
                 expectedDistance8.z = expectZ8;
                 skip8 = true;
                 right8 = true;
@@ -1734,18 +1746,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber9 = rand9.nextInt(100) - 35;
+                        randomNumber9 = rand9.nextInt(100);
                         startWalking9 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip9) {
-                if (randomNumber9 >= 1 && randomNumber9 <= 49) { // up
+                if (randomNumber9 > 50 && randomNumber9 <= 75) { // up
                     up9 = true;
-                } else if (randomNumber9 >= 50) { // down
+                } else if (randomNumber9 > 75) { // down
                     down9 = true;
-                } else if (randomNumber9 <= 0 && randomNumber9 >= -10) {// left
+                } else if (randomNumber9 >= 25 && randomNumber9 <= 50) {// left
                     left9 = true;
                 } else { // right
                     right9 = true;
@@ -1829,7 +1841,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX9 = transX9 + israelitesCharacterComponent9.walkDirection.x;
 
         if(right9){
-            if(expectZ9 != expectedDistance9.z){
+            if(Math.round(expectZ9) != Math.round(expectedDistance9.z)){
                 expectedDistance9.z = expectZ9;
                 skip9 = true;
                 left9 = true;
@@ -1837,7 +1849,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left9){
-            if(expectZ9 != expectedDistance9.z){
+            if(Math.round(expectZ9) != Math.round(expectedDistance9.z)){
                 expectedDistance9.x = expectX9;
                 skip9 = true;
                 up9 = true;
@@ -1845,7 +1857,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up9){
-            if(expectX9 != expectedDistance9.x){
+            if(Math.round(expectX9) != Math.round(expectedDistance9.x)){
                 expectedDistance9.x = expectX9;
                 skip9 = true;
                 down9 = true;
@@ -1853,7 +1865,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down9){
-            if(expectX9 != expectedDistance9.x){
+            if(Math.round(expectX9) != Math.round(expectedDistance9.x)){
                 expectedDistance9.z = expectZ9;
                 skip9 = true;
                 right9 = true;
@@ -1908,18 +1920,18 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber10 = rand10.nextInt(100) - 35;
+                        randomNumber10 = rand10.nextInt(100);
                         startWalking10 = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip10) {
-                if (randomNumber10 >= 1 && randomNumber10 <= 49) { // up
+                if (randomNumber10 > 50 && randomNumber10 <= 75) { // up
                     up10 = true;
-                } else if (randomNumber10 >= 50) { // down
+                } else if (randomNumber10 > 75) { // down
                     down10 = true;
-                } else if (randomNumber10 <= 0 && randomNumber10 >= -10) {// left
+                } else if (randomNumber10 > 25 && randomNumber10 <= 50) {// left
                     left10 = true;
                 } else { // right
                     right10 = true;
@@ -2003,7 +2015,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
         expectX10 = transX10 + israelitesCharacterComponent10.walkDirection.x;
 
         if(right10){
-            if(expectZ10 != expectedDistance10.z){
+            if(Math.round(expectZ10) != Math.round(expectedDistance10.z)){
                 expectedDistance10.z = expectZ10;
                 skip10 = true;
                 left10 = true;
@@ -2011,7 +2023,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(left10){
-            if(expectZ10 != expectedDistance10.z){
+            if(Math.round(expectZ10) != Math.round(expectedDistance10.z)){
                 expectedDistance10.x = expectX10;
                 skip10 = true;
                 up10 = true;
@@ -2019,7 +2031,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if (up10){
-            if(expectX10 != expectedDistance10.x){
+            if(Math.round(expectX10) != Math.round(expectedDistance10.x)){
                 expectedDistance10.x = expectX10;
                 skip10 = true;
                 down10 = true;
@@ -2027,7 +2039,7 @@ public class IsraelitesSystem extends EntitySystem implements EntityListener {
             }
         }
         if(down10){
-            if(expectX10 != expectedDistance10.x){
+            if(Math.round(expectX10) != Math.round(expectedDistance10.x)){
                 expectedDistance10.z = expectZ10;
                 skip10 = true;
                 right10 = true;

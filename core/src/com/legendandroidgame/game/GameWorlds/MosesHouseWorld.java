@@ -50,12 +50,12 @@ public class MosesHouseWorld {
     private String current = gameData.getString("current");
 
     public boolean goOutside = false;
-    public boolean woodenPoleCollide = false, staffCollide = false;
+    public boolean woodenPoleCollide = false, staffCollide = false, staffClick = false;
     private boolean jarOfWaterB = false, capB = false, coatB = false, sashB = false;
 
     private float posX = -14, posZ = -1;
 
-    private Vector3 doorPos, playerPos;
+    private Vector3 doorPos, playerPos, staffPos;
 
 
     public MosesHouseWorld(Controller controller, ActualGameButtons actualGameButtons) {
@@ -212,7 +212,24 @@ public class MosesHouseWorld {
 
         playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
         doorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
+        if(!gameData.getString(current + " findStaff").equals("Done")){
+            staffPos = staff.getComponent(StaffComponent.class).staffObject.getWorldTransform().getTranslation(new Vector3());
 
+            if ((playerPos.x - staffPos.x) <= 5 && (playerPos.x - staffPos.x) >= -5
+                    && (playerPos.z - staffPos.z) <= 5 && (playerPos.z - staffPos.z) >= -5
+                    && staff != null) {
+                staffCollide = true;
+            } else {
+                staffCollide = false;
+                staffClick = false;
+            }
+            if (staffClick && staff != null) {
+                engine.removeEntity(staff);
+                bulletSystem.collisionWorld.removeCollisionObject(staff.getComponent(StaffComponent.class).staffObject);
+                staff = null;
+            }
+
+        }
 
         if((playerPos.x - doorPos.x) <= 5 && (playerPos.x - doorPos.x) >= -5
                 && (playerPos.z - doorPos.z) <= 5 && (playerPos.z - doorPos.z) >= -5){
@@ -223,15 +240,8 @@ public class MosesHouseWorld {
             goOutside = false;
         }
 
+
         if(gameData.getInteger(current + " missionId") == 5){
-            if(staffCollide){
-                if(Gdx.input.justTouched()){
-                        engine.removeEntity(staff);
-                        bulletSystem.collisionWorld.removeCollisionObject(staff.getComponent(StaffComponent.class).staffObject);
-                        gameData.putString(current + " findStaff", "Done");
-                        gameData.flush();
-                }
-            }
 
             if(woodenPoleCollide){
                 if(Gdx.input.justTouched()){
@@ -286,6 +296,7 @@ public class MosesHouseWorld {
 
 
         worldCamera.worldCam.update();
+        worldCamera.update();
         characterAnimation.update(dt);
         renderWorld(dt);
     }

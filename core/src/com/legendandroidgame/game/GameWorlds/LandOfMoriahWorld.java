@@ -40,6 +40,7 @@ public class LandOfMoriahWorld {
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
     private AnimationComponent arrowAnimation;
+    private ActualGameButtons actualGameButtons;
 
     public WorldCamera worldCamera;
     //    public CameraInputController cameraInputController;
@@ -50,10 +51,14 @@ public class LandOfMoriahWorld {
 
     private String current = gameData.getString("current");
 
-    public boolean gotoBethel = false, goToJordan = false, goToHaran = false, isBringIsaac = false;
+    public boolean gotoBethel = false, goToJordan = false, goToHaran = false, touchArrow = false;
+    public boolean woodItem1, woodItem2, woodItem3, woodItem4, woodItem5, knifeItem;
+    public boolean wood1Click, wood2Click, wood3Click, wood4Click, wood5Click, knifeClick;
+    public boolean ramPickUp = false, ramReady = false;
+
 
     private float posX , posZ ;
-    public float moverX, moverY;
+    public Vector2 moverx;
 
     private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos, wood1Pos,
             wood2Pos, wood3Pos, wood4Pos, wood5Pos, knifePos, ramPos, arrowPos;
@@ -69,6 +74,7 @@ public class LandOfMoriahWorld {
         initEnvironment();
         landOfMoriah = MapEntityFactory.loadLandOfMoriah();
         modelComponent = landOfMoriah.getComponent(ModelComponent.class);
+        moverx = new Vector2();
         if(gameData.getInteger(current + " from") == 2){
             posX = 170;
             posZ = 17;
@@ -88,6 +94,7 @@ public class LandOfMoriahWorld {
 
         addSystems(controller, actualGameButtons, modelComponent);
         addEntities();
+        this.actualGameButtons = actualGameButtons;
     }
 
     private void initEnvironment() {
@@ -171,48 +178,58 @@ public class LandOfMoriahWorld {
     }
 
     private void loadArrow(){
-        if(!gameData.getString(current + " bringIsaac").equals("Done")) {
-            arrow = ObjectEntityFactory.loadArrow(143,7,-74);
-            engine.addEntity(arrow);
-            arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
-            arrowAnimation.animate("Cube|CubeAction", -1, 1);
+        if(gameData.getInteger(current + " missionId") == 2) {
+            if (!gameData.getString(current + " bringIsaac").equals("Done")
+                    || ( gameData.getString(current + " findKnife").equals("Done") &&
+                    gameData.getInteger(current + " missionCount") == 5)
+                    && !gameData.getString(current + " mission2").equals("Done")) {
+                arrow = ObjectEntityFactory.loadArrow(136, 7, -78);
+                engine.addEntity(arrow);
+                arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
+                arrowAnimation.animate("Cube|CubeAction", -1, 1);
+            }
         }
     }
 
     private void loadWood(){
-        wood1 = ObjectEntityFactory.loadWoodenPole(bulletSystem, -36.77983f,5.6247945f,-6.4565086f);
-        engine.addEntity(wood1);
-        wood1Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
+        if(gameData.getInteger(current + " missionId") == 2
+                && gameData.getInteger(current + " missionCount") != 5) {
+            wood1 = ObjectEntityFactory.loadWoodenPole(bulletSystem, -36.77983f, 5.6247945f, -6.4565086f);
+            engine.addEntity(wood1);
+            wood1Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
 
-        wood2 = ObjectEntityFactory.loadWoodenPole(bulletSystem, -36.77983f,5.50677f,11.328837f);
-        engine.addEntity(wood2);
-        wood2Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
+            wood2 = ObjectEntityFactory.loadWoodenPole(bulletSystem, -36.77983f, 5.50677f, 11.328837f);
+            engine.addEntity(wood2);
+            wood2Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
 
-        wood3 = ObjectEntityFactory.loadWoodenPole(bulletSystem, -99.9641f,5.4802322f,-93.87202f);
-        engine.addEntity(wood3);
-        wood3Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
+            wood3 = ObjectEntityFactory.loadWoodenPole(bulletSystem, -99.9641f, 5.4802322f, -93.87202f);
+            engine.addEntity(wood3);
+            wood3Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
 
-        wood4 = ObjectEntityFactory.loadWoodenPole(bulletSystem, 170.65671f,5.502753f,-156.16753f);
-        engine.addEntity(wood4);
-        wood4Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
+            wood4 = ObjectEntityFactory.loadWoodenPole(bulletSystem, 170.65671f, 5.502753f, -156.16753f);
+            engine.addEntity(wood4);
+            wood4Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
 
-        wood5 = ObjectEntityFactory.loadWoodenPole(bulletSystem, 81.13542f,5.311686f,-39.0278f);
-        engine.addEntity(wood5);
-        wood5Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
+            wood5 = ObjectEntityFactory.loadWoodenPole(bulletSystem, 81.13542f, 5.311686f, -39.0278f);
+            engine.addEntity(wood5);
+            wood5Pos = ObjectEntityFactory.woodenPoleComponent.instance.transform.getTranslation(new Vector3());
+        }
     }
 
     private void loadKnife(){
-        knife = ObjectEntityFactory.loadFlintKnife(bulletSystem, 81.13542f,5.311686f,-39.0278f);
-        engine.addEntity(knife);
+        if(gameData.getInteger(current + " missionId") == 2
+                && !gameData.getString(current + " findKnife").equals("Done")) {
+            knife = ObjectEntityFactory.loadFlintKnife(bulletSystem, 155,6.4126554f,-74);
+            engine.addEntity(knife);
+            knifePos = ObjectEntityFactory.flintKnifeComponent.instance.transform.getTranslation(new Vector3());
+        }
     }
-
-
 
     private void addSystems(Controller controller, ActualGameButtons actualGameButtons, ModelComponent modelComponent) {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, new Vector2()));
+        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, moverx));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(kidIsaacSystem = new KidIsaacSystem(bulletSystem));
         engine.addSystem(animalSystem = new AnimalSystem(bulletSystem));
@@ -268,23 +285,62 @@ public class LandOfMoriahWorld {
             System.out.println(CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3()));
         }
 
-
         playerPos = CharacterEntityFactory.playerComponent.instance.transform.getTranslation(new Vector3());
         portal1Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
-        knifePos = ObjectEntityFactory.flintKnifeComponent.instance.transform.getTranslation(new Vector3());
         ramPos = animalSystem.ram.getComponent(AnimalsComponent.class).ramObject.getWorldTransform().getTranslation(new Vector3());
-        if(!gameData.getString(current + " bringIsaac").equals("Done")) {
-            arrowPos = ObjectEntityFactory.arrowPointerComponent.instance.transform.getTranslation(new Vector3());
 
+        if(gameData.getInteger(current + " missionId") == 2) {
 
-            if ((playerPos.x - arrowPos.x) <= 3 && (playerPos.x - arrowPos.x) >= -3
-                    && (playerPos.z - arrowPos.z) <= 3 && (playerPos.z - arrowPos.z) >= -3) {
-                isBringIsaac = true;
-            }
-            if(isBringIsaac){
-                engine.removeEntity(arrow);
+//            wood1Pos = wood1.getComponent(WoodenPoleComponent.class).woodenPoleObject.getWorldTransform().getTranslation(new Vector3());
+//            wood2Pos = wood2.getComponent(WoodenPoleComponent.class).woodenPoleObject.getWorldTransform().getTranslation(new Vector3());
+//            wood3Pos = wood3.getComponent(WoodenPoleComponent.class).woodenPoleObject.getWorldTransform().getTranslation(new Vector3());
+//            wood4Pos = wood4.getComponent(WoodenPoleComponent.class).woodenPoleObject.getWorldTransform().getTranslation(new Vector3());
+//            wood5Pos = wood5.getComponent(WoodenPoleComponent.class).woodenPoleObject.getWorldTransform().getTranslation(new Vector3());
+//            knifePos = ObjectEntityFactory.flintKnifeComponent.instance.transform.getTranslation(new Vector3());
+
+            if (!gameData.getString(current + " bringIsaac").equals("Done")
+                    || ( gameData.getString(current + " findKnife").equals("Done") &&
+                    gameData.getInteger(current + " missionCount") == 5
+                    && !gameData.getString(current + " mission2").equals("Done"))) {
+
+//                System.out.println("true");
+
+                if(!engine.getEntities().contains(arrow, true)){
+                    arrow = ObjectEntityFactory.loadArrow(136, 7, -78);
+                    engine.addEntity(arrow);
+                    arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
+                    arrowAnimation.animate("Cube|CubeAction", -1, 1);
+                }
+
+                arrowPos = ObjectEntityFactory.arrowPointerComponent.instance.transform.getTranslation(new Vector3());
+
+                if ((playerPos.x - arrowPos.x) <= 3 && (playerPos.x - arrowPos.x) >= -3
+                        && (playerPos.z - arrowPos.z) <= 3 && (playerPos.z - arrowPos.z) >= -3) {
+
+                    if (kidIsaacSystem.kidIsaac.getComponent(KidIsaacComponent.class).state.equals(KidIsaacComponent.STATE.IDLE)) {
+                        touchArrow = true;
+                    }
+                }
+                else {
+                    touchArrow = false;
+                }
+
+                if (touchArrow) {
+                    if (!gameData.getString(current + " bringIsaac").equals("Done")) {
+                        engine.removeEntity(arrow);
+                        gameData.putString(current + " bringIsaac", "Done");
+                        gameData.flush();
+                    }
+                    else if( gameData.getString(current + " findKnife").equals("Done") &&
+                            gameData.getInteger(current + " missionCount") == 5){
+                        engine.removeEntity(arrow);
+                        gameData.putString(current + " mission2", "Done");
+                        gameData.putInteger(current + " missionId", 3);
+                        gameData.flush();
+                    }
+                }
             }
         }
 
@@ -307,6 +363,89 @@ public class LandOfMoriahWorld {
             goToJordan = false;
             goToHaran = false;
             gotoBethel = false;
+        }
+
+        if(gameData.getInteger(current + " missionId") == 2
+                && !gameData.getString(current + " findKnife").equals("Done")) {
+
+            if ((playerPos.x - knifePos.x) <= 5 && (playerPos.x - knifePos.x) >= -5
+                    && (playerPos.z - knifePos.z) <= 5 && (playerPos.z - knifePos.z) >= -5
+                    && knife != null) {
+                knifeItem = true;
+            } else {
+                knifeItem = false;
+                knifeClick = false;
+            }
+        }
+        if (knifeClick && knife != null) {
+            engine.removeEntity(knife);
+            bulletSystem.collisionWorld.removeCollisionObject(knife.getComponent(ObjectComponents.class).flintKnifeObject);
+            knife = null;
+        }
+
+
+
+        if(gameData.getInteger(current + " missionId") == 2
+                && gameData.getInteger(current + " missionCount") != 5 ) {
+            if ((playerPos.x - wood1Pos.x) <= 5 && (playerPos.x - wood1Pos.x) >= -5
+                    && (playerPos.z - wood1Pos.z) <= 5 && (playerPos.z - wood1Pos.z) >= -5
+                    && wood1 != null) {
+//            System.out.println("do you wat to go inside?");
+                woodItem1 = true;
+            } else if ((playerPos.x - wood2Pos.x) <= 5 && (playerPos.x - wood2Pos.x) >= -5
+                    && (playerPos.z - wood2Pos.z) <= 5 && (playerPos.z - wood2Pos.z) >= -5
+                    && wood2 != null) {
+//            System.out.println("do you wat to go inside?");
+                woodItem2 = true;
+            } else if ((playerPos.x - wood3Pos.x) <= 5 && (playerPos.x - wood3Pos.x) >= -5
+                    && (playerPos.z - wood3Pos.z) <= 5 && (playerPos.z - wood3Pos.z) >= -5
+                    && wood3 != null) {
+//            System.out.println("do you wat to go inside?");
+                woodItem3 = true;
+            } else if ((playerPos.x - wood4Pos.x) <= 5 && (playerPos.x - wood4Pos.x) >= -5
+                    && (playerPos.z - wood4Pos.z) <= 5 && (playerPos.z - wood4Pos.z) >= -5
+                    && wood4 != null) {
+//            System.out.println("do you wat to go inside?");
+                woodItem4 = true;
+            } else if ((playerPos.x - wood5Pos.x) <= 5 && (playerPos.x - wood5Pos.x) >= -5
+                    && (playerPos.z - wood5Pos.z) <= 5 && (playerPos.z - wood5Pos.z) >= -5
+                    && wood5 != null) {
+                woodItem5 = true;
+            } else {
+                woodItem1 = false;
+                woodItem2 = false;
+                woodItem3 = false;
+                woodItem4 = false;
+                woodItem5 = false;
+
+                wood1Click = false;
+                wood2Click = false;
+                wood3Click = false;
+                wood4Click = false;
+                wood5Click = false;
+            }
+        }
+
+        if (wood1Click && wood1 != null) {
+            engine.removeEntity(wood1);
+            bulletSystem.collisionWorld.removeCollisionObject(wood1.getComponent(WoodenPoleComponent.class).woodenPoleObject);
+            wood1 = null;
+        } else if (wood2Click && wood2 != null) {
+            engine.removeEntity(wood2);
+            bulletSystem.collisionWorld.removeCollisionObject(wood2.getComponent(WoodenPoleComponent.class).woodenPoleObject);
+            wood2 = null;
+        } else if (wood3Click && wood3 != null) {
+            engine.removeEntity(wood3);
+            bulletSystem.collisionWorld.removeCollisionObject(wood3.getComponent(WoodenPoleComponent.class).woodenPoleObject);
+            wood3 = null;
+        } else if (wood4Click && wood4 != null) {
+            engine.removeEntity(wood4);
+            bulletSystem.collisionWorld.removeCollisionObject(wood4.getComponent(WoodenPoleComponent.class).woodenPoleObject);
+            wood4 = null;
+        } else if (wood5Click && wood5 != null) {
+            engine.removeEntity(wood5);
+            bulletSystem.collisionWorld.removeCollisionObject(wood5.getComponent(WoodenPoleComponent.class).woodenPoleObject);
+            wood5 = null;
         }
 
 //        if(!((playerPos.x - wellInstructorPos.x) <= 10) && !((playerPos.x - wellInstructorPos.x) >= -10)
@@ -339,15 +478,73 @@ public class LandOfMoriahWorld {
         }
         else {
             lotAnimation.animate("Armature|Stand",-1,1);
-        }
+        }x
         */
 
+        // mission 3
+        if (gameData.getInteger(current + " missionId") == 3) {
+
+            animalSystem.pickup = ramPickUp;
+
+            if(ramPickUp && !gameData.getString(current + " bringRam").equals("Done")){
+                if(!engine.getEntities().contains(arrow, true)){
+                    arrow = ObjectEntityFactory.loadArrow(136, 7, -78);
+                    engine.addEntity(arrow);
+                    arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
+                    arrowAnimation.animate("Cube|CubeAction", -1, 1);
+                    arrowPos = ObjectEntityFactory.arrowPointerComponent.instance.transform.getTranslation(new Vector3());
+                }
+//                System.out.println("true");
+                if ((playerPos.x - arrowPos.x) <= 3 && (playerPos.x - arrowPos.x) >= -3
+                        && (playerPos.z - arrowPos.z) <= 3 && (playerPos.z - arrowPos.z) >= -3) {
+
+                    if (animalSystem.ram.getComponent(AnimalComponent.class).state.equals(AnimalComponent.STATE.IDLE)) {
+                        touchArrow = true;
+                    }
+                }
+
+                else {
+                    touchArrow = false;
+                }
+            }
+
+            if ((playerPos.x - ramPos.x) <= 10 && (playerPos.x - ramPos.x) >= -10
+                    && (playerPos.z - ramPos.z) <= 10 && (playerPos.z - ramPos.z) >= -10) {
+                ramReady = true;
+            }
+            else {
+                ramReady = false;
+            }
+
+            if (touchArrow && ramPickUp ) {
+                if (!gameData.getString(current + " bringRam").equals("Done")) {
+                    engine.removeEntity(arrow);
+                    gameData.putString(current + " bringRam", "Done");
+
+                    gameData.flush();
+                }
+            }
+        }
+
         worldCamera.worldCam.update();
+        worldCamera.update();
 //        worldCamera.update();
 //        cameraInputController.update();
-        if(!gameData.getString(current + " bringIsaac").equals("Done")) {
-            arrowAnimation.update(dt);
+        if(gameData.getInteger(current + " missionId") == 2) {
+            if (!gameData.getString(current + " bringIsaac").equals("Done")
+                    || ( gameData.getString(current + " findKnife").equals("Done") &&
+                    gameData.getInteger(current + " missionCount") == 5
+                   && !gameData.getString(current + " mission2").equals("Done"))) {
+                arrowAnimation.update(dt);
+            }
         }
+        if(gameData.getInteger(current + " missionId") == 3
+                && !gameData.getString(current + " bringRam").equals("Done")) {
+            if (ramPickUp){
+                arrowAnimation.update(dt);
+            }
+        }
+
         characterAnimation.update(dt);
         renderWorld(dt);
 
@@ -387,12 +584,6 @@ public class LandOfMoriahWorld {
 
         environment.dispose();
 
-        if(!gameData.getString(current + " bringIsaac").equals("Done") && isBringIsaac){
-            if(gameData.getInteger(current + " missionId") == 2){
-                gameData.putString(current + " bringIsaac", "Done");
-                gameData.flush();
-            }
-        }
     }
 
     public void remove(Entity entity) {

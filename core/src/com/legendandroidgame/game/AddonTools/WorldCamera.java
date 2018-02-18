@@ -1,6 +1,7 @@
 package com.legendandroidgame.game.AddonTools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
@@ -12,6 +13,7 @@ public class WorldCamera {
 
     public OrthographicCamera worldCam;
     public Vector3 lookAt = new Vector3(956,657,899);
+    private int clickCount = 0;
 
     public WorldCamera(){
 
@@ -23,7 +25,10 @@ public class WorldCamera {
         worldCam.near = 1f;
         worldCam.far = 2850f;
 
-        worldCam.zoom = 0.06f;
+        if(clickCount == 0){
+            worldCam.zoom = 0.06f;
+        }
+
 
         worldCam.update();
 
@@ -31,5 +36,36 @@ public class WorldCamera {
 
     public void update(){
 //        worldCam.update();
+        if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+
+            if(clickCount == 3){
+                clickCount = 0;
+            }
+            else {
+                clickCount += 1;
+            }
+        }
+
+//        System.out.println(worldCam.position);
+
+        if(Gdx.input.isKeyPressed(Input.Keys.X)){
+//            worldCam.position.y += 100;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)){
+//            worldCam.position.y -= 100;
+        }
+
+        switch (clickCount){
+            case 0: worldCam.zoom = 0.06f;
+                break;
+            case 1: worldCam.zoom = 0.2f;
+                break;
+            case 2: worldCam.zoom = .5f;
+                break;
+            case 3: worldCam.zoom = 0.03f;
+                break;
+        }
+
+
     }
 }

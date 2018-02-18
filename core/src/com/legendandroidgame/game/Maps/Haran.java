@@ -255,24 +255,6 @@ public class Haran extends GameState {
 
         });
 
-        conversation.nextBtn.addListener(new ClickListener(){
-
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-                conversation.clickCount += 1;
-
-                if(conversation.clickCount >=1 ){
-                    conversation.clickCount = 0;
-                    conversation.closeConversation();
-                }
-
-                return false;
-            }
-        });
-
-
         // TODO Mission Buttons
 
 
@@ -402,8 +384,14 @@ public class Haran extends GameState {
             @Override
             public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
 
+//                conversation.clickCount += 1;
+//
+//                if(conversation.clickCount >=1 ){
+//                    conversation.clickCount = 0;
+//                    conversation.closeConversation();
+//                }
                 conversation.clickCount += 1;
-                if (gameData.getInteger(current + " convoId") == 71){
+                if (gameData.getInteger(current + " convoId") == 71){   
                     gameData.putInteger(current + " convoId", 72);
                     gameData.flush();
                 }

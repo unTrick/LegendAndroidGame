@@ -328,6 +328,7 @@ public class EgyptWestWorld {
             israelitesNPC10 = false;
         }
 
+        worldCam.worldCam.update();
         worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);

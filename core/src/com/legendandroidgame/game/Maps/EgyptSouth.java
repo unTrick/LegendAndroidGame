@@ -43,6 +43,7 @@ public class EgyptSouth extends GameState{
     String current = gameData.getString("current");
     private Trivia trivia;
     private Warning warning;
+    private Congrats congrats;
 
 
     private int convoId = gameData.getInteger(current + " convoId");
@@ -73,6 +74,7 @@ public class EgyptSouth extends GameState{
         conversation = new Conversation(stage);
         trivia = new Trivia(stage);
         warning = new Warning(stage);
+        congrats = new Congrats(stage);
 
         // for center
 
@@ -255,6 +257,11 @@ public class EgyptSouth extends GameState{
                 missionQuest.close();
                 missionQuest.clickCount = 0;
 
+                if(!gameData.getString(current + " overView4Closed").equals("Close")){
+                    gameData.putString(current + " overView4Closed", "Close");
+                    gameData.flush();
+                }
+
                 return false;
             }
 
@@ -375,11 +382,40 @@ public class EgyptSouth extends GameState{
 
         });
 
+        congrats.getCloseBtn().addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                if(gameData.getInteger(current + " missionId") == 4){
+                    gameData.putString(current + " mission4", "Done");
+                    gameData.putInteger(current + " missionId", 5);
+                    gameData.flush();
+                    congrats.closePopup();
+                }
+
+                return false;
+            }
+        });
+
+
+
     }
 
 
     @Override
     protected void handleInput() {
+
+        if(gameData.getString(current + " talkToPharaoh").equals("Done")
+                && !gameData.getString(current + " mission4").equals("Done")){
+            congrats.popup();
+        }
+
+        if(gameData.getInteger(current + " missionId") == 4
+                && !gameData.getString(current + " talkToPharaoh").equals("Done")
+                && !gameData.getString(current + " overView4Closed").equals("Close")){
+            missionQuest.missionOverview();
+        }
 
         if(egyptSouthWorld.goToNorth){
             warning.isNorthEgypt = true;
@@ -468,6 +504,7 @@ public class EgyptSouth extends GameState{
         maps.dispose();
         stage.dispose();
         warning.dispose();
+        congrats.dispose();
     }
 
     @Override

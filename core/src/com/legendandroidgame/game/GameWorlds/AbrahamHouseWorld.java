@@ -188,6 +188,7 @@ public class AbrahamHouseWorld {
 //        System.out.println(character.getComponent(CharacterComponent.class).ghostObject.checkCollideWith
 //                (doorEntity.getComponent(DoorComponent.class).doorObject));
 
+        worldCam.worldCam.update();
         worldCam.update();
         characterAnimation.update(dt);
 //        cameraInputController.update();

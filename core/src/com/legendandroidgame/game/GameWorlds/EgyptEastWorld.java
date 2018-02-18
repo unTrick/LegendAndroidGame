@@ -31,17 +31,18 @@ public class EgyptEastWorld {
     private ModelBatch batch;
     private Engine engine;
     private BulletSystem bulletSystem;
-    private Entity character, portalEntity1, portalEntity2, portalEntity3, portalEntity4;
+    private Entity character, portalEntity1, portalEntity2, portalEntity3, portalEntity4, arrow;
     private PlayerSystem playerSystem;
     private IsraelitesSystem israelitesSystem;
-    private AnimationComponent characterAnimation;
+    private AnimationComponent characterAnimation, arrowAnimation;
     private ModelComponent modelComponent;
     public WorldCamera worldCamera;
     //    public CameraInputController cameraInputController;
     public Environment environment;
 
-    public Boolean goToNorth = false, goToSouth = false, goToWest = false, goToEdom = false;
-    private Vector3 portal1Pos, portal2Pos, portal3Pos, portal4Pos, playerPos;
+    public boolean goToNorth = false, goToSouth = false, goToWest = false, goToEdom = false;
+    private boolean arrowTouch;
+    private Vector3 portal1Pos, portal2Pos, portal3Pos, portal4Pos, playerPos, arrowPos;
 
     public Boolean israelitesNPC01 = false;
     public Boolean israelitesNPC02 = false;
@@ -74,7 +75,7 @@ public class EgyptEastWorld {
     private String current = gameData.getString("current");
 
     private float posX, posZ;
-    public float moverX, moverY;
+    public Vector2 mover;
 
     public EgyptEastWorld(Controller controller, ActualGameButtons actualGameButtons) {
         Bullet.init();
@@ -84,6 +85,7 @@ public class EgyptEastWorld {
         setDebug();
         map = MapEntityFactory.loadEgyptEast();
         modelComponent = map.getComponent(ModelComponent.class);
+        mover = new Vector2();
         if(gameData.getInteger(current + " from") == 5){
             posX = 263;
             posZ = 296;
@@ -160,6 +162,7 @@ public class EgyptEastWorld {
         loadPortal2();
         loadPortal3();
         loadPortal4();
+        loadArrow();
     }
 
     private void setDebug(){
@@ -178,6 +181,16 @@ public class EgyptEastWorld {
 
     private void loadEgypt() {
         engine.addEntity(map);
+    }
+
+    private void loadArrow(){
+        if(gameData.getInteger(current + " missionId") == 5
+                && gameData.getString(current + " findStaff").equals("Done")) {
+            arrow = ObjectEntityFactory.loadArrow(-161,7,272);
+            engine.addEntity(arrow);
+            arrowAnimation = new AnimationComponent(ObjectEntityFactory.arrowPointerComponent.instance);
+            arrowAnimation.animate("Cube|CubeAction", -1, 1);
+        }
     }
 
     private void loadPortal1(){
@@ -206,7 +219,7 @@ public class EgyptEastWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
+        engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, mover));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
@@ -244,6 +257,26 @@ public class EgyptEastWorld {
         portal2Pos = ObjectEntityFactory.portalComponentBottom.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
         portal4Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
+
+        if(gameData.getInteger(current + " missionId") == 5
+                && gameData.getString(current + " findStaff").equals("Done")
+                && !gameData.getString(current + " splitTheSea").equals("Done")){
+            arrowPos = ObjectEntityFactory.arrowPointerComponent.instance.transform.getTranslation(new Vector3());
+
+            if((playerPos.x - arrowPos.x) <= 5 && (playerPos.x - arrowPos.x) >= -5
+                    && (playerPos.z - arrowPos.z) <= 5 && (playerPos.z - arrowPos.z) >= -5){
+                arrowTouch = true;
+            }
+            else {
+                arrowTouch = false;
+            }
+
+            if(arrowTouch){
+                engine.removeEntity(arrow);
+                gameData.putString(current + " splitTheSea", "Done");
+                gameData.flush();
+            }
+        }
 
         israelitesNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
         israelitesNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
@@ -341,7 +374,14 @@ public class EgyptEastWorld {
             israelitesNPC10 = false;
         }
 
+        if(gameData.getInteger(current + " missionId") == 5
+                && gameData.getString(current + " findStaff").equals("Done")
+                && !gameData.getString(current + " splitTheSea").equals("Done")) {
+            arrowAnimation.update(dt);
+        }
+
         worldCamera.worldCam.update();
+        worldCamera.update();
         characterAnimation.update(dt);
         renderWorld(dt);
     }

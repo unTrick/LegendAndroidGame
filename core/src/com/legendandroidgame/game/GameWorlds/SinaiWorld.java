@@ -35,6 +35,7 @@ public class SinaiWorld {
     private Entity gold, silver, bronze, scarletYarn, twinedLinen, oil, spices, incense, onyxStone, stone,
             goatHair, acaciaWood;
     private PlayerSystem playerSystem;
+    private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
 
@@ -203,6 +204,7 @@ public class SinaiWorld {
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);
@@ -368,6 +370,7 @@ public class SinaiWorld {
 
 
         worldCamera.worldCam.update();
+        worldCamera.update();
         characterAnimation.update(dt);
         renderWorld(dt);
 

@@ -176,7 +176,11 @@ public class PharaohsHouseWorld {
         if(pharaohSystem.canTalk){
             canTalkToPharaoh = true;
         }
+        else {
+            canTalkToPharaoh = false;
+        }
 
+        worldCam.worldCam.update();
         worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);

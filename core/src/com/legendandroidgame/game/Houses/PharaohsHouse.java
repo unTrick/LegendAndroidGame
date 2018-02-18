@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.legendandroidgame.game.Buttons.ActualGameButtons;
 import com.legendandroidgame.game.Buttons.Controller;
+import com.legendandroidgame.game.CutScenes.ExodusTwo;
 import com.legendandroidgame.game.GameWorlds.PharaohsHouseWorld;
 import com.legendandroidgame.game.HUD.HUD;
 import com.legendandroidgame.game.LegendAndroidGame;
@@ -102,10 +103,43 @@ public class PharaohsHouse extends GameState{
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
+                if(pharaohsHouseWorld.canTalkToPharaoh){
+                    convoId = 50;
+                    gameData.putInteger(current + " convoId", convoId);
+                    gameData.flush();
+                    conversation.conversation();
+                }
 
                 return false;
             }
 
+
+        });
+
+        conversation.nextBtn.addListener(new ClickListener(){
+
+            @Override
+            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
+
+
+                conversation.clickCount += 1;
+
+                if(conversation.clickCount <= 3){
+                    convoId += 1;
+                    gameData.putInteger(current + " convoId", convoId);
+                    gameData.flush();
+                }
+
+                if(conversation.clickCount >=4 ){
+                    conversation.clickCount = 0;
+                    gameData.putString(current + " talkToPharaoh", "Done");
+                    gameData.flush();
+                    conversation.closeConversation();
+                    gsm.set(new ExodusTwo(gsm));
+                }
+
+                return false;
+            }
 
         });
 
@@ -233,20 +267,6 @@ public class PharaohsHouse extends GameState{
 
             }
         });
-
-        conversation.nextBtn.addListener(new ClickListener(){
-
-            @Override
-            public boolean touchDown(InputEvent e, float x, float y, int pointer, int button){
-
-                convoId += 1;
-                gameData.putInteger(current + " convoId", convoId);
-                gameData.flush();
-
-                return false;
-            }
-
-        });
     }
 
     @Override
@@ -271,7 +291,7 @@ public class PharaohsHouse extends GameState{
         }
 
         if(pharaohsHouseWorld.canTalkToPharaoh){
-            System.out.println("can talk");
+//            System.out.println("can talk");
         }
 
 

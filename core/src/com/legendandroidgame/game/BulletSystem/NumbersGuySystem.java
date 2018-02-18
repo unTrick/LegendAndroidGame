@@ -94,18 +94,18 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        randomNumber = rand.nextInt(100) - 35;
+                        randomNumber = rand.nextInt(100);
                         startWalking = false;
                     }
                 }, 5);
             }
 //                        System.out.println(randomNumber);
             if(!skip) {
-                if (randomNumber >= 1 && randomNumber <= 49) { // up
+                if (randomNumber > 50 && randomNumber <= 75) { // up
                     up = true;
-                } else if (randomNumber >= 50) { // down
+                } else if (randomNumber > 75) { // down
                     down = true;
-                } else if (randomNumber <= 0 && randomNumber >= -10) {// left
+                } else if (randomNumber >= 25 && randomNumber <= 50) {// left
                     left = true;
                 } else { // right
                     right = true;
@@ -177,16 +177,16 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
         if(numbersGuyEntity.getComponent(NumbersGuyComponent.class).state.equals(NumbersGuyComponent.STATE.IDLE)){
             expectedDistance.x = transX;
             expectedDistance.z = transZ;
-//            expectX = expectedDistance.x;
-//            expectZ = expectedDistance.z;
+            expectX = expectedDistance.x;
+            expectZ = expectedDistance.z;
         }
         else if (numbersGuyEntity.getComponent(NumbersGuyComponent.class).state.equals(NumbersGuyComponent.STATE.WALKING)){
             expectedDistance.z += numbersGuyCharacterComponent.walkDirection.z;
             expectedDistance.x += numbersGuyCharacterComponent.walkDirection.x;
-        }
 
-        expectZ = transZ + numbersGuyCharacterComponent.walkDirection.z;
-        expectX = transX + numbersGuyCharacterComponent.walkDirection.x;
+            expectZ = transZ + numbersGuyCharacterComponent.walkDirection.z;
+            expectX = transX + numbersGuyCharacterComponent.walkDirection.x;
+        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.I)){
             System.out.println("original location: "  + expectX + " | " + expectZ);
@@ -196,7 +196,7 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
 
 
         if(right){
-            if(expectZ != expectedDistance.z){
+            if(Math.round(expectZ) != Math.round(expectedDistance.z)){
                 expectedDistance.z = expectZ;
                 skip = true;
                 left = true;
@@ -204,7 +204,7 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
             }
         }
         if(left){
-            if(expectZ != expectedDistance.z){
+            if(Math.round(expectZ) != Math.round(expectedDistance.z)){
                 expectedDistance.x = expectX;
                 skip = true;
                 up = true;
@@ -212,7 +212,7 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
             }
         }
         if (up){
-            if(expectX != expectedDistance.x){
+            if(Math.round(expectX) != Math.round(expectedDistance.x)){
                 expectedDistance.x = expectX;
                 skip = true;
                 down = true;
@@ -220,7 +220,7 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
             }
         }
         if(down){
-            if(expectX != expectedDistance.x){
+            if(Math.round(expectX) != Math.round(expectedDistance.x)){
                 expectedDistance.z = expectZ;
                 skip = true;
                 right = true;
@@ -232,6 +232,7 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
 
 
         playerAnimation.update(delta);
+        System.out.println(randomNumber);
 
     }
     @Override

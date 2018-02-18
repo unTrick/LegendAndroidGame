@@ -35,6 +35,7 @@ public class EgyptEast extends GameState {
     private MissionQuest missionQuest;
     private Warning warning;
     private Conversation conversation;
+    private Congrats congrats;
     String current = gameData.getString("current");
 
     public EgyptEast(GameStateManager gsm) {
@@ -54,6 +55,7 @@ public class EgyptEast extends GameState {
         missionQuest = new MissionQuest(stage);
         conversation = new Conversation(stage);
         warning = new Warning(stage);
+        congrats = new Congrats(stage);
 
         Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setCursorCatched(true);
@@ -323,6 +325,25 @@ public class EgyptEast extends GameState {
 
             }
         });
+
+        congrats.getCloseBtn().addListener(new ClickListener(){
+
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+                congrats.closePopup();
+
+                if(!gameData.getString(current + " mission5").equals("Done")){
+                    gameData.putString(current + " mission5", "Done");
+                    gameData.putInteger(current + " missionId", 6);
+                    gameData.flush();
+                }
+
+                return false;
+
+            }
+        });
     }
 
 
@@ -372,6 +393,12 @@ public class EgyptEast extends GameState {
             warning.isNorthEgypt = false;
         }
 
+        if(gameData.getInteger(current + " missionId") == 5
+                && gameData.getString(current + " splitTheSea").equals("Done")
+                && !gameData.getString(current + " mission5").equals("Done")){
+            congrats.popup();
+        }
+
         if(hud.health == 0){
             gsm.set(new Sleep(gsm));
             dispose();
@@ -411,6 +438,7 @@ public class EgyptEast extends GameState {
         maps.dispose();
         stage.dispose();
         warning.dispose();
+        congrats.dispose();
     }
 
     @Override

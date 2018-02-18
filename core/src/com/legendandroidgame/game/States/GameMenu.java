@@ -89,7 +89,7 @@ public class GameMenu extends GameState{
            @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
 
-               if(gameData.getString("current").equals("NONE")){
+               if(gameData.getString("current").equals("NONE") || gameData.getString("current").isEmpty()){
                    gsm.set(new UserLogin(gsm));
                    dispose();
                }

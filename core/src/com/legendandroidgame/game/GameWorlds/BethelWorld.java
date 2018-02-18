@@ -499,6 +499,7 @@ public class BethelWorld {
             System.out.print(gameData.getInteger(current + "missionCount"));
         }
 
+        worldCam.worldCam.update();
         worldCam.update();
         characterAnimation.update(dt);
 //        altarAnimation.update(dt);

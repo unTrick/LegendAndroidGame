@@ -21,13 +21,13 @@ import static com.legendandroidgame.game.LegendAndroidGame.gameData;
 public class KidIsaacSystem extends EntitySystem implements EntityListener{
 
     private ImmutableArray<Entity> entities;
-    private Entity kidIsaac;
+    public Entity kidIsaac;
     private Entity player;
     private Engine engine;
     private KidIsaacCharacterComponent kidIsaacCharacterComponent;
     private ModelComponent modelComponent;
     private final Vector3 tmp = new Vector3();
-    private float transX, transY, transZ, rotateX, rotateY, rotateZ, angle;
+    private float transX, transY, transZ, rotateX, rotateY, rotateZ, angle, expectX, expectZ;
     public AnimationComponent playerAnimation;
     private String current = gameData.getString("current");
     private BulletSystem bulletSystem;
@@ -35,8 +35,9 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
 
     private Vector3 playerPosition = new Vector3();
     private Vector3 kidPosition = new Vector3();
+    public Vector3 expectedDistance;
 
-    ComponentMapper<KidIsaacCharacterComponent> cm = ComponentMapper.getFor(KidIsaacCharacterComponent.class);
+//    ComponentMapper<KidIsaacCharacterComponent> cm = ComponentMapper.getFor(KidIsaacCharacterComponent.class);
 
     private boolean timerIsOn = false;
     private int animationtime = 0;
@@ -62,6 +63,9 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
             if(gameData.getInteger(current + " from") == 8){
                 kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,90,6,102);
             }
+            if(gameData.getInteger(current + " from") == 5){
+                kidIsaac = CharacterEntityFactory.createKidIsaac(bulletSystem,90,6,102);
+            }
         }
         if(gameData.getInteger(current + " currentLocation") == 8){
             if(gameData.getString(current + " bringIsaac").equals("Done")){
@@ -77,6 +81,7 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
             }
         }
 
+        expectedDistance = new Vector3();
         playerAnimation = new AnimationComponent(CharacterEntityFactory.kidIsaacComponent.instance);
         modelComponent = CharacterEntityFactory.kidIsaacComponent;
         kidIsaacCharacterComponent = kidIsaac.getComponent(KidIsaacCharacterComponent.class);
@@ -93,14 +98,13 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
     public void update(float delta) {
 
         if(entities.size() < 1){
-            if(gameData.getInteger(current + " missionId") == 2){
-                if(!gameData.getString(current + " bringIsaac").equals("Done")){
+                if(!gameData.getString(current + " bringIsaac").equals("Done")
+                        && gameData.getInteger(current + " missionId") == 2){
                     engine.addEntity(kidIsaac);
                 }
                 else if(gameData.getInteger(current + " currentLocation") == 8) {
                     engine.addEntity(kidIsaac);
                 }
-            }
         }
         updateMovement(delta);
         decideToWalk(delta);
@@ -210,6 +214,20 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
 
         modelComponent.instance.calculateTransforms();
 
+        if(kidIsaac.getComponent(KidIsaacComponent.class).state.equals(KidIsaacComponent.STATE.IDLE)){
+            expectedDistance.x = transX;
+            expectedDistance.z = transZ;
+//            expectX = expectedDistance.x;
+//            expectZ = expectedDistance.z;
+        }
+        else if (kidIsaac.getComponent(KidIsaacComponent.class).state.equals(KidIsaacComponent.STATE.WALKING)){
+            expectedDistance.z += kidIsaacCharacterComponent.walkDirection.z;
+            expectedDistance.x += kidIsaacCharacterComponent.walkDirection.x;
+        }
+
+        expectZ = transZ + kidIsaacCharacterComponent.walkDirection.z;
+        expectX = transX + kidIsaacCharacterComponent.walkDirection.x;
+
         kidPosition = modelComponent.instance.transform.getTranslation(new Vector3());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.T)){
@@ -242,27 +260,64 @@ public class KidIsaacSystem extends EntitySystem implements EntityListener{
                 up = false;
                 left = false;
                 right = false;
-            } else {
-                if ((kidPosition.x - playerPosition.x) > 1) {
-                    down = true;
-                    up = false;
-                } else if ((kidPosition.x - playerPosition.x) < 0) {
-                    up = true;
-                    down = false;
-                } else {
-                    up = false;
-                    down = false;
-                }
-                if ((kidPosition.z - playerPosition.z) > 1) {
-                    left = true;
-                    right = false;
-                } else if ((kidPosition.z - playerPosition.z) < 0) {
+            }
+            else {
+
+                float leftdistance =  (playerPosition.z - kidPosition.z);
+                float rightdistance = (kidPosition.z - playerPosition.z);
+                float downdistance =  (playerPosition.x - kidPosition.x);
+                float updistance =  (kidPosition.x - playerPosition.x);
+
+                if (leftdistance > 1) {
                     right = true;
+
                     left = false;
-                } else {
+                    down = false;
+                    up = false;
+                }
+                else if (rightdistance > 1) {
+                    left = true;
+
+                    right = false;
+                    down = false;
+                    up = false;
+                }
+                else if (updistance > 1) {
+                    down = true;
+
+                    up = false;
                     left = false;
                     right = false;
                 }
+                else if (downdistance > 1) {
+                    up = true;
+
+                    left = false;
+                    right = false;
+                    down = false;
+                }
+                else {
+                    left = false;
+                    right = false;
+                    down = false;
+                    up = false;
+                }
+
+                /*
+                if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
+                    System.out.println(leftdistance);
+                }
+                if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
+                    System.out.println(rightdistance);
+                }
+                if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
+                    System.out.println(updistance);
+                }
+                if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
+                    System.out.println(downdistance);
+                }
+
+                */
             }
         }
     }

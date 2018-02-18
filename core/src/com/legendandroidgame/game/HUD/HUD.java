@@ -282,6 +282,55 @@ public class HUD {
         questTimerImg.setScale(questTime / currentQuestTime, timeLimitBar / 2);
         questTable.setY(Gdx.graphics.getHeight() / 4 - questTable.getPrefHeight() / 2);
         questTable.setX(Gdx.graphics.getWidth() / 16);
+        if(gameData.getInteger(current + " missionId") == 1
+                && gameData.getInteger(current + " missionCount") == 4){
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+
+        }
+        else if(gameData.getInteger(current + " missionId") == 2
+                && gameData.getInteger(current + " missionCount") == 5
+                && gameData.getString(current + " findKnife").equals("Done")){
+//                questOnScreenReq.setColor(Color.GREEN);
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+        }
+        else if (gameData.getInteger(current + " missionId") == 3
+                && gameData.getString(current + " bringRam").equals("Done")){
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+        }
+        else if (gameData.getInteger(current + " missionId") == 4
+                && gameData.getString(current + " talkToPharaoh").equals("Done")){
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+        }
+        else if (gameData.getInteger(current + " missionId") == 5
+                && gameData.getString(current + " findStaff").equals("Done")){
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+        }
+        else if (gameData.getInteger(current + " missionId") == 6
+                && gameData.getString(current + " silver").equals("Done")
+                && gameData.getString(current + " bronze").equals("Done")
+                && gameData.getString(current + " scarletYarn").equals("Done")
+                && gameData.getString(current + " twinedLinen").equals("Done")
+                && gameData.getString(current + " oil").equals("Done")
+                && gameData.getString(current + " spices").equals("Done")
+                && gameData.getString(current + " incense").equals("Done")
+                && gameData.getString(current + " onyxStone").equals("Done")
+                && gameData.getString(current + " stone").equals("Done")
+                && gameData.getString(current + " goatHair").equals("Done")
+                && gameData.getString(current + " acaciaWood").equals("Done")){
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+        }
+        else if (gameData.getInteger(current + " missionId") == 7
+                && gameData.getInteger(current + " missionCount") == 12){
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+        }
+        else if (gameData.getInteger(current + " missionId") == 8
+                && gameData.getString(current + " largeStone").equals("Done")){
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.GREEN));
+        }
+        else {
+            questOnScreenReq.setStyle(new Label.LabelStyle(missionFont, Color.RED));
+        }
+
 
         //fps
 

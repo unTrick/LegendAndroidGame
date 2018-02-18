@@ -58,10 +58,10 @@ public class EgyptSouthWorld {
     private String current = gameData.getString("current");
 
     private float posX, posZ;
-    public float moverX, moverY;
+    public Vector2 mover;
     public boolean goInside = false;
 
-    private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos;
+    private Vector3 portal1Pos, portal2Pos, portal3Pos, playerPos, doorPos;
 
     public Boolean israelitesNPC01 = false;
     public Boolean israelitesNPC02 = false;
@@ -98,6 +98,7 @@ public class EgyptSouthWorld {
         setDebug();
         map = MapEntityFactory.loadEgyptSouth();
         modelComponent = map.getComponent(ModelComponent.class);
+        mover = new Vector2();
         if(gameData.getInteger(current + " from") == 4){
             posX = 14;
             posZ = 140;
@@ -184,10 +185,10 @@ public class EgyptSouthWorld {
         loadEgypt();
         createPlayer(posX,10,posZ);
         if(gameData.getInteger(current + " missionId") >= 3){
-            loadAaron(-34f,5,-26f);
+//            loadAaron(-34f,5,-26f);
         }
 
-        loadHouseDoor(33, 5, -77.5f);
+        loadHouseDoor(28, 5, -72.5f);
 //        loadJarOfWater();
 //        loadCap();
 //        loadCoat();
@@ -244,7 +245,7 @@ public class EgyptSouthWorld {
         engine = new Engine();
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
-        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, new Vector2()));
+        engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         if(gameData.getInteger(current + " missionId") >= 3) {
             engine.addSystem(aaronSystem = new AaronSystem(bulletSystem));
@@ -286,6 +287,7 @@ public class EgyptSouthWorld {
         portal1Pos = ObjectEntityFactory.portalComponentTop.instance.transform.getTranslation(new Vector3());
         portal2Pos = ObjectEntityFactory.portalComponentRight.instance.transform.getTranslation(new Vector3());
         portal3Pos = ObjectEntityFactory.portalComponentLeft.instance.transform.getTranslation(new Vector3());
+        doorPos = ObjectEntityFactory.houseDoorComponent.instance.transform.getTranslation(new Vector3());
 
         israelitesNPC01position = CharacterEntityFactory.israelitesComponent1.instance.transform.getTranslation(new Vector3());
         israelitesNPC02position = CharacterEntityFactory.israelitesComponent2.instance.transform.getTranslation(new Vector3());
@@ -313,10 +315,16 @@ public class EgyptSouthWorld {
 //            System.out.println("do you wat to go inside?");
             goToEast = true;
         }
+        else if((playerPos.x - doorPos.x) <= 10 && (playerPos.x - doorPos.x) >= -10
+                && (playerPos.z - doorPos.z) <= 10 && (playerPos.z - doorPos.z) >= -10){
+//            System.out.println("do you wat to go inside?");
+            goInside = true;
+        }
         else {
             goToNorth = false;
             goToWest = false;
             goToEast = false;
+            goInside = false;
         }
 
         if(gameData.getInteger(current + " missionId") == 3){
@@ -387,6 +395,7 @@ public class EgyptSouthWorld {
             israelitesNPC10 = false;
         }
 
+        worldCam.worldCam.update();
         worldCam.update();
         characterAnimation.update(dt);
         renderWorld(dt);
@@ -414,8 +423,8 @@ public class EgyptSouthWorld {
         bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
         bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
         if(gameData.getInteger(current + " missionId") >= 3) {
-            bulletSystem.collisionWorld.removeAction(aaron.getComponent(AaronCharacterComponent.class).characterController);
-            bulletSystem.collisionWorld.removeCollisionObject(aaron.getComponent(AaronCharacterComponent.class).ghostObject);
+//            bulletSystem.collisionWorld.removeAction(aaron.getComponent(AaronCharacterComponent.class).characterController);
+//            bulletSystem.collisionWorld.removeCollisionObject(aaron.getComponent(AaronCharacterComponent.class).ghostObject);
         }
         bulletSystem.dispose();
 
@@ -429,9 +438,9 @@ public class EgyptSouthWorld {
         character.getComponent(CharacterComponent.class).ghostShape.dispose();
 
         if(gameData.getInteger(current + " missionId") >= 3) {
-            aaron.getComponent(AaronCharacterComponent.class).characterController.dispose();
-            aaron.getComponent(AaronCharacterComponent.class).ghostObject.dispose();
-            aaron.getComponent(AaronCharacterComponent.class).ghostShape.dispose();
+//            aaron.getComponent(AaronCharacterComponent.class).characterController.dispose();
+//            aaron.getComponent(AaronCharacterComponent.class).ghostObject.dispose();
+//            aaron.getComponent(AaronCharacterComponent.class).ghostShape.dispose();
         }
 
         environment.dispose();
