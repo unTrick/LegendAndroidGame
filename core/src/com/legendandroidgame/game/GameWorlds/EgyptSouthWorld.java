@@ -41,6 +41,7 @@ public class EgyptSouthWorld {
     private Entity aaron;
     private Entity  houseDoor;
     private PlayerSystem playerSystem;
+    private ArmySystem armySystem;
     private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
@@ -246,7 +247,9 @@ public class EgyptSouthWorld {
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(armySystem = new ArmySystem(bulletSystem));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
+
         if(gameData.getInteger(current + " missionId") >= 3) {
             engine.addSystem(aaronSystem = new AaronSystem(bulletSystem));
         }

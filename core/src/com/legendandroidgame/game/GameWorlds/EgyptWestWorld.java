@@ -37,6 +37,7 @@ public class EgyptWestWorld {
     private Entity character, entityPortal1, entityPortal2, entityPortal3;
     private Entity map;
     private PlayerSystem playerSystem;
+    private ArmySystem armySystem;
     private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
@@ -194,7 +195,9 @@ public class EgyptWestWorld {
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(armySystem = new ArmySystem(bulletSystem));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
+
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);

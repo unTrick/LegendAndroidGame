@@ -33,6 +33,7 @@ public class EgyptEastWorld {
     private BulletSystem bulletSystem;
     private Entity character, portalEntity1, portalEntity2, portalEntity3, portalEntity4, arrow;
     private PlayerSystem playerSystem;
+    private ArmySystem armySystem;
     private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation, arrowAnimation;
     private ModelComponent modelComponent;
@@ -220,6 +221,7 @@ public class EgyptEastWorld {
         engine.addSystem(new RenderSystem(batch, environment,  worldCamera.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem( worldCamera.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(armySystem = new ArmySystem(bulletSystem));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 

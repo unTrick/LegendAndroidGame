@@ -36,6 +36,7 @@ public class EgyptNorthWorld {
     private Entity portalEntity1, portalEntity2, portalEntity3, portalEntity4;
     private Entity houseDoor;
     private PlayerSystem playerSystem;
+    private ArmySystem armySystem;
     private IsraelitesSystem israelitesSystem;
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
@@ -228,6 +229,7 @@ public class EgyptNorthWorld {
         engine.addSystem(new RenderSystem(batch, environment, worldCam.worldCam, modelComponent));
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ, mover));
+        engine.addSystem(armySystem = new ArmySystem(bulletSystem));
         engine.addSystem(israelitesSystem = new IsraelitesSystem(bulletSystem));
         engine.addSystem(new StatusSystem());
 

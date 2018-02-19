@@ -66,6 +66,30 @@ public class CharacterEntityFactory {
     public static ModelComponent israelitesComponent9;
     public static ModelComponent israelitesComponent10;
 
+    public static Model numbersGuyModel1;
+    public static Model numbersGuyModel2;
+    public static Model numbersGuyModel3;
+    public static Model numbersGuyModel4;
+    public static Model numbersGuyModel5;
+    public static Model numbersGuyModel6;
+    public static Model numbersGuyModel7;
+    public static Model numbersGuyModel8;
+    public static Model numbersGuyModel9;
+    public static Model numbersGuyModel10;
+
+
+    public static ModelComponent numbersGuyComponent1;
+    public static ModelComponent numbersGuyComponent2;
+    public static ModelComponent numbersGuyComponent3;
+    public static ModelComponent numbersGuyComponent4;
+    public static ModelComponent numbersGuyComponent5;
+    public static ModelComponent numbersGuyComponent6;
+    public static ModelComponent numbersGuyComponent7;
+    public static ModelComponent numbersGuyComponent8;
+    public static ModelComponent numbersGuyComponent9;
+    public static ModelComponent numbersGuyComponent10;
+
+
     public static ModelData character;
 
     public static Entity createCharacter(BulletSystem bulletSystem, float x, float y, float z) {
@@ -315,7 +339,7 @@ public class CharacterEntityFactory {
 
     public static Entity createNumbersGuy(BulletSystem bulletSystem, float x, float y, float z) {
         ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/man.g3dj"));
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
         if (numbersGuyModel == null) {
             numbersGuyModel = new Model(modelData, new
                     TextureProvider.FileTextureProvider());
@@ -742,5 +766,346 @@ public class CharacterEntityFactory {
         entity.add(new KidIsaacComponent(KidIsaacComponent.STATE.IDLE));
         return entity;
     }
+
+
+
+    public static Entity createNumbersGuy1(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel1 == null) {
+            numbersGuyModel1 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel1.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel1.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent1 = new ModelComponent(numbersGuyModel1, x, y, z);
+        entity.add(numbersGuyComponent1);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent1.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+
+
+
+    public static Entity createNumbersGuy2(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel2 == null) {
+            numbersGuyModel2 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel2.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel2.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent2 = new ModelComponent(numbersGuyModel2, x, y, z);
+        entity.add(numbersGuyComponent2);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent2.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+
+    public static Entity createNumbersGuy3(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel3 == null) {
+            numbersGuyModel3 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel3.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel3.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent3 = new ModelComponent(numbersGuyModel3, x, y, z);
+        entity.add(numbersGuyComponent3);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent3.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+
+
+    public static Entity createNumbersGuy4(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel4 == null) {
+            numbersGuyModel4 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel4.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel4.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent4 = new ModelComponent(numbersGuyModel4, x, y, z);
+        entity.add(numbersGuyComponent4);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent4.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+
+    public static Entity createNumbersGuy5(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel5 == null) {
+            numbersGuyModel5 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel5.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel5.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent5 = new ModelComponent(numbersGuyModel5, x, y, z);
+        entity.add(numbersGuyComponent5);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent5.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+
+    public static Entity createNumbersGuy6(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel6 == null) {
+            numbersGuyModel6 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel6.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel6.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent6 = new ModelComponent(numbersGuyModel6, x, y, z);
+        entity.add(numbersGuyComponent6);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent6.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createNumbersGuy7(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel7 == null) {
+            numbersGuyModel7 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel7.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel7.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent7 = new ModelComponent(numbersGuyModel7, x, y, z);
+        entity.add(numbersGuyComponent7);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent7.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createNumbersGuy8(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel8 == null) {
+            numbersGuyModel8 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel8.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel8.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent8 = new ModelComponent(numbersGuyModel8, x, y, z);
+        entity.add(numbersGuyComponent8);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent8.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createNumbersGuy9(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel9 == null) {
+            numbersGuyModel9 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel9.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel9.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent9 = new ModelComponent(numbersGuyModel9, x, y, z);
+        entity.add(numbersGuyComponent9);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent9.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
+    public static Entity createNumbersGuy10(BulletSystem bulletSystem, float x, float y, float z) {
+        ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+        ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("blender/egyptianarmy.g3dj"));
+        if (numbersGuyModel10== null) {
+            numbersGuyModel10 = new Model(modelData, new
+                    TextureProvider.FileTextureProvider());
+            numbersGuyModel10.calculateTransforms();
+        }
+
+        BoundingBox numbersGuyBounds = new BoundingBox();
+        numbersGuyModel10.calculateBoundingBox(numbersGuyBounds);
+
+        Entity entity = new Entity();
+        numbersGuyComponent10 = new ModelComponent(numbersGuyModel10, x, y, z);
+        entity.add(numbersGuyComponent10);
+        NumbersGuyCharacterComponent numbersGuyCharacterComponent = new NumbersGuyCharacterComponent();
+        numbersGuyCharacterComponent.ghostObject = new btPairCachingGhostObject();
+        numbersGuyCharacterComponent.ghostObject.setWorldTransform(numbersGuyComponent10.instance.transform);
+        numbersGuyCharacterComponent.ghostShape = new btCapsuleShapeZ(numbersGuyBounds.getHeight() / 8,numbersGuyBounds.getHeight() / 1f);
+        numbersGuyCharacterComponent.ghostObject.setCollisionShape(numbersGuyCharacterComponent.ghostShape);
+        numbersGuyCharacterComponent.ghostObject.setCollisionFlags(btCollisionObject.CollisionFlags.CF_CHARACTER_OBJECT);
+        numbersGuyCharacterComponent.characterController = new btKinematicCharacterController(numbersGuyCharacterComponent.ghostObject, numbersGuyCharacterComponent.ghostShape, 0.35f);
+        numbersGuyCharacterComponent.ghostObject.userData = entity;
+        entity.add(numbersGuyCharacterComponent);
+        numbersGuyCharacterComponent.characterController.setGravity(new Vector3(0,-30,0));
+        bulletSystem.collisionWorld.addCollisionObject(entity.getComponent(NumbersGuyCharacterComponent.class).ghostObject,
+                (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
+                (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter));
+        bulletSystem.collisionWorld.addAction(entity.getComponent(NumbersGuyCharacterComponent.class).characterController);
+        entity.add(new NumbersGuyComponent(NumbersGuyComponent.STATE.IDLE));
+        return entity;
+    }
+
 
 }

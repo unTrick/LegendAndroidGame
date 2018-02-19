@@ -39,6 +39,7 @@ public class PharaohsHouseWorld {
     private AnimationComponent characterAnimation;
     private ModelComponent modelComponent;
     private ActualGameButtons actualGameButtons;
+    private ArmySystem armySystem;
     private PharaohSystem pharaohSystem;
 
     public Boolean canTalkToPharaoh = false;
@@ -125,6 +126,8 @@ public class PharaohsHouseWorld {
         engine.addSystem(bulletSystem = new BulletSystem());
         engine.addSystem(playerSystem = new PlayerSystem(worldCam.worldCam, controller, actualGameButtons, posX, posZ,new Vector2()));
         engine.addSystem(pharaohSystem = new PharaohSystem(bulletSystem));
+        engine.addSystem(armySystem = new ArmySystem(bulletSystem));
+
         engine.addSystem(new StatusSystem());
 
         if(debug) bulletSystem.collisionWorld.setDebugDrawer(this.debugDrawer);

@@ -235,6 +235,7 @@ public class NumbersGuySystem extends EntitySystem implements EntityListener {
         System.out.println(randomNumber);
 
     }
+
     @Override
     public void entityAdded(Entity entity) {
         player = entity;
