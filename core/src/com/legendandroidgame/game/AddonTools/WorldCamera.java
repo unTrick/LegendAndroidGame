@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 public class WorldCamera {
 
     public OrthographicCamera worldCam;
+//    public Vector3 lookAt = new Vector3(956,657,899);
     public Vector3 lookAt = new Vector3(956,657,899);
     private int clickCount = 0;
 
@@ -35,6 +36,8 @@ public class WorldCamera {
     }
 
     public void update(){
+
+        System.out.println(lookAt);
 //        worldCam.update();
         if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
 
@@ -50,10 +53,23 @@ public class WorldCamera {
 
         if(Gdx.input.isKeyPressed(Input.Keys.X)){
 //            worldCam.position.y += 100;
+            lookAt.x += 10;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.Z)){
 //            worldCam.position.y -= 100;
+            lookAt.x -= 10;
         }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.B)){
+//            worldCam.position.y += 100;
+            lookAt.z += 10;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.H)){
+//            worldCam.position.y -= 100;
+            lookAt.z -= 10;
+        }
+
+//        worldCam.lookAt(lookAt);
 
         switch (clickCount){
             case 0: worldCam.zoom = 0.06f;
